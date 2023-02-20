@@ -1,0 +1,86 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameState : MonoBehaviour
+{
+    //Game Objects
+    public GameObject playerPrefab;
+    public GameObject enemyPrefab;
+    public GameObject playerArea;
+    public GameObject enemyArea;
+
+    //Scripts
+    public Player player;
+    public List<Enemy> enemies;
+    public CardManager cardManager;
+    public EnemyAction[] enemyActionDatabase;
+    
+    //Bools
+    public bool isBattle = true;
+
+    //Resources
+    public EnemyObject[] enemyDatabase;
+
+    void Start()
+    {
+        cardManager = FindObjectOfType<CardManager>();
+        playerArea = GameObject.Find("Player Area");
+        enemyArea = GameObject.Find("Enemy Area");
+        cardManager.LoadCardDatabase();
+        LoadEnemies();
+        StartBattle();
+    }
+
+    //Load Enemies
+    public void LoadEnemies()
+    {
+        enemyDatabase = Resources.LoadAll<EnemyObject>("Enemies");
+    }
+
+    //Create Player
+    public void CreatePlayer()
+    {
+        GameObject playerObject = GameObject.Instantiate(playerPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
+        playerObject.transform.SetParent(playerArea.transform, false); 
+        player = playerObject.GetComponent<Player>();
+    }
+
+    //Create Enemy
+    public void CreateEnemy()
+    {
+        for(int i = 0; i < enemyDatabase.Length; i++)
+        {
+        GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
+        enemyNew.transform.SetParent(enemyArea.transform);
+        Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
+        thisEnemy.enemy = enemyDatabase[i];
+        thisEnemy.EnemyNextTurn(thisEnemy.enemy.actionList[0]);
+        enemies.Add(thisEnemy);
+        }
+    }
+
+    //Battle States
+    public void StartBattle()
+    {
+        CreatePlayer();
+        CreateEnemy();
+        player.UpdateStats();
+    }
+
+    public void EndTurn()
+    {
+        cardManager.Discard();
+        cardManager.Draw();
+        player.EndTurn();
+        foreach(Enemy enemy in enemies){
+            enemy.EnemyTurn();
+        }
+        
+    }
+
+}
+
+
+
+
