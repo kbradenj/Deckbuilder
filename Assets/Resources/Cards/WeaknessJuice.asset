@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: WeaknessJuice
   m_EditorClassIdentifier: 
   actionList:
-  - attack
-  - vulnerable
-  cardID: 2
-  cardName: Vulnerable Punch
-  cardDescription: Attack for 5 damage, apply 2 vulnerable
-  cardCost: 2
-  block: 0
-  attack: 10
+  - block
+  - weak
+  cardID: 3
+  cardName: Weakness Juice
+  cardDescription: Gain 5 Block, Apply 3 Weak
+  cardCost: 1
+  block: 5
+  attack: 0
   multiAction: 1
-  vulnerable: 2
-  weak: 0
+  vulnerable: 0
+  weak: 3
   needsTarget: 1
-  cardImage: {fileID: 21300000, guid: e6a6624ab013b8e44beddfa2668afb65, type: 3}
+  cardImage: {fileID: 21300000, guid: ec03f79379868c642b48ae5ddc821b6d, type: 3}

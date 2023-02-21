@@ -86,41 +86,35 @@ public class CardBehavior : MonoBehaviour
     public void EndDrag()
     {
         isDragging = false;
-
-        if (!isOverDropZone)
+        if(isOverDropZone && IsCardPlayable())
         {
-            transform.position = startPosition;
-            transform.SetParent(startParent.transform, false);
-            return;
-        }
-
-        if (!IsCardPlayable())
-        {
-            transform.position = startPosition;
-            transform.SetParent(startParent.transform, false);
-            return;
-        }
-
-        if ((card.needsTarget && target != null) || !card.needsTarget)
-        {
-            Play(target);
-            Destroy(this.gameObject);
-        }
-        else{
-            transform.position = startPosition;
-            transform.SetParent(startParent.transform, false);
-            return;
-        }
+            if(target == null){
+                transform.position = startPosition;
+                transform.SetParent(startParent.transform, false);
+                return;
+            } 
+            if(!card.needsTarget){
+                target = player.gameObject;
+                //will need to change in the future since attacks that target all will not need a target
+            }
+            else
+            {
+                Play(target);
+                Destroy(this.gameObject);
+            }
+        } 
+        else
+            {
+                transform.position = startPosition;
+                transform.SetParent(startParent.transform, false);
+            }
     }
 
     public void Play(GameObject target)
     {   if(target != null){
             targetCharacter = target.GetComponent<Character>();
         }
-        else
-        {
-            targetCharacter = player;
-        }
+
         foreach(string type in card.actionList)
         {
             switch(type)
