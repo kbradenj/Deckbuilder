@@ -13,12 +13,8 @@ public class Character : MonoBehaviour
   public GameObject statusIconPrefab;
 
   public virtual void UpdateStats(){}
-
-
-  public virtual void AddStatusIcon(string icon)
-    {
-
-        
-    }
+  public virtual void UpdateStatus(){}
+  public virtual void AddStatusIcon(string icon){}
+  public virtual void RemoveStatusIcon(string icon){}
 
 }

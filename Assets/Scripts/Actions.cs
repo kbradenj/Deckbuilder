@@ -58,5 +58,6 @@ public class Actions : MonoBehaviour
         target.AddStatusIcon("vulnerable");
         }
         target.vulnerable += amount;
+        target.UpdateStatus();
     }
 }

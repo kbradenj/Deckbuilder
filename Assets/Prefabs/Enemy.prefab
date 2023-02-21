@@ -547,14 +547,17 @@ MonoBehaviour:
   block: 0
   maxHealth: 0
   health: 0
+  level: 0
   vulnerable: 0
+  statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
   enemyHealthField: {fileID: 7473494296702705210}
   enemyActionField: {fileID: 140556696809454283}
   enemyActionTitle: {fileID: 1118460499747323572}
   enemyBlockField: {fileID: 3518005257550044423}
-  statusField: {fileID: 7096658794556086580}
-  statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
-  vulnerableIconSprite: {fileID: 21300000, guid: 5677becc2583c46808f0826d34529f4c, type: 3}
+  statusText: {fileID: 0}
+  statusIconsArea: {fileID: 7096658794556086580}
+  statusIcon: {fileID: 0}
+  statusImage: {fileID: 0}
   image: {fileID: 7473494294951232376}
   highlightColor: {r: 0.5377358, g: 0.09892311, b: 0.09892311, a: 0.49803922}
   defaultColor: {r: 0, g: 0, b: 0, a: 0}

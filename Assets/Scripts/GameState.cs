@@ -38,6 +38,12 @@ public class GameState : MonoBehaviour
         enemyDatabase = Resources.LoadAll<EnemyObject>("Enemies");
     }
 
+    //Remove Enemies
+    public void RemoveEnemies()
+    {
+
+    }
+
     //Create Player
     public void CreatePlayer()
     {
@@ -73,8 +79,15 @@ public class GameState : MonoBehaviour
         cardManager.Discard();
         cardManager.Draw();
         player.EndTurn();
-        foreach(Enemy enemy in enemies){
-            enemy.EnemyTurn();
+        for(int i = 0; i < enemies.Count; i++){
+            if(enemies[i] == null)
+            {
+                enemies.Remove(enemies[i]);
+            }
+            else
+            {
+            enemies[i].EnemyTurn();
+            }
         }
         
     }
