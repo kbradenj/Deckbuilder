@@ -16,9 +16,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
   - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
   - {fileID: 11400000, guid: 770435aa523c4485fb787a6643beb9b9, type: 2}
-  enemyID: 2
+  ID: 1
   enemyName: Rufus
-  enemyLevel: 3
-  enemyAttack: 5
-  enemyHealth: 30
+  level: 1
+  health: 20
   enemyImage: {fileID: 21300000, guid: 75caeb7aac5b9460f9599284d273a867, type: 3}

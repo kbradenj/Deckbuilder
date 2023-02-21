@@ -27,19 +27,9 @@ public class Actions : MonoBehaviour
                 Destroy(target.gameObject);
                 break;
             }
-            else
-            {   
-               
-                int unblockedDamage = target.block - amount;
-                if(unblockedDamage <= 0)
-                {
-                    target.block = 0;
-                    target.health += unblockedDamage;
-                } else
-                {
-                    target.block -= amount;
-                }
-            }
+            int unblockedDamage = target.block - amount;
+            target.block = (unblockedDamage <=0) ? 0 : unblockedDamage;
+            target.health += (unblockedDamage <= 0) ? unblockedDamage : 0;
         }
         target.UpdateStats();
     }
@@ -55,9 +45,18 @@ public class Actions : MonoBehaviour
     public void Vulnerable(Character target, int amount)
     {
         if(target.vulnerable == 0){
-        target.AddStatusIcon("vulnerable");
+            target.AddStatusIcon("vulnerable", amount);
         }
         target.vulnerable += amount;
+        target.UpdateStatus();
+    }
+
+    public void Weak(Character target, int amount)
+    {
+        if(target.weak == 0){
+            target.AddStatusIcon("weak", amount);
+        }
+        target.weak += amount;
         target.UpdateStatus();
     }
 }

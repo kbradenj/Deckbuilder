@@ -72,30 +72,45 @@ public class CardBehavior : MonoBehaviour
         isOverDropZone = false;
         if(target != null && target.tag == "enemy"){
          target.GetComponent<Enemy>().StopHighlight();
+         target = null;
         }
     }
 
-    public void StartDrag(){
+    public void StartDrag()
+    {
         isDragging = true;
         startParent = transform.parent.gameObject;
         startPosition = transform.position;
     }
 
-    public void EndDrag(){
+    public void EndDrag()
+    {
         isDragging = false;
-        if(isOverDropZone && IsCardPlayable())
-        {
-            if((card.needsTarget && target != null) || !card.needsTarget){
-                Play(target);
-                Destroy(this.gameObject);
-            }
-        } 
-        else
+
+        if (!isOverDropZone)
         {
             transform.position = startPosition;
             transform.SetParent(startParent.transform, false);
+            return;
         }
-       
+
+        if (!IsCardPlayable())
+        {
+            transform.position = startPosition;
+            transform.SetParent(startParent.transform, false);
+            return;
+        }
+
+        if ((card.needsTarget && target != null) || !card.needsTarget)
+        {
+            Play(target);
+            Destroy(this.gameObject);
+        }
+        else{
+            transform.position = startPosition;
+            transform.SetParent(startParent.transform, false);
+            return;
+        }
     }
 
     public void Play(GameObject target)
@@ -114,10 +129,20 @@ public class CardBehavior : MonoBehaviour
                 actions.Attack(targetCharacter, card.attack, 1);
                 break;
                 case "block":
-                actions.Block(targetCharacter, card.block);
+                if(target.tag == "enemy")
+                    {
+                        actions.Block(player, card.block);
+                    }
+                    else
+                    {
+                        actions.Block(targetCharacter, card.block);
+                    }
                 break;
                 case "vulnerable":
                 actions.Vulnerable(targetCharacter, card.vulnerable);
+                break;
+                case "weak":
+                actions.Weak(targetCharacter, card.weak);
                 break;
             }
         }   

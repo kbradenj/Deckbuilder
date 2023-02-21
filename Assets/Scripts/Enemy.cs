@@ -12,10 +12,12 @@ public class Enemy : Character
     public TMP_Text enemyActionTitle;
     public TMP_Text enemyBlockField;
     public TMP_Text statusText;
+    public List<StatusIcon> statusIcons;
 
     //Game Objects
     public GameObject statusIconsArea;
     public GameObject statusIcon;
+    public GameObject[] statuses;
     public Image statusImage;
 
     public Image image;
@@ -38,6 +40,7 @@ public class Enemy : Character
     {
         player = FindObjectOfType<Player>();
         actions = FindObjectOfType<Actions>();
+        statusIcons = new List<StatusIcon>();
         health = enemy.health;
         level = enemy.level;
         image.sprite = enemy.enemyImage;
@@ -45,7 +48,7 @@ public class Enemy : Character
         UpdateStats();
     }
 
-    public override void AddStatusIcon(string icon)
+    public override void AddStatusIcon(string icon, int amount)
     {
         
         statusIcon = Instantiate(statusIconPrefab, new Vector2 (0, 0), Quaternion.identity);
@@ -55,12 +58,20 @@ public class Enemy : Character
         statusImage.sprite = Resources.Load<Sprite>("StatusIcons/" + icon);
 
         statusText = statusIcon.GetComponentInChildren<TMP_Text>();
-        statusText.text = vulnerable.ToString();
+        statusText.text = amount.ToString();
+
+        StatusIcon statusIconItem = new StatusIcon {type = icon, statusAmount = amount, statusIconContainer = statusIcon, statusTextContainer = statusText};
+        statusIcons.Insert(0, statusIconItem);
     }
 
     public override void RemoveStatusIcon(string icon)
     {
-        Destroy(statusIcon);
+        foreach(StatusIcon status in statusIcons)
+        {
+            if(status.type == icon){
+                Destroy(status.statusIconContainer);
+            }
+        }
     }
 
     public override void UpdateStats()
@@ -71,7 +82,18 @@ public class Enemy : Character
 
     public override void UpdateStatus()
     {
-        statusText.text = vulnerable.ToString();
+        foreach (StatusIcon icon in statusIcons){
+            switch(icon.type)
+            {
+                case "weak":
+                icon.statusTextContainer.text = weak.ToString();
+                break;
+                case "vulnerable":
+                icon.statusTextContainer.text = vulnerable.ToString();
+                break;
+            }
+        }
+
     }
 
     public void EnemyTurn()
@@ -106,17 +128,6 @@ public class Enemy : Character
     }
 
     public void EnemyNextTurn(EnemyAction nextAction){
-        
-        if(vulnerable -1 > 0)
-        {
-            vulnerable -= 1;
-             UpdateStatus();
-        }
-        else
-        {
-            RemoveStatusIcon("vulnerable");
-        }
-       
         enemyActionTitle.text = "Next: " + nextAction.type;
         if(nextAction.multiAction > 1){
             enemyActionField.text = nextAction.baseAmount + " * " + nextAction.multiAction;
@@ -124,8 +135,31 @@ public class Enemy : Character
         else{
             enemyActionField.text = nextAction.baseAmount.ToString();
         }
-        
 
+         if(statusIcons == null){
+            return;
+         } 
+         else
+         {
+            if(vulnerable > 1)
+            {
+                vulnerable --;
+            }
+            else
+            {
+                RemoveStatusIcon("vulnerable");
+            }
+
+            if(weak > 1)
+            {
+                weak --;
+            }
+            else
+            {
+                RemoveStatusIcon("weak");
+            }
+                UpdateStatus();
+        }
     }
 
     public void Highlight()
@@ -137,4 +171,12 @@ public class Enemy : Character
     {
         image.color = defaultColor;
     }
+}
+
+public class StatusIcon 
+{
+    public string type {get; set;}
+    public int statusAmount {get; set;}
+    public GameObject statusIconContainer {get; set;}
+    public TMP_Text statusTextContainer {get; set;}
 }

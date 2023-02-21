@@ -16,9 +16,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
   - {fileID: 11400000, guid: 770435aa523c4485fb787a6643beb9b9, type: 2}
   - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
-  enemyID: 0
+  ID: 0
   enemyName: Shego
-  enemyLevel: 1
-  enemyAttack: 10
-  enemyHealth: 20
+  level: 3
+  health: 40
   enemyImage: {fileID: 21300000, guid: b141d3ad03ebb40a996e2818151f95d4, type: 3}
