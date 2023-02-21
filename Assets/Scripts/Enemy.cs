@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class Enemy : Character
 {
@@ -93,7 +94,35 @@ public class Enemy : Character
                 break;
             }
         }
+    }
 
+    public override void AdjustStatus()
+    {
+        if(statusIcons == null){
+            return;
+        } 
+        else
+        {
+            if(vulnerable > 1)
+            {
+                vulnerable --;
+            }
+            else
+            {
+                RemoveStatusIcon("vulnerable");
+            }
+
+            if(weak > 1)
+            {
+                weak --;
+            }
+            else
+            {
+                RemoveStatusIcon("weak");
+                weaknessMod = 1;
+            }
+                UpdateStatus();
+        }
     }
 
     public void EnemyTurn()
@@ -122,44 +151,27 @@ public class Enemy : Character
         }
 
         player.block = 0; //maybe move to start turn?
-
-        EnemyNextTurn(enemy.actionList[turnNumber-1]);
+        AdjustStatus();
+        NextTurn();
+      
         
     }
 
-    public void EnemyNextTurn(EnemyAction nextAction){
-        enemyActionTitle.text = "Next: " + nextAction.type;
+    public override void NextTurn(){
+        EnemyAction nextAction = enemy.actionList[turnNumber-1];
+        enemyActionTitle.text = nextAction.type;
+        int modDamage = nextAction.baseAmount;
+        if(nextAction.type == "attack")
+        {
+            modDamage = (int)Math.Ceiling(nextAction.baseAmount * weaknessMod);
+        }
         if(nextAction.multiAction > 1){
-            enemyActionField.text = nextAction.baseAmount + " * " + nextAction.multiAction;
+            enemyActionField.text = modDamage + " * " + nextAction.multiAction;
         }
         else{
-            enemyActionField.text = nextAction.baseAmount.ToString();
+            enemyActionField.text = modDamage.ToString();
         }
-
-         if(statusIcons == null){
-            return;
-         } 
-         else
-         {
-            if(vulnerable > 1)
-            {
-                vulnerable --;
-            }
-            else
-            {
-                RemoveStatusIcon("vulnerable");
-            }
-
-            if(weak > 1)
-            {
-                weak --;
-            }
-            else
-            {
-                RemoveStatusIcon("weak");
-            }
-                UpdateStatus();
-        }
+        UpdateStats();
     }
 
     public void Highlight()

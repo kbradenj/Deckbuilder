@@ -10,12 +10,16 @@ public class Character : MonoBehaviour
   public int level;
   public int vulnerable = 0;
   public int weak = 0;
+  public float weaknessMod = .5f;
 
   public GameObject statusIconPrefab;
 
   public virtual void UpdateStats(){}
   public virtual void UpdateStatus(){}
+  public virtual void AdjustStatus(){}
   public virtual void AddStatusIcon(string icon, int amount){}
   public virtual void RemoveStatusIcon(string icon){}
+  public virtual void NextTurn(){}
+  
 
 }

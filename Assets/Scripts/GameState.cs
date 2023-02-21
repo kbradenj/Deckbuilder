@@ -61,7 +61,7 @@ public class GameState : MonoBehaviour
         enemyNew.transform.SetParent(enemyArea.transform);
         Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
         thisEnemy.enemy = enemyDatabase[i];
-        thisEnemy.EnemyNextTurn(thisEnemy.enemy.actionList[0]);
+        thisEnemy.NextTurn();
         enemies.Add(thisEnemy);
         }
     }

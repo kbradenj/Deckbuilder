@@ -57,6 +57,7 @@ public class Actions : MonoBehaviour
             target.AddStatusIcon("weak", amount);
         }
         target.weak += amount;
+        target.weaknessMod = .5f;
         target.UpdateStatus();
     }
 }

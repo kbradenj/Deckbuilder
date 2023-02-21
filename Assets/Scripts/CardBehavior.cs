@@ -143,6 +143,8 @@ public class CardBehavior : MonoBehaviour
                 break;
                 case "weak":
                 actions.Weak(targetCharacter, card.weak);
+                targetCharacter.NextTurn();
+                Debug.Log(targetCharacter.weaknessMod);
                 break;
             }
         }   
