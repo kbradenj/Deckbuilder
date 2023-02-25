@@ -19,8 +19,55 @@ public class Card : ScriptableObject
     public int multiAction = 1;
     public int vulnerable;
     public int weak;
+    public int strength;
 
+    string testString;
+    
     public bool needsTarget = false;
 
     public Sprite cardImage;
+
+    void Awake()
+    {
+
+    }
+
+    public string FormatString(){
+        List<int> attributes = new List<int>();
+        foreach(string action in actionList){
+            switch(action)
+            {
+                case "attack":
+                case "xattack":
+                case "attackall":
+                attributes.Add(attack);
+                break;
+                case "block":
+                case "xblock":
+                attributes.Add(block);
+                break;
+                case "vulnerable":
+                attributes.Add(vulnerable);
+                break;
+                case "weak":
+                attributes.Add(weak);
+                break;
+                case "strength":
+                attributes.Add(strength);
+                break;
+            }
+        }
+        foreach(int attribute in attributes){
+            Debug.Log(attribute);
+        }
+        switch(attributes.Count)
+        {
+            case 1:
+            return string.Format(cardDescription, attributes[0]);
+            case 2:
+            return string.Format(cardDescription, attributes[0], attributes[1]);
+            default:
+            return "No Description";
+        }
+    }
 }

@@ -3,7 +3,17 @@ guid: 874b1449a7c114443a0decdfb6567462
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - statusText: {instanceID: 0}
+  - statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
+  - statusIconsArea: {instanceID: 0}
+  - statusIcon: {instanceID: 0}
+  - statusImage: {instanceID: 0}
+  - defenseText: {instanceID: 0}
+  - healthText: {instanceID: 0}
+  - actionPointsField: {instanceID: 0}
+  - cardManager: {instanceID: 0}
+  - actions: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

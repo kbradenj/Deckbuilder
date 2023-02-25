@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
+  m_Name: 3_WeaknessJuice
+  m_EditorClassIdentifier: 
+  actionList:
+  - block
+  - weak
+  cardID: 3
+  cardName: Weakness Juice
+  cardDescription: Gain {0} Block, Apply {0} Weak
+  cardCost: 1
+  block: 5
+  attack: 0
+  multiAction: 1
+  vulnerable: 0
+  weak: 3
+  strength: 0
+  needsTarget: 1
+  cardImage: {fileID: 21300000, guid: 19fe092aa1a9e47dba191c2229507562, type: 3}

@@ -614,6 +614,7 @@ MonoBehaviour:
   enemyActionDatabase: []
   isBattle: 1
   enemyDatabase: []
+  numOfEnemies: 0
 --- !u!4 &504150793
 Transform:
   m_ObjectHideFlags: 0
@@ -781,8 +782,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 218.73465, y: 25.787598}
-  m_SizeDelta: {x: 1305.1749, y: 413.1198}
+  m_AnchoredPosition: {x: 229, y: 46}
+  m_SizeDelta: {x: 1230.9791, y: 413.1198}
   m_Pivot: {x: 0.43206143, y: 0.4731056}
 --- !u!114 &519738692
 MonoBehaviour:
@@ -1392,8 +1393,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 371, y: 454.78906}
-  m_SizeDelta: {x: 382.5645, y: 93.5781}
+  m_AnchoredPosition: {x: 822.6271, y: -473}
+  m_SizeDelta: {x: 223.3104, y: 93.5781}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1681060320
 MonoBehaviour:
@@ -1470,7 +1471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -856, y: -396}
+  m_AnchoredPosition: {x: -837.36, y: -279}
   m_SizeDelta: {x: 187.6586, y: 210.2802}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1915915721
@@ -1547,8 +1548,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -99.71777, y: 454.78906}
-  m_SizeDelta: {x: 382.5645, y: 93.5781}
+  m_AnchoredPosition: {x: -817.2234, y: -455}
+  m_SizeDelta: {x: 227.9264, y: 93.5781}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1922508907
 MonoBehaviour:
@@ -1646,7 +1647,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 300, y: 450}
-  m_Spacing: {x: 20, y: 0}
+  m_Spacing: {x: -100, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
 --- !u!1 &1985878431

@@ -9,21 +9,17 @@ public class Enemy : Character
 {
     //TMP
     public TMP_Text enemyHealthField;
+    public TMP_Text enemyMaxHealthField;
     public TMP_Text enemyActionField;
     public TMP_Text enemyActionTitle;
     public TMP_Text enemyBlockField;
-    public TMP_Text statusText;
-    public List<StatusIcon> statusIcons;
+   
 
-    //Game Objects
-    public GameObject statusIconsArea;
-    public GameObject statusIcon;
-    public GameObject[] statuses;
-    public Image statusImage;
 
     public Image image;
     public Color highlightColor;
     public Color defaultColor;
+    public Slider healthSlider;
 
     //Scripts
     private Player player;
@@ -41,28 +37,19 @@ public class Enemy : Character
     {
         player = FindObjectOfType<Player>();
         actions = FindObjectOfType<Actions>();
-        statusIcons = new List<StatusIcon>();
         health = enemy.health;
+        maxHealth = enemy.maxHealth;
+        healthSlider.value = ((float)health/enemy.maxHealth) * 100;
         level = enemy.level;
         image.sprite = enemy.enemyImage;
         defaultColor = image.color;
         UpdateStats();
     }
 
-    public override void AddStatusIcon(string icon, int amount)
+    public override void Death()
     {
-        
-        statusIcon = Instantiate(statusIconPrefab, new Vector2 (0, 0), Quaternion.identity);
-        statusIcon.transform.SetParent(statusIconsArea.transform, false);
-
-        statusImage = statusIcon.GetComponent<Image>();
-        statusImage.sprite = Resources.Load<Sprite>("StatusIcons/" + icon);
-
-        statusText = statusIcon.GetComponentInChildren<TMP_Text>();
-        statusText.text = amount.ToString();
-
-        StatusIcon statusIconItem = new StatusIcon {type = icon, statusAmount = amount, statusIconContainer = statusIcon, statusTextContainer = statusText};
-        statusIcons.Insert(0, statusIconItem);
+        gameState.numOfEnemies--;
+        Destroy(this.gameObject);
     }
 
     public override void RemoveStatusIcon(string icon)
@@ -78,6 +65,8 @@ public class Enemy : Character
     public override void UpdateStats()
     {
         enemyHealthField.text = health.ToString();
+        enemyMaxHealthField.text = "/ " + maxHealth.ToString();
+        healthSlider.value = ((float)health/enemy.maxHealth) * 100;
         enemyBlockField.text = block.ToString();
     }
 
@@ -88,6 +77,9 @@ public class Enemy : Character
             {
                 case "weak":
                 icon.statusTextContainer.text = weak.ToString();
+                break;
+                case "strength":
+                icon.statusTextContainer.text = strength.ToString();
                 break;
                 case "vulnerable":
                 icon.statusTextContainer.text = vulnerable.ToString();
@@ -107,8 +99,9 @@ public class Enemy : Character
             {
                 vulnerable --;
             }
-            else
+            else if(vulnerable == 1)
             {
+                vulnerable --;
                 RemoveStatusIcon("vulnerable");
             }
 
@@ -116,8 +109,9 @@ public class Enemy : Character
             {
                 weak --;
             }
-            else
+            else if(weak == 1)
             {
+                weak --;
                 RemoveStatusIcon("weak");
                 weaknessMod = 1;
             }
@@ -129,17 +123,21 @@ public class Enemy : Character
     {
         block = 0;
         UpdateStats();
-
+        AdjustStatus();
         EnemyAction currentAction = enemy.actionList[turnNumber-1];
         switch(currentAction.type)
         {
             case "attack":
-            actions.Attack(player, currentAction.baseAmount, currentAction.multiAction);
+            int attackAmount = (int)Math.Ceiling(currentAction.baseAmount * weaknessMod) + strength;
+            actions.Attack(player, attackAmount, currentAction.multiAction);
             break;
             case "block":
             actions.Block(this, currentAction.baseAmount);
             break;
             case "vulnerable":
+            break;
+            case "strength":
+            actions.Strength(this, currentAction.baseAmount);
             break;
         }
 
@@ -151,8 +149,9 @@ public class Enemy : Character
         }
 
         player.block = 0; //maybe move to start turn?
-        AdjustStatus();
+        
         NextTurn();
+        
       
         
     }
@@ -163,7 +162,7 @@ public class Enemy : Character
         int modDamage = nextAction.baseAmount;
         if(nextAction.type == "attack")
         {
-            modDamage = (int)Math.Ceiling(nextAction.baseAmount * weaknessMod);
+            modDamage = (int)Math.Ceiling(nextAction.baseAmount * weaknessMod) + strength;
         }
         if(nextAction.multiAction > 1){
             enemyActionField.text = modDamage + " * " + nextAction.multiAction;
@@ -185,10 +184,4 @@ public class Enemy : Character
     }
 }
 
-public class StatusIcon 
-{
-    public string type {get; set;}
-    public int statusAmount {get; set;}
-    public GameObject statusIconContainer {get; set;}
-    public TMP_Text statusTextContainer {get; set;}
-}
+

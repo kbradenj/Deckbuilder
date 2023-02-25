@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
-  m_Name: WeaknessJuice
+  m_Name: 0_BasicBlock
   m_EditorClassIdentifier: 
   actionList:
   - block
-  - weak
-  cardID: 3
-  cardName: Weakness Juice
-  cardDescription: Gain 5 Block, Apply 3 Weak
+  cardID: 2
+  cardName: Basic Block
+  cardDescription: Gain {0} Block
   cardCost: 1
   block: 5
   attack: 0
   multiAction: 1
   vulnerable: 0
-  weak: 3
-  needsTarget: 1
-  cardImage: {fileID: 21300000, guid: ec03f79379868c642b48ae5ddc821b6d, type: 3}
+  weak: 0
+  strength: 0
+  needsTarget: 0
+  cardImage: {fileID: 21300000, guid: 72b89fedae341498fa02000a8cf80f21, type: 3}

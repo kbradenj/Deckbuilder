@@ -19,5 +19,6 @@ MonoBehaviour:
   ID: 0
   enemyName: Shego
   level: 3
-  health: 40
+  maxHealth: 50
+  health: 50
   enemyImage: {fileID: 21300000, guid: b141d3ad03ebb40a996e2818151f95d4, type: 3}

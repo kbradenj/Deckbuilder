@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Player : Character
@@ -8,7 +10,9 @@ public class Player : Character
   //TMP
   public TMP_Text defenseText;
   public TMP_Text healthText;
+  public TMP_Text maxHealthText;
   public TMP_Text actionPointsField;
+  public Slider healthSlider;
 
   //Scripts
   public CardManager cardManager;
@@ -27,7 +31,8 @@ public class Player : Character
     actions = FindObjectOfType<Actions>();
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
     cardManager.LoadPlayerDeck(this);
-    health = 400;
+    health = 40;
+    maxHealth = 100;
   }
 
   void Start()
@@ -40,14 +45,40 @@ public class Player : Character
   {
     defenseText.text = block.ToString();
     healthText.text = health.ToString();
+    maxHealthText.text = "/" + maxHealth.ToString();
+    healthSlider.value = ((float)health/maxHealth) * 100;
     actionPointsField.text = turnAP.ToString(); 
   }
 
+  public override void UpdateStatus()
+  {
+    foreach (StatusIcon icon in statusIcons){
+      switch(icon.type)
+      {
+        case "weak":
+        icon.statusTextContainer.text = weak.ToString();
+        break;
+        case "strength":
+        icon.statusTextContainer.text = strength.ToString();
+        break;
+        case "vulnerable":
+        icon.statusTextContainer.text = vulnerable.ToString();
+        break;
+      }
+    }
+  }
   //Battle States
   public void EndTurn()
   {
     turnAP = ap; //might want to put in start turn rather than end turn
     UpdateStats();
   }
+
+  //PlayerDeath
+  public override void Death()
+    {
+        Destroy(this.gameObject);
+        SceneManager.LoadScene("DeathScreen");
+    }
 
 }

@@ -14,9 +14,11 @@ public class Actions : MonoBehaviour
         return damageTaken >= target.health;
     }
 
+ 
     //Attack
     public void Attack(Character target, int amount, int times = 1)
     {
+        Debug.Log("Attack" + amount + " * " + times);
         if(target.vulnerable > 0){
             amount = (int)Math.Ceiling(amount * 1.25);
         }
@@ -24,7 +26,7 @@ public class Actions : MonoBehaviour
         {
             if(WillTargetDie(target, amount))
             {
-                Destroy(target.gameObject);
+                target.Death();
                 break;
             }
             int unblockedDamage = target.block - amount;
@@ -51,6 +53,7 @@ public class Actions : MonoBehaviour
         target.UpdateStatus();
     }
 
+    //Weak
     public void Weak(Character target, int amount)
     {
         if(target.weak == 0){
@@ -60,4 +63,17 @@ public class Actions : MonoBehaviour
         target.weaknessMod = .5f;
         target.UpdateStatus();
     }
+
+    //Strength
+    public void Strength(Character target, int amount)
+    {
+        if(target.strength == 0)
+        {
+            target.AddStatusIcon("strength", amount);
+        }
+        target.strength += amount;
+        target.UpdateStatus();
+    }
+
+   
 }

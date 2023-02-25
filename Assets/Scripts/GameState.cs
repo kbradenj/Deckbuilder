@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
@@ -18,9 +19,13 @@ public class GameState : MonoBehaviour
     
     //Bools
     public bool isBattle = true;
+    private bool enemiesLoaded = false;
 
     //Resources
     public EnemyObject[] enemyDatabase;
+
+    //Counters
+    public int numOfEnemies = 0;
 
     void Start()
     {
@@ -30,6 +35,14 @@ public class GameState : MonoBehaviour
         cardManager.LoadCardDatabase();
         LoadEnemies();
         StartBattle();
+    }
+
+    void Update()
+    {
+        if(numOfEnemies == 0 && enemiesLoaded){
+            SceneManager.LoadScene("WinScreen");
+            return;
+        }
     }
 
     //Load Enemies
@@ -61,9 +74,13 @@ public class GameState : MonoBehaviour
         enemyNew.transform.SetParent(enemyArea.transform);
         Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
         thisEnemy.enemy = enemyDatabase[i];
+        thisEnemy.strength = 0;
+        thisEnemy.weaknessMod = 1f;
         thisEnemy.NextTurn();
         enemies.Add(thisEnemy);
+        numOfEnemies += 1;
         }
+        enemiesLoaded = true;
     }
 
     //Battle States

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hand Card
   - enemy
+  - Close Up
   layers:
   - Default
   - TransparentFX

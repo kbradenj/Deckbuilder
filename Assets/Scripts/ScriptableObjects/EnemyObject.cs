@@ -12,6 +12,7 @@ public class EnemyObject : ScriptableObject
     public int ID;
     public string enemyName;
     public int level;
+    public int maxHealth;
     public int health;
 
     public Sprite enemyImage;

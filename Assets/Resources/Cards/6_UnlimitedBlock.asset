@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
-  m_Name: BasicBlock
+  m_Name: 6_UnlimitedBlock
   m_EditorClassIdentifier: 
   actionList:
-  - block
-  cardID: 2
-  cardName: Basic Block
-  cardDescription: Gain 5 Block
-  cardCost: 1
+  - xblock
+  cardID: 1
+  cardName: Unlimited Block
+  cardDescription: Gain {0} Block * X
+  cardCost: 0
   block: 5
   attack: 0
+  multiAction: 1
   vulnerable: 0
   weak: 0
-  cardImage: {fileID: 21300000, guid: 2697a094bb6974dac9650f8bfa70fd55, type: 3}
+  strength: 0
+  needsTarget: 0
+  cardImage: {fileID: 21300000, guid: ca1da4cc2f6644c6caefcf5202e47a47, type: 3}

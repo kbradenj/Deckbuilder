@@ -3,7 +3,17 @@ guid: 367ea1234192c40ae8a7491025dbc6f0
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - cardNameField: {instanceID: 0}
+  - descriptionField: {instanceID: 0}
+  - costField: {instanceID: 0}
+  - image: {instanceID: 0}
+  - player: {instanceID: 0}
+  - targetCharacter: {instanceID: 0}
+  - card: {instanceID: 0}
+  - actions: {instanceID: 0}
+  - Canvas: {instanceID: 0}
+  - inspectCardPrefab: {fileID: 1639937595311336888, guid: e69bce458c1104c2888f01b9f8d7e2e5, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

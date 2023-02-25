@@ -3,7 +3,12 @@ guid: 40827f4b46c844319b19b6cb95afcb0e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - statusText: {instanceID: 0}
+  - statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
+  - statusIconsArea: {instanceID: 0}
+  - statusIcon: {instanceID: 0}
+  - statusImage: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

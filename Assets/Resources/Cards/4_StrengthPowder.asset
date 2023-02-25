@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
-  m_Name: BasicPunch
+  m_Name: 4_StrengthPowder
   m_EditorClassIdentifier: 
   actionList:
-  - attack
-  cardID: 1
-  cardName: Punch
-  cardDescription: Attack for 5 Damage
+  - strength
+  cardID: 4
+  cardName: Strength Powder
+  cardDescription: Gain {0} Strength
   cardCost: 1
   block: 0
-  attack: 5
+  attack: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
-  needsTarget: 1
-  cardImage: {fileID: 21300000, guid: 14df2b392f9c745e289c8d4ddb436653, type: 3}
+  strength: 2
+  needsTarget: 0
+  cardImage: {fileID: 21300000, guid: 5d5f4070dd90c42c0ae2bfc455631f0a, type: 3}

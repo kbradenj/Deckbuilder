@@ -10,7 +10,10 @@ public class CardBehavior : MonoBehaviour
     public TextMeshProUGUI cardNameField;
     public TextMeshProUGUI descriptionField;
     public TextMeshProUGUI costField;
+
+    //UI
     public Image image;
+    public Image bgImage;
 
     //Scripts
     public Player player;
@@ -24,6 +27,9 @@ public class CardBehavior : MonoBehaviour
     private Vector2 startPosition;
     private GameObject dropZone;
     private GameObject target;
+    private GameObject[] enemies;
+    public GameObject inspectCardPrefab;
+
 
     //States
     private bool isDragging = false;
@@ -43,6 +49,27 @@ public class CardBehavior : MonoBehaviour
         {
             transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             transform.SetParent(Canvas.transform, true);
+            if(!card.needsTarget && card.actionList[0] == "attackall"){
+                enemies = GameObject.FindGameObjectsWithTag("enemy");
+                foreach(GameObject enemy in enemies){
+                    enemy.GetComponent<Enemy>().Highlight();
+                }
+            }
+        }
+        IsCardPlayable();
+    }
+
+    //Card Close-up
+    public void CloseUp(){
+       
+            GameObject cardToDestroy = GameObject.FindGameObjectWithTag("Close Up");
+            Destroy(cardToDestroy);
+        if(!isDragging){
+            GameObject closeUpCard = GameObject.Instantiate(inspectCardPrefab, new Vector2(Screen.width/2f,Screen.height/2f), Quaternion.identity) as GameObject;
+            InspectCard inspectCard = closeUpCard.GetComponent<InspectCard>();
+            inspectCard.RenderCard(card);
+            closeUpCard.tag = "Close Up";
+            closeUpCard.transform.SetParent(Canvas.transform);
         }
     }
 
@@ -51,10 +78,16 @@ public class CardBehavior : MonoBehaviour
     {
         card = c;
         cardNameField.text = c.cardName;
-        descriptionField.text = c.cardDescription;
-        costField.text = c.cardCost.ToString(); 
+        descriptionField.text = c.FormatString();
+        if(c.actionList[0] == "xattack" || c.actionList[0] == "xblock"){
+            costField.text = "X"; 
+        }
+        else{
+            costField.text = c.cardCost.ToString(); 
+        }
         image.sprite = c.cardImage;
     }
+
 
     //Card Interaction
     private void OnCollisionEnter2D(Collision2D collision)
@@ -88,19 +121,31 @@ public class CardBehavior : MonoBehaviour
         isDragging = false;
         if(isOverDropZone && IsCardPlayable())
         {
-            if(target == null){
-                transform.position = startPosition;
-                transform.SetParent(startParent.transform, false);
-                return;
-            } 
-            if(!card.needsTarget){
-                target = player.gameObject;
-                //will need to change in the future since attacks that target all will not need a target
+            if((card.needsTarget && target != null) || !card.needsTarget){
+                
+                if(card.actionList[0] == "attackall"){
+                    foreach(GameObject enemy in enemies){
+                        target = enemy;
+                        Debug.Log(target);
+                        Play(target);
+                    }
+                }
+                else
+                {
+                Debug.Log(target);
+                Play(target);
+                }
+
+
+
+                player.turnAP -= card.cardCost;
+                player.UpdateStats();
+                Destroy(this.gameObject);
             }
             else
             {
-                Play(target);
-                Destroy(this.gameObject);
+                transform.position = startPosition;
+                transform.SetParent(startParent.transform, false);
             }
         } 
         else
@@ -108,11 +153,20 @@ public class CardBehavior : MonoBehaviour
                 transform.position = startPosition;
                 transform.SetParent(startParent.transform, false);
             }
+        if(!card.needsTarget && card.actionList[0] == "attackall"){
+                foreach(GameObject enemy in enemies){
+                    enemy.GetComponent<Enemy>().StopHighlight();
+                }
+            }
     }
 
     public void Play(GameObject target)
-    {   if(target != null){
-            targetCharacter = target.GetComponent<Character>();
+    {   if(target == null){
+            targetCharacter = player;  
+        }
+        else
+        {
+           targetCharacter = target.GetComponent<Character>(); 
         }
 
         foreach(string type in card.actionList)
@@ -120,17 +174,30 @@ public class CardBehavior : MonoBehaviour
             switch(type)
             {
                 case "attack":
-                actions.Attack(targetCharacter, card.attack, 1);
+                actions.Attack(targetCharacter, card.attack + player.strength, card.multiAction);
+                break;
+                case "xattack":
+                actions.Attack(targetCharacter, card.attack, player.turnAP);
+                player.turnAP = 0;
+                break;
+                case "attackall":
+                actions.Attack(targetCharacter, card.attack, card.multiAction);
                 break;
                 case "block":
-                if(target.tag == "enemy")
-                    {
-                        actions.Block(player, card.block);
-                    }
-                    else
-                    {
-                        actions.Block(targetCharacter, card.block);
-                    }
+                if(target != null && target.tag == "enemy")
+                {
+                    actions.Block(player, card.block);
+                }
+                else
+                {
+                    actions.Block(targetCharacter, card.block);
+                }
+                break;
+                case "xblock":
+                for(int i = 0; i < player.turnAP; i++){
+                    actions.Block(player, card.block);
+                }
+                player.turnAP = 0;
                 break;
                 case "vulnerable":
                 actions.Vulnerable(targetCharacter, card.vulnerable);
@@ -138,22 +205,25 @@ public class CardBehavior : MonoBehaviour
                 case "weak":
                 actions.Weak(targetCharacter, card.weak);
                 targetCharacter.NextTurn();
-                Debug.Log(targetCharacter.weaknessMod);
+                break;
+                case "strength":
+                actions.Strength(targetCharacter, card.strength);
+                targetCharacter.NextTurn();
                 break;
             }
         }   
-        
-        player.turnAP -= card.cardCost;
         targetCharacter.UpdateStats();
-        player.UpdateStats();
+      
     }
 
     public bool IsCardPlayable()
     {
         if(player.turnAP - card.cardCost >= 0){
+            bgImage.color = Color.green;
             return true;
         } else
         {
+            bgImage.color = Color.black;
             return false;
         }
     }

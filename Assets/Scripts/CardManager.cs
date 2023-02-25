@@ -33,6 +33,7 @@ public class CardManager : MonoBehaviour
         startingCardIDs.Add(1);
         startingCardIDs.Add(2);
         startingCardIDs.Add(3);
+        startingCardIDs.Add(4);
     }
 
     void Start()
@@ -86,8 +87,7 @@ public class CardManager : MonoBehaviour
             // Randomize deal
             int rand = Random.Range(0, deckCards.Count);
             card = deckCards[rand];
-
-            
+   
             // Display card in UI
             cardBehavior.RenderCard(card);
 
