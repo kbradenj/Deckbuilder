@@ -26,3 +26,4 @@ MonoBehaviour:
   strength: 2
   needsTarget: 0
   cardImage: {fileID: 21300000, guid: 5d5f4070dd90c42c0ae2bfc455631f0a, type: 3}
+  cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}

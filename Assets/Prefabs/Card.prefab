@@ -449,6 +449,7 @@ MonoBehaviour:
   costField: {fileID: 1639937593871710039}
   image: {fileID: 1639937594815952562}
   bgImage: {fileID: 7768726120690992734}
+  cardOverlay: {fileID: 0}
   player: {fileID: 0}
   targetCharacter: {fileID: 0}
   card: {fileID: 0}

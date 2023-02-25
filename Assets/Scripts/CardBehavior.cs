@@ -15,11 +15,13 @@ public class CardBehavior : MonoBehaviour
     public Image image;
     public Image bgImage;
 
+
     //Scripts
     public Player player;
     public Character targetCharacter;
     public Card card;
     public Actions actions;
+    
 
     //Game Objects
     public GameObject Canvas;

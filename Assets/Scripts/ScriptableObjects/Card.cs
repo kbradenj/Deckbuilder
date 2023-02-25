@@ -26,6 +26,7 @@ public class Card : ScriptableObject
     public bool needsTarget = false;
 
     public Sprite cardImage;
+    public Sprite cardOverlay;
 
     void Awake()
     {
@@ -56,9 +57,6 @@ public class Card : ScriptableObject
                 attributes.Add(strength);
                 break;
             }
-        }
-        foreach(int attribute in attributes){
-            Debug.Log(attribute);
         }
         switch(attributes.Count)
         {
