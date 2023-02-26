@@ -27,28 +27,20 @@ public class CardManager : MonoBehaviour
     //Game Objects
     public GameObject cardGameObject;
     public GameObject hand;
+    public GameState gameState;
 
-    void Awake()
+    void Start()
     {
+        
+    }
+    public void CreatePlayerDeck(){
+        cardDatabase = GameObject.FindObjectOfType<GameState>().cardDatabase;
+
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
         startingCardIDs.Add(2);
         startingCardIDs.Add(3);
-        startingCardIDs.Add(4);
-        startingCardIDs.Add(5);
-        startingCardIDs.Add(6);
-        startingCardIDs.Add(7);
-    }
 
-    void Start()
-    {
-
-    }
-
-
-    public void LoadPlayerDeck(Player player)
-    {
-        cardDatabase = GameObject.FindObjectOfType<GameState>().cardDatabase;
         for(int i = 0; i < startingCardIDs.Count; i++)
         {
             Card startingCard = cardDatabase[startingCardIDs[i]];
@@ -57,13 +49,20 @@ public class CardManager : MonoBehaviour
                 deckCards.Add(startingCard);
             }  
         }
-         if(SceneManager.GetActiveScene().name == "Battle"){
+        gameState = FindObjectOfType<GameState>();
+        gameState.playerDeck = deckCards;
+    }
+
+    public void LoadPlayerDeck(Player player)
+    {
+        gameState = GameObject.FindObjectOfType<GameState>();
+        deckCards = gameState.playerDeck;
+        
+        if(SceneManager.GetActiveScene().name == "Battle"){
             UpdateDeckSizeText();
             hand = GameObject.Find("Hand");
-            player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+            Draw(player.drawSize);
         }
-        GameState gameState = FindObjectOfType<GameState>();
-        gameState.playerDeck = deckCards;
     }
 
     //UI Text Updates
@@ -74,13 +73,13 @@ public class CardManager : MonoBehaviour
     }
 
     //Draw, Discard, Shuffle
-    public void Draw()
+    public void Draw(int amount)
     {
-        if(deckCards.Count < player.drawSize){
+        if(deckCards.Count < amount){
            Shuffle();
         }
 
-        for(int i = 0; i < player.drawSize; i++)
+        for(int i = 0; i < amount; i++)
         {
             GameObject tempCard = GameObject.Instantiate(cardGameObject, new Vector2(0,0), Quaternion.identity) as GameObject;
             CardBehavior cardBehavior = tempCard.GetComponent<CardBehavior>();
@@ -113,7 +112,7 @@ public class CardManager : MonoBehaviour
         }
 
         // Move cards from hand to discard
-        for(int i = 0; i < player.drawSize; i++)
+        for(int i = 0; i < handCards.Count; i++)
         {
             Card x = handCards[0];
             discardCards.Add(card);

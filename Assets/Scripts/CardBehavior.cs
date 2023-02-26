@@ -48,19 +48,19 @@ public class CardBehavior : MonoBehaviour
 
     void Update()
     {
-         if(SceneManager.GetActiveScene().name == "Battle"){
-        if(isDragging)
-        {
-            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            transform.SetParent(Canvas.transform, true);
-            if(!card.needsTarget && card.actionList[0] == "attackall"){
-                enemies = GameObject.FindGameObjectsWithTag("enemy");
-                foreach(GameObject enemy in enemies){
-                    enemy.GetComponent<Enemy>().Highlight();
+        if(SceneManager.GetActiveScene().name == "Battle"){
+            if(isDragging)
+            {
+                transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                transform.SetParent(Canvas.transform, true);
+                if(!card.needsTarget && card.actionList[0] == "attackall"){
+                    enemies = GameObject.FindGameObjectsWithTag("enemy");
+                    foreach(GameObject enemy in enemies){
+                        enemy.GetComponent<Enemy>().Highlight();
+                    }
                 }
             }
-        }
-        IsCardPlayable();
+            IsCardPlayable();
         }
     }
 
@@ -131,13 +131,11 @@ public class CardBehavior : MonoBehaviour
                 if(card.actionList[0] == "attackall"){
                     foreach(GameObject enemy in enemies){
                         target = enemy;
-                        Debug.Log(target);
                         Play(target);
                     }
                 }
                 else
                 {
-                Debug.Log(target);
                 Play(target);
                 }
 

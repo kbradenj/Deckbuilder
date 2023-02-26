@@ -30,14 +30,13 @@ public class Player : Character
     cardManager = FindObjectOfType<CardManager>();
     actions = FindObjectOfType<Actions>();
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
-    cardManager.LoadPlayerDeck(this);
     health = 40;
     maxHealth = 100;
   }
 
   void Start()
   {
-    cardManager.Draw();
+    
   }
 
   //Update UI Text Fields

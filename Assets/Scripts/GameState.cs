@@ -32,26 +32,30 @@ public class GameState : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         LoadCardDatabase();
-    }
-    void Start()
-    {
         cardManager = FindObjectOfType<CardManager>();
         playerArea = GameObject.Find("Player Area");
         enemyArea = GameObject.Find("Enemy Area");
    
+        if(playerDeck.Count <= 0)
+        {
+            cardManager.CreatePlayerDeck(); 
+        }
 
         if(SceneManager.GetActiveScene().name == "Battle")
         {
+            
             isBattle = true;
             LoadEnemies();
             StartBattle();
+            
         }
-        else
-        {
-            cardManager.LoadPlayerDeck(player);
-        }
-        
+
+    }
+    void Start()
+    {
+       
     }
 
     void Update()
@@ -116,13 +120,14 @@ public class GameState : MonoBehaviour
     {
         CreatePlayer();
         CreateEnemy();
+        cardManager.LoadPlayerDeck(player);
         player.UpdateStats();
     }
 
     public void EndTurn()
     {
         cardManager.Discard();
-        cardManager.Draw();
+        cardManager.Draw(player.drawSize);
         player.EndTurn();
         for(int i = 0; i < enemies.Count; i++){
             if(enemies[i] == null)

@@ -19,7 +19,7 @@ public class Craft : MonoBehaviour
     
     void Start()
     {
-        playerDeck = FindObjectOfType<GameState>().playerDeck;
+        playerDeck = GameObject.FindObjectOfType<GameState>().playerDeck;
         tableMaterials = new Dictionary<string, int>();
         inventory = new Dictionary<string, int>();
         materialsArea = GameObject.Find("Materials");
