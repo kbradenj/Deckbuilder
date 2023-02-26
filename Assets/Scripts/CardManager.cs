@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CardManager : MonoBehaviour
 {
     //Database
-    public List<Card> cardDatabase = new List<Card>();
+    public List<Card> cardDatabase;
     
     //Card Lists
     public List<int> startingCardIDs = new List<int>();
@@ -34,26 +35,20 @@ public class CardManager : MonoBehaviour
         startingCardIDs.Add(2);
         startingCardIDs.Add(3);
         startingCardIDs.Add(4);
+        startingCardIDs.Add(5);
+        startingCardIDs.Add(6);
+        startingCardIDs.Add(7);
     }
 
     void Start()
     {
-        hand = GameObject.Find("Hand");
-        player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+
     }
 
-    //Loading Assets
-    public void LoadCardDatabase()
-    {
-        database = Resources.LoadAll<Card>("Cards");
-        for(int i = 0; i < database.Length; i++)
-        {
-            cardDatabase.Add(database[i]);
-        }
-    }
 
     public void LoadPlayerDeck(Player player)
     {
+        cardDatabase = GameObject.FindObjectOfType<GameState>().cardDatabase;
         for(int i = 0; i < startingCardIDs.Count; i++)
         {
             Card startingCard = cardDatabase[startingCardIDs[i]];
@@ -62,7 +57,13 @@ public class CardManager : MonoBehaviour
                 deckCards.Add(startingCard);
             }  
         }
-        UpdateDeckSizeText();
+         if(SceneManager.GetActiveScene().name == "Battle"){
+            UpdateDeckSizeText();
+            hand = GameObject.Find("Hand");
+            player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+        }
+        GameState gameState = FindObjectOfType<GameState>();
+        gameState.playerDeck = deckCards;
     }
 
     //UI Text Updates

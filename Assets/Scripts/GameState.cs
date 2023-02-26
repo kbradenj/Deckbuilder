@@ -18,32 +18,60 @@ public class GameState : MonoBehaviour
     public EnemyAction[] enemyActionDatabase;
     
     //Bools
-    public bool isBattle = true;
+    public bool isBattle = false;
     private bool enemiesLoaded = false;
 
     //Resources
     public EnemyObject[] enemyDatabase;
+    public List<Card> playerDeck;
+    public Card[] database;
+    public List<Card> cardDatabase = new List<Card>();
 
     //Counters
     public int numOfEnemies = 0;
 
+    void Awake()
+    {
+        LoadCardDatabase();
+    }
     void Start()
     {
         cardManager = FindObjectOfType<CardManager>();
         playerArea = GameObject.Find("Player Area");
         enemyArea = GameObject.Find("Enemy Area");
-        cardManager.LoadCardDatabase();
-        LoadEnemies();
-        StartBattle();
+   
+
+        if(SceneManager.GetActiveScene().name == "Battle")
+        {
+            isBattle = true;
+            LoadEnemies();
+            StartBattle();
+        }
+        else
+        {
+            cardManager.LoadPlayerDeck(player);
+        }
+        
     }
 
     void Update()
     {
-        if(numOfEnemies == 0 && enemiesLoaded){
+        if(numOfEnemies == 0 && enemiesLoaded && isBattle){
             SceneManager.LoadScene("WinScreen");
+            isBattle = false;
             return;
         }
     }
+
+       public void LoadCardDatabase()
+    {
+        database = Resources.LoadAll<Card>("Cards");
+        for(int i = 0; i < database.Length; i++)
+        {
+            cardDatabase.Add(database[i]);
+        }
+    }
+
 
     //Load Enemies
     public void LoadEnemies()

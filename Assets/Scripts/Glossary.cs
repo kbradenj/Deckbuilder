@@ -10,6 +10,8 @@ public class Glossary : MonoBehaviour
         {
             case "attack":
             return "deal damage to target";
+            case "xattack":
+            return "Spend all your mana. Deal damage * the amount spent.";
             case "block":
             return "apply block to yourself";
             case "vulnerable":

@@ -641,7 +641,7 @@ MonoBehaviour:
   enemyActionTitle: {fileID: 1118460499747323572}
   enemyBlockField: {fileID: 3518005257550044423}
   image: {fileID: 7473494294951232376}
-  highlightColor: {r: 0.5377358, g: 0.09892311, b: 0.09892311, a: 0.49803922}
+  highlightColor: {r: 0.7924528, g: 0.36258456, b: 0.36258456, a: 1}
   defaultColor: {r: 0, g: 0, b: 0, a: 0}
   healthSlider: {fileID: 8054181808442960959}
   database: []

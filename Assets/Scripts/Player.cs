@@ -77,6 +77,7 @@ public class Player : Character
   //PlayerDeath
   public override void Death()
     {
+        GameObject.FindObjectOfType<GameState>().isBattle = false;
         Destroy(this.gameObject);
         SceneManager.LoadScene("DeathScreen");
     }

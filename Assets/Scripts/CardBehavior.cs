@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CardBehavior : MonoBehaviour
 {
@@ -47,6 +48,7 @@ public class CardBehavior : MonoBehaviour
 
     void Update()
     {
+         if(SceneManager.GetActiveScene().name == "Battle"){
         if(isDragging)
         {
             transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -59,6 +61,7 @@ public class CardBehavior : MonoBehaviour
             }
         }
         IsCardPlayable();
+        }
     }
 
     //Card Close-up
