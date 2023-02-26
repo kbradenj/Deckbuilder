@@ -1081,6 +1081,18 @@ MonoBehaviour:
   maxHealthText: {fileID: 758617371585505186}
   actionPointsField: {fileID: 0}
   healthSlider: {fileID: 8571190857532099718}
+  startingDeck:
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
   cardManager: {fileID: 0}
   actions: {fileID: 0}
   ap: 4

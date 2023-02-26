@@ -18,7 +18,6 @@ public class Actions : MonoBehaviour
     //Attack
     public void Attack(Character target, int amount, int times = 1)
     {
-        Debug.Log("Attack" + amount + " * " + times);
         if(target.vulnerable > 0){
             amount = (int)Math.Ceiling(amount * 1.25);
         }

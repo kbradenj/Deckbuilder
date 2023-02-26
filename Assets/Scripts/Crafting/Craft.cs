@@ -16,10 +16,20 @@ public class Craft : MonoBehaviour
     public GameObject materialPrefab;
     public GameObject cardPrefab;
     public GameObject materialsArea;
+
+    public Card cardToCraft;
+
+    //Singleton
+    public Singleton singleton;
     
+    void Awake()
+    {
+        singleton = GameObject.FindObjectOfType<Singleton>();
+    }
+
     void Start()
     {
-        playerDeck = GameObject.FindObjectOfType<GameState>().playerDeck;
+        playerDeck = GameObject.FindObjectOfType<Singleton>().playerDeck;
         tableMaterials = new Dictionary<string, int>();
         inventory = new Dictionary<string, int>();
         materialsArea = GameObject.Find("Materials");
@@ -33,6 +43,7 @@ public class Craft : MonoBehaviour
 
     void LoadInventory()
     {
+        Debug.Log(playerDeck.Count);
         foreach(Card card in playerDeck)
         {
             if(inventory.ContainsKey(card.cardName))
@@ -85,10 +96,17 @@ public class Craft : MonoBehaviour
                 availableCraftingOptions.Add(recipe.resultItem);
                 GameObject resultObject = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
                 resultObject.transform.SetParent(GameObject.Find("Result Area").transform);
-                resultObject.GetComponent<CardBehavior>().RenderCard(recipe.resultItem);
+                CardBehavior resultItemScript = resultObject.GetComponent<CardBehavior>();
+                resultItemScript.RenderCard(recipe.resultItem);
+                cardToCraft = resultItemScript.card;
             }
            
         }
         return availableCraftingOptions;
+    }
+
+    public void CraftItem(){
+        singleton.playerDeck.Add(cardToCraft);
+        Debug.Log ("Crafted " + singleton.playerDeck.Count);
     }
 }

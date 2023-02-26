@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 2dceb915d389e4e5187b55009d845d0d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cardReward: {instanceID: 0}
+  - cardRewardPrefab: {fileID: 1639937595311336888, guid: c4dfb8c04e491415e80bbe746d5044df, type: 3}
+  - multiCardRewardPrefab: {fileID: 1639937595311336888, guid: 136c4fda8d26a4c70bf296744744f776, type: 3}
+  - maxHealthRewardPrefab: {fileID: 1639937595311336888, guid: 2f9b68a8dffe04a72b27efb14e2e41ce, type: 3}
+  - rewardArea: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

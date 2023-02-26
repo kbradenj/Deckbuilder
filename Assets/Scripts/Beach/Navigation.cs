@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Navigation : MonoBehaviour
 {
+
     public void GoToCrafting()
     {
         SceneManager.LoadScene("Crafting");

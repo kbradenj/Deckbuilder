@@ -14,6 +14,9 @@ public class Player : Character
   public TMP_Text actionPointsField;
   public Slider healthSlider;
 
+  //Lists
+  public List<Card> startingDeck;
+
   //Scripts
   public CardManager cardManager;
   public Actions actions;
@@ -30,7 +33,7 @@ public class Player : Character
     cardManager = FindObjectOfType<CardManager>();
     actions = FindObjectOfType<Actions>();
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
-    health = 40;
+    health = 200;
     maxHealth = 100;
   }
 

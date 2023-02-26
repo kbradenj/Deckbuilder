@@ -8,6 +8,9 @@ public class CardManager : MonoBehaviour
 {
     //Database
     public List<Card> cardDatabase;
+
+    //Singleton
+    public Singleton singleton;
     
     //Card Lists
     public List<int> startingCardIDs = new List<int>();
@@ -29,35 +32,37 @@ public class CardManager : MonoBehaviour
     public GameObject hand;
     public GameState gameState;
 
+    void Awake()
+    {
+        singleton = GameObject.FindObjectOfType<Singleton>();
+        gameState = GameObject.FindObjectOfType<GameState>();
+    }
     void Start()
     {
-        
+
     }
     public void CreatePlayerDeck(){
-        cardDatabase = GameObject.FindObjectOfType<GameState>().cardDatabase;
+        Debug.Log(gameState.cardDatabase.Count);
+        cardDatabase = gameState.cardDatabase;
+        
 
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
-        startingCardIDs.Add(2);
-        startingCardIDs.Add(3);
 
         for(int i = 0; i < startingCardIDs.Count; i++)
         {
             Card startingCard = cardDatabase[startingCardIDs[i]];
-            for(int j = 0; j < 8; j++)
+            for(int j = 0; j < 5; j++)
             {
                 deckCards.Add(startingCard);
             }  
         }
-        gameState = FindObjectOfType<GameState>();
-        gameState.playerDeck = deckCards;
+        singleton.playerDeck = deckCards;
     }
 
     public void LoadPlayerDeck(Player player)
     {
-        gameState = GameObject.FindObjectOfType<GameState>();
-        deckCards = gameState.playerDeck;
-        
+        deckCards = new List<Card>(singleton.playerDeck);
         if(SceneManager.GetActiveScene().name == "Battle"){
             UpdateDeckSizeText();
             hand = GameObject.Find("Hand");
@@ -67,9 +72,13 @@ public class CardManager : MonoBehaviour
 
     //UI Text Updates
     public void UpdateDeckSizeText()
-    {     
-        deckSize.text = deckCards.Count.ToString();
-        discardSize.text = discardCards.Count.ToString();
+    {   if(gameState.isBattle)
+        {  
+            deckSize = GameObject.Find("Deck Size").GetComponent<TMP_Text>();
+            deckSize.text = deckCards.Count.ToString();
+            discardSize = GameObject.Find("Discard Size").GetComponent<TMP_Text>();
+            discardSize.text = discardCards.Count.ToString();
+        }
     }
 
     //Draw, Discard, Shuffle
@@ -78,7 +87,6 @@ public class CardManager : MonoBehaviour
         if(deckCards.Count < amount){
            Shuffle();
         }
-
         for(int i = 0; i < amount; i++)
         {
             GameObject tempCard = GameObject.Instantiate(cardGameObject, new Vector2(0,0), Quaternion.identity) as GameObject;
@@ -86,6 +94,8 @@ public class CardManager : MonoBehaviour
 
             // Randomize deal
             int rand = Random.Range(0, deckCards.Count);
+            Debug.Log("Singleton size " + singleton.playerDeck.Count);
+            Debug.Log("Card Manager " + deckCards.Count);
             card = deckCards[rand];
    
             // Display card in UI
@@ -93,6 +103,7 @@ public class CardManager : MonoBehaviour
 
             // Move cards from deck to hand
             handCards.Add(card);
+            
             deckCards.Remove(card);
             UpdateDeckSizeText();
 
@@ -100,24 +111,26 @@ public class CardManager : MonoBehaviour
             tempCard.tag = "Hand Card";
             tempCard.transform.SetParent(hand.transform, false); 
         }
-    }
+    }   
 
     public void Discard()
     {
         // Destroy hand game objects
         GameObject[] cards = GameObject.FindGameObjectsWithTag("Hand Card");
-        foreach(GameObject x in cards)
+        foreach(GameObject card in cards)
         {
-            Destroy(x);
+            Destroy(card);
         }
 
         // Move cards from hand to discard
-        for(int i = 0; i < handCards.Count; i++)
+        int intitialHandSize = handCards.Count;
+        for(int i = 0; i < intitialHandSize; i++)
         {
-            Card x = handCards[0];
+            Card card = handCards[0];
             discardCards.Add(card);
             handCards.Remove(card);
         }
+        UpdateDeckSizeText();
     }
    
     public void Shuffle(){

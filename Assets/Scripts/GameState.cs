@@ -11,6 +11,9 @@ public class GameState : MonoBehaviour
     public GameObject playerArea;
     public GameObject enemyArea;
 
+    //Singleton
+    public Singleton singleton;
+
     //Scripts
     public Player player;
     public List<Enemy> enemies;
@@ -32,37 +35,37 @@ public class GameState : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        LoadCardDatabase();
+        
+        singleton = GameObject.FindObjectOfType<Singleton>();
+        if(singleton.cardDatabase.Count <= 0){
+            LoadCardDatabase();
+        }
         cardManager = FindObjectOfType<CardManager>();
         playerArea = GameObject.Find("Player Area");
         enemyArea = GameObject.Find("Enemy Area");
-   
-        if(playerDeck.Count <= 0)
+
+        if(singleton.playerDeck.Count <= 0)
         {
             cardManager.CreatePlayerDeck(); 
+            Debug.Log("Ran Create Player Deck");
+        
         }
 
         if(SceneManager.GetActiveScene().name == "Battle")
         {
-            
             isBattle = true;
             LoadEnemies();
             StartBattle();
-            
         }
 
-    }
-    void Start()
-    {
-       
     }
 
     void Update()
     {
         if(numOfEnemies == 0 && enemiesLoaded && isBattle){
-            SceneManager.LoadScene("WinScreen");
+            singleton.playerHealth = player.health;
             isBattle = false;
+            SceneManager.LoadScene("WinScreen");
             return;
         }
     }
@@ -74,6 +77,7 @@ public class GameState : MonoBehaviour
         {
             cardDatabase.Add(database[i]);
         }
+        singleton.cardDatabase = cardDatabase;
     }
 
 
@@ -120,8 +124,9 @@ public class GameState : MonoBehaviour
     {
         CreatePlayer();
         CreateEnemy();
-        cardManager.LoadPlayerDeck(player);
+        player = GameObject.FindObjectOfType<Player>();
         player.UpdateStats();
+        cardManager.LoadPlayerDeck(player);
     }
 
     public void EndTurn()

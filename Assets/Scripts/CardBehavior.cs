@@ -138,9 +138,7 @@ public class CardBehavior : MonoBehaviour
                 {
                 Play(target);
                 }
-
-
-
+                
                 player.turnAP -= card.cardCost;
                 player.UpdateStats();
                 Destroy(this.gameObject);
