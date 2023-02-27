@@ -42,10 +42,8 @@ public class CardManager : MonoBehaviour
 
     }
     public void CreatePlayerDeck(){
-        Debug.Log(gameState.cardDatabase.Count);
         cardDatabase = gameState.cardDatabase;
         
-
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
 
@@ -94,8 +92,6 @@ public class CardManager : MonoBehaviour
 
             // Randomize deal
             int rand = Random.Range(0, deckCards.Count);
-            Debug.Log("Singleton size " + singleton.playerDeck.Count);
-            Debug.Log("Card Manager " + deckCards.Count);
             card = deckCards[rand];
    
             // Display card in UI

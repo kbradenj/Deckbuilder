@@ -47,8 +47,6 @@ public class GameState : MonoBehaviour
         if(singleton.playerDeck.Count <= 0)
         {
             cardManager.CreatePlayerDeck(); 
-            Debug.Log("Ran Create Player Deck");
-        
         }
 
         if(SceneManager.GetActiveScene().name == "Battle")
@@ -63,7 +61,7 @@ public class GameState : MonoBehaviour
     void Update()
     {
         if(numOfEnemies == 0 && enemiesLoaded && isBattle){
-            singleton.playerHealth = player.health;
+            singleton.player.health = player.health;
             isBattle = false;
             SceneManager.LoadScene("WinScreen");
             return;
@@ -99,6 +97,7 @@ public class GameState : MonoBehaviour
         GameObject playerObject = GameObject.Instantiate(playerPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(playerArea.transform, false); 
         player = playerObject.GetComponent<Player>();
+        singleton.player = player;
     }
 
     //Create Enemy

@@ -20,6 +20,7 @@ public class Card : ScriptableObject
     public int vulnerable;
     public int weak;
     public int strength;
+    public int quantity;
 
     string testString;
     
@@ -27,11 +28,6 @@ public class Card : ScriptableObject
 
     public Sprite cardImage;
     public Sprite cardOverlay;
-
-    void Awake()
-    {
-
-    }
 
     public string FormatString(){
         List<int> attributes = new List<int>();

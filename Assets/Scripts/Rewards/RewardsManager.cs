@@ -11,24 +11,23 @@ public class RewardsManager : MonoBehaviour
     public GameObject rewardArea;
     Singleton singleton;
     
+    public List<GameObject> rewardType;
+
     void Start()
     {
         rewardArea = GameObject.Find("Reward Area");
         singleton = GameObject.FindObjectOfType<Singleton>();
-        SelectReward();
+        foreach(GameObject reward in rewardType){
+            SelectReward(reward);
+        }
+        
     }
 
-    void SelectReward(){
-            GameObject reward = GameObject.Instantiate(cardRewardPrefab, new Vector2(0,0), Quaternion.identity);
-            reward.GetComponent<CardReward>().card = singleton.cardDatabase[5];
+    void SelectReward(GameObject prefab){
+            GameObject reward;
+            {
+            reward = GameObject.Instantiate(prefab, new Vector2(0,0), Quaternion.identity);
             reward.transform.SetParent(rewardArea.transform);
-            reward = GameObject.Instantiate(multiCardRewardPrefab, new Vector2(0,0), Quaternion.identity);
-            List <Card> multiRewardsList = reward.GetComponent<MultiCardReward>().multiRewards;
-            multiRewardsList.Add(singleton.cardDatabase[0]);
-            multiRewardsList.Add(singleton.cardDatabase[0]);
-            multiRewardsList.Add(singleton.cardDatabase[0]);
-            reward.transform.SetParent(rewardArea.transform);
-            reward = GameObject.Instantiate(maxHealthRewardPrefab, new Vector2(0,0), Quaternion.identity);
-            reward.transform.SetParent(rewardArea.transform);
+            }
     }
 }

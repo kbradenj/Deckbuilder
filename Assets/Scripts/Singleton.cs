@@ -6,7 +6,7 @@ public class Singleton : MonoBehaviour
 {
 
     public List<Card> playerDeck;
-    public int playerHealth;
+    public Player player;
     public List<Card> cardDatabase;
 
     private static Singleton instance;
@@ -26,5 +26,6 @@ public class Singleton : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
     }
 }

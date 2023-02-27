@@ -8,11 +8,12 @@ public class CardReward : Reward
 {
     public Card card;
     public GameObject cardPrefab;
-    public Singleton singleton;
 
-    void Start()
+
+    protected override void Start()
     {
-        singleton = GameObject.FindObjectOfType<Singleton>();
+        base.Start();
+        card = singleton.cardDatabase[5];
         GameObject newCard = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity);
         newCard.transform.SetParent(gameObject.transform);
         newCard.GetComponent<CardBehavior>().RenderCard(card);

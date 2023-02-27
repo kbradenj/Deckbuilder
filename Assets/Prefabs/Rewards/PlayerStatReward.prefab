@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 7297242446985704741}
   - component: {fileID: -7030147442623904185}
   m_Layer: 6
-  m_Name: MaxHealthReward
+  m_Name: PlayerStatReward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

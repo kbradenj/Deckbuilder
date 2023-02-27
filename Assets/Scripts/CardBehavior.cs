@@ -11,6 +11,7 @@ public class CardBehavior : MonoBehaviour
     public TextMeshProUGUI cardNameField;
     public TextMeshProUGUI descriptionField;
     public TextMeshProUGUI costField;
+    public TMP_Text quantity;
 
     //UI
     public Image image;
@@ -32,11 +33,13 @@ public class CardBehavior : MonoBehaviour
     private GameObject target;
     private GameObject[] enemies;
     public GameObject inspectCardPrefab;
+    public GameObject amountDisplay;
 
 
     //States
     private bool isDragging = false;
     private bool isOverDropZone = false;
+    public bool displayAmount = false;
     
     void Start()
     {
@@ -91,8 +94,15 @@ public class CardBehavior : MonoBehaviour
             costField.text = c.cardCost.ToString(); 
         }
         image.sprite = c.cardImage;
+        if(displayAmount != true){
+            GameObject.Find("QuantityDisplay").SetActive(false);
+        }
     }
 
+    public void UpdateQuantity(int amount)
+    {
+        quantity.text = amount.ToString();
+    }
 
     //Card Interaction
     private void OnCollisionEnter2D(Collision2D collision)

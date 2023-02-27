@@ -9,9 +9,13 @@ public class MultiCardReward : Reward
     public List<Card> multiRewards;
     public GameObject cardPrefab;
 
-    void Start()
+    protected override void Start()
     {
-         foreach(Card card in multiRewards){
+        base.Start();
+            multiRewards.Add(singleton.cardDatabase[0]);
+            multiRewards.Add(singleton.cardDatabase[0]);
+            multiRewards.Add(singleton.cardDatabase[0]);
+        foreach(Card card in multiRewards){
             GameObject newCard = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity);
             newCard.transform.SetParent(gameObject.transform);
             newCard.GetComponent<CardBehavior>().RenderCard(card);
@@ -20,7 +24,9 @@ public class MultiCardReward : Reward
     public override void PickReward()
     {
         base.PickReward();
-       
-        Debug.Log("I chose a multi card reward");
+        foreach(Card card in multiRewards){
+            singleton.playerDeck.Add(card);
+       }
+       Destroy(this.gameObject);
     }
 }
