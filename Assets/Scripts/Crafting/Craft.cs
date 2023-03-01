@@ -1,68 +1,55 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Craft : MonoBehaviour
 {
-    //Dictionaries
-    public Dictionary<string, int> tableMaterials;
-    public Dictionary<string, int> inventory;
+    // Dictionaries
+    public Dictionary<string, int> tableMaterials = new Dictionary<string, int>();
+    public Dictionary<string, int> inventory = new Dictionary<string, int>();
 
-    //Lists
-    public List<GameObject> onTableCards;
-    public List<GameObject> inventoryItems;
-    public List<CraftingRecipe> craftingRecipes;
-    public List<Card> playerDeck;
-    public List<GameObject> resultCards;
+    // Lists
+    public List<GameObject> onTableCards = new List<GameObject>();
+    public List<GameObject> inventoryItems = new List<GameObject>();
+    public List<CraftingRecipe> craftingRecipes = new List<CraftingRecipe>();
+    public List<Card> playerDeck = new List<Card>();
+    public List<GameObject> resultCards = new List<GameObject>();
 
-    //Database
+    // Database
     public CraftingRecipe[] recipeDatabase;
-    
-    //Game Objects
+
+    // Game Objects
     public GameObject materialPrefab;
     public GameObject cardPrefab;
     public GameObject materialsArea;
     public GameObject resultArea;
 
-    //Singleton
-    public Singleton singleton;
-    
-    void Awake()
+    // Singleton
+    private Singleton singleton;
+
+    private void Awake()
     {
-        //Get Singleton
+        // Get Singleton
         singleton = GameObject.FindObjectOfType<Singleton>();
     }
 
-    void Start()
+    private void Start()
     {
-        //Load Database
+        // Load Database
         recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
 
-        //Set Up Lists
-        onTableCards = new List<GameObject>();
-        resultCards = new List<GameObject>();
-        inventoryItems = new List<GameObject>();
-        craftingRecipes = new List<CraftingRecipe>();
-
-        //Set Up Dictionaries
-        tableMaterials = new Dictionary<string, int>();
-        inventory = new Dictionary<string, int>();
-
-        //Set Up Parent Areas
+        // Set Up Lists
+        craftingRecipes.AddRange(recipeDatabase);
+        
+        // Set Up Parent Areas
         resultArea = GameObject.Find("Result Area");
         materialsArea = GameObject.Find("Materials");
-        
-        //Grab Most Recent Player Deck
-        playerDeck = GameObject.FindObjectOfType<Singleton>().playerDeck;
-        
-        //Add Recipe Detail Items from Database to List
-        foreach(CraftingRecipe recipe in recipeDatabase)
-        {
-            craftingRecipes.Add(recipe);
-        }
 
-        //Create UI Inventory
+        // Grab Most Recent Player Deck
+        playerDeck = singleton.playerDeck;
+
+        // Create UI Inventory
         LoadInventory();
     }
 
@@ -79,6 +66,7 @@ public class Craft : MonoBehaviour
                 inventory[card.cardName] += 1;
             }
             else{
+                //Create visual material item
                 InstantiateMaterialToInventory(card.cardName);
             }
         }
@@ -86,30 +74,30 @@ public class Craft : MonoBehaviour
         GetAvailableCraftingOptions();
     }
 
-    //Update count text on materials in inventory
-    public void UpdateInventoryAmount(){
-        
-        for(int i = 0; i < inventoryItems.Count; i++)
+   // Update count text on materials in inventory
+    public void UpdateInventoryAmount()
+    {
+        foreach (GameObject item in inventoryItems)
         {
-           CraftingMaterialBehavior materialScript = inventoryItems[i].GetComponent<CraftingMaterialBehavior>();
-           materialScript.UpdateValue(inventory[materialScript.materialName]);
+            CraftingMaterialBehavior materialScript = item.GetComponent<CraftingMaterialBehavior>();
+            materialScript.UpdateValue(inventory[materialScript.materialName]);
         }
     }
 
-    //Update count text on cards on table
-    public void UpdateOnTableAmount(){
-        foreach(GameObject onTableCard in onTableCards)
+    // Update count text on cards on table
+    public void UpdateOnTableAmount()
+    {
+        foreach (GameObject onTableCard in onTableCards)
         {
-           
-           CardBehavior cardScript = onTableCard.GetComponent<CardBehavior>();
-           cardScript.UpdateQuantity(tableMaterials[cardScript.card.cardName]);
+            CardBehavior cardScript = onTableCard.GetComponent<CardBehavior>();
+            cardScript.UpdateQuantity(tableMaterials[cardScript.card.cardName]);
         }
     }
 
-    //Add cards to the table
+   // Add card object to the table and Dictionary
     public void AddToTable(Card card)
     {
-        if(tableMaterials.ContainsKey(card.cardName))
+        if (tableMaterials.ContainsKey(card.cardName))
         {
             tableMaterials[card.cardName] += 1;
             UpdateOnTableAmount();
@@ -122,12 +110,9 @@ public class Craft : MonoBehaviour
         GetAvailableCraftingOptions();
     }
 
-    //Remove card objects from Table and Dictionary
+    //Remove card object from Table and Dictionary
     public void RemoveFromTable(GameObject cardObject)
     {
-        //Need to fix issue of result cards not being removed when requirements don't meet anymore after removing material
-        //Possibly a secondary clause in the places with get craftable quantity. If it comes back as 0, destroy it. 
-        
         CardBehavior cardBehavior = cardObject.GetComponent<CardBehavior>();
 
         string cardName = cardBehavior.card.cardName;
@@ -167,6 +152,7 @@ public class Craft : MonoBehaviour
 
     //Create material item UI objects
     public void InstantiateMaterialToInventory(string material){
+
         //add listing to dictionary
         inventory.Add(material, 1);
 
@@ -241,106 +227,102 @@ public class Craft : MonoBehaviour
         return availableCraftingOptions;
     }
 
-    public bool CanCraft(CraftingRecipe recipe)
-    {
-        bool canCraft = true;
-            foreach(CraftingMaterial material in recipe.craftingMaterials)
-            {
-                    if (!tableMaterials.ContainsKey(material.key) || tableMaterials[material.key] < material.amount) {
-                        canCraft = false;
-                        break;
-                    } 
-            }
-            return canCraft;
-    }
+//Do you have enough materials on the table to qualify for a recipe
+public bool CanCraft(CraftingRecipe recipe)
+{
+    return recipe.craftingMaterials.All(material => 
+        tableMaterials.ContainsKey(material.key) && tableMaterials[material.key] >= material.amount);
+}
 
     //How many of each item can I make?
     public int GetCraftableQty(CraftingRecipe recipe){
         int amountToCraft = int.MaxValue;
         int tempAmount;
         foreach(CraftingMaterial material in recipe.craftingMaterials){
-
             tempAmount = tableMaterials[material.key]/material.amount;
             if(tempAmount < amountToCraft)
             {
                 amountToCraft = tempAmount;
             }
-
         }
         return amountToCraft;    
     }
 
     //Let's make this thing
-    public void CraftItem(){
-        for(int i = 0; i < resultCards.Count; i++){
-            Card card = resultCards[0].GetComponent<CardBehavior>().card;
-            int quantityToMake = card.quantity;
-            for(int j = 0; j < quantityToMake; j++)
-            {
-                singleton.playerDeck.Add(card);
-                UseMaterials();
-                card.quantity--;
-            }   
-            Destroy(resultCards[0].gameObject);
-            card.quantity = 0;
-            resultCards.Remove(resultCards[0]);
-        } 
+    public void CraftItem() {
+        GameObject firstResultCard = resultCards[0];
+        Card card = firstResultCard.GetComponent<CardBehavior>().card;
+        int quantityToMake = card.quantity;
+        
+        List<Card> cardsToAdd = new List<Card>();
+        for (int j = 0; j < quantityToMake; j++) {
+            cardsToAdd.Add(card);
+            UseMaterials();
+            card.quantity--;
+        }
+        singleton.playerDeck.AddRange(cardsToAdd);
+
+        Destroy(firstResultCard.gameObject);
+        card.quantity = 0;
+        resultCards.Remove(firstResultCard);
     }
 
-    public void UseMaterials(){
-        CraftingRecipe recipeMatch = null;
-        //Go through physical cards of what I'm crafting
-        for(int i = 0; i < resultCards.Count; i++)
-        {
-            //Go through all the crafting recipes
-            for(int j = 0; j < craftingRecipes.Count; j++){
-                string resultCardName = resultCards[i].GetComponent<CardBehavior>().card.cardName;
-                string craftingRecipeName = craftingRecipes[j].resultItem.cardName;
+    //Remove the Cards in the player deck that were used to craft
+    public void UseMaterials() {
+        CraftingRecipe recipeMatch = FindRecipeMatch();
 
-                //Find the right recipe to match the card I want to craft
-                if(resultCardName == craftingRecipeName)
-                {
-                    recipeMatch = craftingRecipes[j];
-                    break;
+        if (recipeMatch != null) {
+            foreach (CraftingMaterial material in recipeMatch.craftingMaterials) {
+                UpdateTableMaterial(material);
+            }
+
+            RemoveMatchingCardsFromDeck(recipeMatch.craftingMaterials);
+        }
+    }
+
+    //Find the matching recipe to the crafted card(s)
+    private CraftingRecipe FindRecipeMatch() {
+        foreach (GameObject resultCard in resultCards) {
+            CardBehavior cardBehavior = resultCard.GetComponent<CardBehavior>();
+
+            foreach (CraftingRecipe recipe in craftingRecipes) {
+                if (recipe.resultItem.cardName == cardBehavior.card.cardName) {
+                    return recipe;
                 }
             }
         }
-        if(recipeMatch != null)
-        {
-            //Go through the Crafting Recipe and go through each material object within the materials list
-            for(int i = 0; i < recipeMatch.craftingMaterials.Length; i++){
 
-                //Go through the ingredient cards on the table
-                for(int j = 0; j < onTableCards.Count; j++){
-                    CardBehavior onTableCardBehavior = onTableCards[j].GetComponent<CardBehavior>();
+        return null;
+    }
 
-                    //Find where the physical card on table matches the materials needed in the recipe
-                    if(recipeMatch.craftingMaterials[i].key == onTableCardBehavior.card.cardName)
-                    {
-                        //Remove the amount listed on the recipe from its matching ingredient in the table dictionary
-                        tableMaterials[recipeMatch.craftingMaterials[i].key] -= recipeMatch.craftingMaterials[i].amount;
-                      
-                        int newQty = tableMaterials[recipeMatch.craftingMaterials[i].key];
+    //Either reduce qty or remove card objects from crafting table
+    private void UpdateTableMaterial(CraftingMaterial material) {
+        foreach (GameObject onTableCard in onTableCards) {
+            CardBehavior cardBehavior = onTableCard.GetComponent<CardBehavior>();
 
-                        //Update the physical card's count
-                        if(newQty == 0){
-                            Destroy(onTableCards[j]);
-                        }
-                        else
-                        {
-                            onTableCardBehavior.UpdateQuantity(newQty);
-                        }
-                        for(int k = 0; k < recipeMatch.craftingMaterials[i].amount; k++)
-                        {
-                             singleton.RemoveCardFromDeck(recipeMatch.craftingMaterials[i].key);
-                        }
-                       
-                        //Remove matching cards from the player deck in the singleton for as many as the amount on the recipe
-                    }
+            if (material.key == cardBehavior.card.cardName) {
+                tableMaterials[material.key] -= material.amount;
+
+                int newQty = tableMaterials[material.key];
+
+                if (newQty == 0) {
+                    Destroy(onTableCard);
+                } else {
+                    cardBehavior.UpdateQuantity(newQty);
                 }
+
+                break;
             }
         }
     }
 
+    //Remove the used up cards in the player deck
+    private void RemoveMatchingCardsFromDeck(CraftingMaterial[] materials) {
+        foreach (CraftingMaterial material in materials) {
+            for (int i = 0; i < material.amount; i++) {
+                singleton.RemoveCardFromDeck(material.key);
+            }
+        }
+    }
 
 }
