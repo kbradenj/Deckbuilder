@@ -288,7 +288,58 @@ public class Craft : MonoBehaviour
     }
 
     public void UseMaterials(){
+        CraftingRecipe recipeMatch = null;
+        //Go through physical cards of what I'm crafting
+        for(int i = 0; i < resultCards.Count; i++)
+        {
+            //Go through all the crafting recipes
+            for(int j = 0; j < craftingRecipes.Count; j++){
+                string resultCardName = resultCards[i].GetComponent<CardBehavior>().card.cardName;
+                string craftingRecipeName = craftingRecipes[j].resultItem.cardName;
 
+                //Find the right recipe to match the card I want to craft
+                if(resultCardName == craftingRecipeName)
+                {
+                    recipeMatch = craftingRecipes[j];
+                    break;
+                }
+            }
+        }
+        if(recipeMatch != null)
+        {
+            //Go through the Crafting Recipe and go through each material object within the materials list
+            for(int i = 0; i < recipeMatch.craftingMaterials.Length; i++){
+
+                //Go through the ingredient cards on the table
+                for(int j = 0; j < onTableCards.Count; j++){
+                    CardBehavior onTableCardBehavior = onTableCards[j].GetComponent<CardBehavior>();
+
+                    //Find where the physical card on table matches the materials needed in the recipe
+                    if(recipeMatch.craftingMaterials[i].key == onTableCardBehavior.card.cardName)
+                    {
+                        //Remove the amount listed on the recipe from its matching ingredient in the table dictionary
+                        tableMaterials[recipeMatch.craftingMaterials[i].key] -= recipeMatch.craftingMaterials[i].amount;
+                      
+                        int newQty = tableMaterials[recipeMatch.craftingMaterials[i].key];
+
+                        //Update the physical card's count
+                        if(newQty == 0){
+                            Destroy(onTableCards[j]);
+                        }
+                        else
+                        {
+                            onTableCardBehavior.UpdateQuantity(newQty);
+                        }
+                        for(int k = 0; k < recipeMatch.craftingMaterials[i].amount; k++)
+                        {
+                             singleton.RemoveCardFromDeck(recipeMatch.craftingMaterials[i].key);
+                        }
+                       
+                        //Remove matching cards from the player deck in the singleton for as many as the amount on the recipe
+                    }
+                }
+            }
+        }
     }
 
 

@@ -28,4 +28,9 @@ public class Singleton : MonoBehaviour
         }
         
     }
+
+    public void RemoveCardFromDeck(string cardName){
+        Debug.Log(cardName);
+        playerDeck.Remove(playerDeck.Find(item => item.cardName == cardName));
+    }
 }
