@@ -454,7 +454,7 @@ MonoBehaviour:
   actions: {fileID: 0}
   Canvas: {fileID: 0}
   inspectCardPrefab: {fileID: 1639937595311336888, guid: e69bce458c1104c2888f01b9f8d7e2e5, type: 3}
-  amountDisplay: {fileID: 2463340353295502308, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
+  amountDisplay: {fileID: 4219586919950558948}
   displayAmount: 0
 --- !u!1 &1639937595715554331
 GameObject:
@@ -845,12 +845,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6942872329524885560, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
   m_PrefabInstance: {fileID: 5152186023960350586}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4219586919950558948 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9011357705032051102, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
+  m_PrefabInstance: {fileID: 5152186023960350586}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8426986625467067118 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3707190731858584980, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
   m_PrefabInstance: {fileID: 5152186023960350586}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 4219586919950558948}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}

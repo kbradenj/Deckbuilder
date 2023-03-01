@@ -15,7 +15,9 @@ MonoBehaviour:
   item: 
   craftingMaterials:
   - key: Stick
-    amount: 1
-  - key: Dry Leaf
     amount: 2
-  resultItem: {fileID: 11400000, guid: 73ba07c2a67af490d9615c9c23723a86, type: 2}
+  - key: Dry Leaf
+    amount: 1
+  - key: Hatchet
+    amount: 1
+  resultItem: {fileID: 11400000, guid: 4029ea77ecd3849a0a848174e0f4fb0c, type: 2}
