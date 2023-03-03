@@ -18,6 +18,6 @@ public class Navigation : MonoBehaviour
 
     public void GoToCamp()
     {
-        SceneManager.LoadScene("Home");
+        SceneManager.LoadScene("Home");  
     }
 }

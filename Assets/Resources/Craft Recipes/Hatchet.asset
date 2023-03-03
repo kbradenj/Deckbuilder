@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bd8aab55ee84397b1d67534bcf9895, type: 3}
   m_Name: Hatchet
   m_EditorClassIdentifier: 
-  item: 
+  timeCost: 30
   craftingMaterials:
   - key: Stick
     amount: 1

@@ -8,6 +8,7 @@ public class Singleton : MonoBehaviour
     public List<Card> playerDeck;
     public Player player;
     public List<Card> cardDatabase;
+    public int dayLeft;
 
     private static Singleton instance;
     public static Singleton Instance
@@ -20,6 +21,7 @@ public class Singleton : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            dayLeft = 360;
             DontDestroyOnLoad(gameObject);
         }    
         else

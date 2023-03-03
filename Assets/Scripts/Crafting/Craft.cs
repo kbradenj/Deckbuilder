@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class Craft : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class Craft : MonoBehaviour
     public GameObject cardPrefab;
     public GameObject materialsArea;
     public GameObject resultArea;
+    public GameObject craftCostPrefab;
 
     // Singleton
     private Singleton singleton;
@@ -129,6 +131,7 @@ public class Craft : MonoBehaviour
                 {
                     onTableCards.Remove(onTableCards[i]);
                     Destroy(cardObject);   
+                    Debug.Log(onTableCards.Count);
                     break;
                 }
             }
@@ -207,6 +210,8 @@ public class Craft : MonoBehaviour
                     resultItemScript.RenderCard(recipe.resultItem);
                     resultItemScript.card.quantity = GetCraftableQty(recipe);
                     resultItemScript.UpdateQuantity(resultItemScript.card.quantity);
+
+                    AddCraftingCost(resultObject, recipe.timeCost);
                 }
             }
             else
@@ -226,6 +231,15 @@ public class Craft : MonoBehaviour
         }
         return availableCraftingOptions;
     }
+
+public void AddCraftingCost(GameObject card, int craftCost)
+{
+    GameObject craftCostObject = GameObject.Instantiate(craftCostPrefab, new Vector2(0,250), Quaternion.identity);
+    craftCostObject.transform.SetParent(card.transform);
+    TMP_Text craftCostText = GameObject.Find("Craft Cost Text").GetComponent<TMP_Text>();
+    craftCostText.text = "Crafting Time: " + craftCost.ToString() + " min";
+
+}
 
 //Do you have enough materials on the table to qualify for a recipe
 public bool CanCraft(CraftingRecipe recipe)
@@ -272,6 +286,7 @@ public bool CanCraft(CraftingRecipe recipe)
         CraftingRecipe recipeMatch = FindRecipeMatch();
 
         if (recipeMatch != null) {
+            singleton.dayLeft -= recipeMatch.timeCost;
             foreach (CraftingMaterial material in recipeMatch.craftingMaterials) {
                 UpdateTableMaterial(material);
             }
@@ -297,8 +312,8 @@ public bool CanCraft(CraftingRecipe recipe)
 
     //Either reduce qty or remove card objects from crafting table
     private void UpdateTableMaterial(CraftingMaterial material) {
-        foreach (GameObject onTableCard in onTableCards) {
-            CardBehavior cardBehavior = onTableCard.GetComponent<CardBehavior>();
+        for (int i = 0; i < onTableCards.Count; i++) {
+            CardBehavior cardBehavior = onTableCards[i].GetComponent<CardBehavior>();
 
             if (material.key == cardBehavior.card.cardName) {
                 tableMaterials[material.key] -= material.amount;
@@ -306,7 +321,10 @@ public bool CanCraft(CraftingRecipe recipe)
                 int newQty = tableMaterials[material.key];
 
                 if (newQty == 0) {
-                    Destroy(onTableCard);
+                    Destroy(onTableCards[i].gameObject);
+                    onTableCards.Remove(onTableCards[i]);
+                    tableMaterials.Remove(material.key);
+                    
                 } else {
                     cardBehavior.UpdateQuantity(newQty);
                 }

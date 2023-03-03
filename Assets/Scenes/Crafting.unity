@@ -179,10 +179,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
+  m_ChildAlignment: 6
+  m_StartCorner: 2
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
+  m_CellSize: {x: 350, y: 500}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -742,13 +742,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645b008a05b7e4e2bba4cd3236ecf841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipeDatabase: []
+  onTableCards: []
+  inventoryItems: []
+  craftingRecipes: []
   playerDeck: []
+  resultCards: []
+  recipeDatabase: []
   materialPrefab: {fileID: 3840540609027649376, guid: a3e38b33dab944d539d20cf9a3077ab9, type: 3}
   cardPrefab: {fileID: 1639937595311336888, guid: f10343db443d9485db3e8872b61af4b0, type: 3}
   materialsArea: {fileID: 0}
-  cardToCraft: {fileID: 0}
-  singleton: {fileID: 0}
+  resultArea: {fileID: 0}
+  craftCostPrefab: {fileID: 3065387812838022230, guid: 0f4d47f7461b6470c8162e23f3424619, type: 3}
 --- !u!114 &1639839100
 MonoBehaviour:
   m_ObjectHideFlags: 0

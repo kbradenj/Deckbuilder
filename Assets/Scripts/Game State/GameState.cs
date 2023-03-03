@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameState : MonoBehaviour
 {
@@ -20,6 +20,9 @@ public class GameState : MonoBehaviour
     public CardManager cardManager;
     public EnemyAction[] enemyActionDatabase;
     
+    //TMPro
+    public TMP_Text homeDaylightCount;
+
     //Bools
     public bool isBattle = false;
     private bool enemiesLoaded = false;
@@ -35,22 +38,31 @@ public class GameState : MonoBehaviour
 
     void Awake()
     {
-        
+        //Get singleton, check to see if the card db is loaded
         singleton = GameObject.FindObjectOfType<Singleton>();
         if(singleton.cardDatabase.Count <= 0){
             LoadCardDatabase();
         }
-        cardManager = FindObjectOfType<CardManager>();
-        playerArea = GameObject.Find("Player Area");
-        enemyArea = GameObject.Find("Enemy Area");
+        
+       
+        //Update UI showing daylight at camp
+        if(SceneManager.GetActiveScene().name == "Home")
+        {
+             UpdateHomeDaylightCount();
+        }
 
+        //Set up Card Manager
+        cardManager = FindObjectOfType<CardManager>();
         if(singleton.playerDeck.Count <= 0)
         {
             cardManager.CreatePlayerDeck(); 
         }
 
+        //If this scene is a battle, let's battle
         if(SceneManager.GetActiveScene().name == "Battle")
         {
+            playerArea = GameObject.Find("Player Area");
+            enemyArea = GameObject.Find("Enemy Area");
             isBattle = true;
             LoadEnemies();
             StartBattle();
@@ -60,6 +72,7 @@ public class GameState : MonoBehaviour
 
     void Update()
     {
+        //Is the battle over?
         if(numOfEnemies == 0 && enemiesLoaded && isBattle){
             singleton.player.health = player.health;
             isBattle = false;
@@ -68,7 +81,13 @@ public class GameState : MonoBehaviour
         }
     }
 
-       public void LoadCardDatabase()
+    //Update UI to show current daylight
+    public void UpdateHomeDaylightCount(){
+        homeDaylightCount.text = singleton.dayLeft.ToString() + " minutes left in the day";
+    }
+
+    //Pull in card db
+    public void LoadCardDatabase()
     {
         database = Resources.LoadAll<Card>("Cards");
         for(int i = 0; i < database.Length; i++)
@@ -77,7 +96,6 @@ public class GameState : MonoBehaviour
         }
         singleton.cardDatabase = cardDatabase;
     }
-
 
     //Load Enemies
     public void LoadEnemies()
@@ -128,6 +146,7 @@ public class GameState : MonoBehaviour
         cardManager.LoadPlayerDeck(player);
     }
 
+    //End Turn Button
     public void EndTurn()
     {
         cardManager.Discard();
