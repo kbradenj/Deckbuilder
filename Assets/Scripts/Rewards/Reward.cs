@@ -5,13 +5,18 @@ using UnityEngine;
 public class Reward : MonoBehaviour
 {
     public Singleton singleton;
+    public RewardsManager rewardsManager;
+    public string rewardType;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
     }
 
     public virtual void PickReward(){
+        rewardsManager.RemoveRewards();
+        rewardsManager.ShowRewardOptions();
+        Destroy(rewardsManager.selectedOption);
 
     }
 

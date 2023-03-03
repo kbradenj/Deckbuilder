@@ -332,3 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 176658769d1f14bffb35ea80da838b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  singleton: {fileID: 0}
+  rewardsManager: {fileID: 0}
+  rewardOptionMessage: Totally Legit Steroid
+  rewardType: playerStat

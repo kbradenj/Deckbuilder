@@ -9,9 +9,9 @@ public class MultiCardReward : Reward
     public List<Card> multiRewards;
     public GameObject cardPrefab;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
             multiRewards.Add(singleton.cardDatabase[0]);
             multiRewards.Add(singleton.cardDatabase[0]);
             multiRewards.Add(singleton.cardDatabase[0]);
@@ -27,6 +27,5 @@ public class MultiCardReward : Reward
         foreach(Card card in multiRewards){
             singleton.playerDeck.Add(card);
        }
-       Destroy(this.gameObject);
     }
 }

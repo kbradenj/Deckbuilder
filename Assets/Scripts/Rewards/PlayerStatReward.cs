@@ -6,15 +6,14 @@ public class PlayerStatReward : Reward
 {
 
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
     }
 
     public override void PickReward()
     {
         base.PickReward();
         singleton.player.maxHealth += 10;
-        Destroy(this.gameObject);
     }
 }

@@ -144,5 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511718af65a2e451285804ccab3f98d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  singleton: {fileID: 0}
+  rewardsManager: {fileID: 0}
+  rewardOptionMessage: Crafting Materials
+  rewardType: 
   multiRewards: []
   cardPrefab: {fileID: 1639937595311336888, guid: 1519c79c58543440c9db7c1cfcfe37f0, type: 3}

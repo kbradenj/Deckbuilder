@@ -8,11 +8,12 @@ public class CardReward : Reward
 {
     public Card card;
     public GameObject cardPrefab;
+    
 
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         card = singleton.cardDatabase[5];
         GameObject newCard = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity);
         newCard.transform.SetParent(gameObject.transform);
@@ -22,7 +23,6 @@ public class CardReward : Reward
     {
         base.PickReward();
         singleton.playerDeck.Add(card);
-        Destroy(gameObject);
     }
 
 }

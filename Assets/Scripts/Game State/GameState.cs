@@ -121,7 +121,7 @@ public class GameState : MonoBehaviour
     //Create Enemy
     public void CreateEnemy()
     {
-        for(int i = 0; i < enemyDatabase.Length; i++)
+        for(int i = 0; i < 1; i++)
         {
         GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
         enemyNew.transform.SetParent(enemyArea.transform);

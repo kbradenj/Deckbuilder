@@ -90,6 +90,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be7a227adaed46d287898462cde0a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  singleton: {fileID: 0}
+  rewardsManager: {fileID: 0}
+  rewardOptionMessage: Card Reward
+  rewardType: 
   card: {fileID: 0}
   cardPrefab: {fileID: 1639937595311336888, guid: 1519c79c58543440c9db7c1cfcfe37f0, type: 3}
 --- !u!114 &7297242446985704741
