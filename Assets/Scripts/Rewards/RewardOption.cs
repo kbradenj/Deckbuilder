@@ -18,31 +18,37 @@ public class RewardOption : MonoBehaviour
 
     public void UpdateImage(Sprite sprite)
     {
-        optionImage = gameObject.GetComponentInChildren<Image>();
+        optionImage = Transform.FindObjectOfType<Image>();
         optionImage.sprite = sprite;
     }
 
-     public void GetOptionMessage(string rewardType)
+     public void RenderOption(string rewardType)
     {
         string message;
+        string imagePath;
         switch(rewardType)
         {
             case "card":
             message = "A Nice Shiny New Card";
+            imagePath = "UI/Icons/card";
             break;
 
             case "multiCard":
             message = "Dirt and Leaves, Crafty cards";
+            imagePath = "UI/Icons/cards";
             break;
 
             case "playerStat":
             message = "A Totally Legit Steroid";
+            imagePath = "UI/Icons/increase";
             break;
 
             default:
             message = "mystery surprise!";
+            imagePath = "UI/Icons/card";
             break;
         }
         UpdateText(message);
+        UpdateImage(Resources.Load<Sprite>(imagePath));
     }
 }

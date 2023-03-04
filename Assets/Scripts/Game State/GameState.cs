@@ -100,9 +100,11 @@ public class GameState : MonoBehaviour
             for (int j = 1; j <= 4; j++)
             {
                 Dictionary<int, Card> cards = new Dictionary<int, Card>();
+                int tempCount = 0;
                 foreach(Card card in cardDatabase){
                     if(card.cardLevel == i && card.cardRarity == j){
-                        cards.Add(j, card);
+                        cards.Add(tempCount, card);
+                        tempCount++;
                     }
                 }
                 rarityDictionary.Add(j, cards);

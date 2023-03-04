@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RewardsManager : MonoBehaviour
 {
@@ -45,13 +46,11 @@ public class RewardsManager : MonoBehaviour
             rewardOption.transform.SetParent(rewardOptionsArea.transform);
             RewardOption rewardOptionScript = rewardOption.AddComponent<RewardOption>();
             rewardOptionScript.rewardType = rewardType[i];
-            
-            rewardOptionScript.GetOptionMessage(rewardType[i]);
+            rewardOptionScript.RenderOption(rewardType[i]);
         }
         ShowRewardOptions();
     }
 
-   
 
     public void SelectReward(GameObject optionObject){
         rewardObjects = new List<GameObject>();
@@ -60,7 +59,7 @@ public class RewardsManager : MonoBehaviour
             GameObject prefab;
             RewardOption optionScript = optionObject.GetComponent<RewardOption>();
             int rarity = GetRarity();
-            
+
             switch(optionScript.rewardType)
             {
                 case "card":
@@ -88,11 +87,12 @@ public class RewardsManager : MonoBehaviour
         
     }
 
-    public int GetRarity()
-    {
-        return Random.Range(0, 4);
-    }
 
+     public int GetRarity()
+    {
+        return Random.Range(1, 3);
+    }
+    
     public void RemoveRewards()
     {
         int rewardsListCount = rewardObjects.Count;

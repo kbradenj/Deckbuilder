@@ -9,7 +9,7 @@ public class Character : MonoBehaviour
   public int block;
   public int maxHealth;
   public int health; 
-  public int level;
+  public int level = 1;
   public int vulnerable = 0;
   public int weak = 0;
   public float weaknessMod = 1f;
