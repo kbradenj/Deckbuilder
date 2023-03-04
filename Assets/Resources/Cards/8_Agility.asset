@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
+  m_Name: 8_Agility
+  m_EditorClassIdentifier: 
+  actionList: []
+  cardID: 0
+  cardName: New Card
+  cardDescription: 
+  cardRarity: 
+  cardCost: 0
+  block: 0
+  attack: 0
+  multiAction: 1
+  vulnerable: 0
+  weak: 0
+  strength: 0
+  quantity: 0
+  needsTarget: 0
+  cardImage: {fileID: 0}
+  cardOverlay: {fileID: 0}

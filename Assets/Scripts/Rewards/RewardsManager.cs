@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RewardsManager : MonoBehaviour
 {
-    public int numOfRewards = 3;
+    //Game Objects
     public GameObject cardRewardPrefab;
     public GameObject multiCardRewardPrefab;
     public GameObject playerStatPrefab;
@@ -12,21 +11,25 @@ public class RewardsManager : MonoBehaviour
     public GameObject rewardArea;
     public GameObject rewardOptionsArea;
     public GameObject selectedOption;
-    Singleton singleton;
-    public List<GameObject> rewardObjects;
 
-    public bool optionsShowing = false;
+    //Singleton
+    private Singleton singleton;
     
+    //States
+    public bool optionsShowing = false;
+
+    //Temp Ints
+    public int numOfRewards = 3;
+
+    //Lists
     public List<string> rewardType = new List<string>();
+    public List<GameObject> rewardObjects;
 
     void Awake()
     {
         rewardOptionsArea = GameObject.Find("Reward Options List");
         singleton = GameObject.FindObjectOfType<Singleton>();
-
         CreateRewardOptions();
-       
-        
     }
 
     //need to instantiate three objects that can be clicked on
@@ -43,28 +46,12 @@ public class RewardsManager : MonoBehaviour
             RewardOption rewardOptionScript = rewardOption.AddComponent<RewardOption>();
             rewardOptionScript.rewardType = rewardType[i];
             
-            rewardOptionScript.UpdateText(GetOptionMessage(rewardType[i]));
+            rewardOptionScript.GetOptionMessage(rewardType[i]);
         }
         ShowRewardOptions();
     }
 
-    public string GetOptionMessage(string rewardType)
-    {
-        switch(rewardType)
-        {
-            case "card":
-            return "A Nice Shiny New Card";
-
-            case "multiCard":
-            return "Dirt and Leaves, Crafty cards";
-
-            case "playerStat":
-            return "A Totally Legit Steroid";
-
-            default:
-            return "mystery surprise!";
-        }
-    }
+   
 
     public void SelectReward(GameObject optionObject){
         rewardObjects = new List<GameObject>();
@@ -72,7 +59,8 @@ public class RewardsManager : MonoBehaviour
         for(int i = 0; i < 3; i++){
             GameObject prefab;
             RewardOption optionScript = optionObject.GetComponent<RewardOption>();
-
+            int rarity = GetRarity();
+            
             switch(optionScript.rewardType)
             {
                 case "card":
@@ -98,6 +86,11 @@ public class RewardsManager : MonoBehaviour
             rewardOptionsArea = GameObject.Find("Reward Options List");
             HideRewardOptions();
         
+    }
+
+    public int GetRarity()
+    {
+        return Random.Range(0, 4);
     }
 
     public void RemoveRewards()

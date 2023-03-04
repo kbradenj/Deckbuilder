@@ -33,8 +33,6 @@ public class Player : Character
     cardManager = FindObjectOfType<CardManager>();
     actions = FindObjectOfType<Actions>();
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
-    health = 200;
-    maxHealth = 100;
   }
 
   void Start()

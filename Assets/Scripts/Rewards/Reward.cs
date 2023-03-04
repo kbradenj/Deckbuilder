@@ -17,7 +17,6 @@ public class Reward : MonoBehaviour
         rewardsManager.RemoveRewards();
         rewardsManager.ShowRewardOptions();
         Destroy(rewardsManager.selectedOption);
-
     }
 
     public virtual void Render()

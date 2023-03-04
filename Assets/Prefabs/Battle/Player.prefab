@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   block: 0
   maxHealth: 100
-  health: 0
+  health: 100
   level: 0
   vulnerable: 0
   weak: 0

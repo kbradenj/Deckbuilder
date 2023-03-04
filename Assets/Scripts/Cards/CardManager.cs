@@ -37,15 +37,13 @@ public class CardManager : MonoBehaviour
         singleton = GameObject.FindObjectOfType<Singleton>();
         gameState = GameObject.FindObjectOfType<GameState>();
     }
-    void Start()
-    {
-
-    }
+  
     public void CreatePlayerDeck(){
         cardDatabase = gameState.cardDatabase;
         
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
+        startingCardIDs.Add(2);
 
         for(int i = 0; i < startingCardIDs.Count; i++)
         {

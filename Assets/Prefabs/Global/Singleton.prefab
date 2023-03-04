@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0cfabeca7bc64316a9e53d57fd5211a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDeck: []
+  player: {fileID: 7009720307566896322, guid: 10e92aabd904c4544a2391dba26a728e, type: 3}
+  cardDatabase: []
+  dayLeft: 0

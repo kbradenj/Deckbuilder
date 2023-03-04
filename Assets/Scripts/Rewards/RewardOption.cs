@@ -21,4 +21,28 @@ public class RewardOption : MonoBehaviour
         optionImage = gameObject.GetComponentInChildren<Image>();
         optionImage.sprite = sprite;
     }
+
+     public void GetOptionMessage(string rewardType)
+    {
+        string message;
+        switch(rewardType)
+        {
+            case "card":
+            message = "A Nice Shiny New Card";
+            break;
+
+            case "multiCard":
+            message = "Dirt and Leaves, Crafty cards";
+            break;
+
+            case "playerStat":
+            message = "A Totally Legit Steroid";
+            break;
+
+            default:
+            message = "mystery surprise!";
+            break;
+        }
+        UpdateText(message);
+    }
 }

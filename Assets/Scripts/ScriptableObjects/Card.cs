@@ -13,6 +13,8 @@ public class Card : ScriptableObject
     public int cardID;
     public string cardName = "New Card";
     public string cardDescription;
+    public int cardLevel;
+    public int cardRarity;
     public int cardCost;
     public int block;
     public int attack;

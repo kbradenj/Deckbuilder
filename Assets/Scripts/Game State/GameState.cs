@@ -19,9 +19,8 @@ public class GameState : MonoBehaviour
     public List<Enemy> enemies;
     public CardManager cardManager;
     public EnemyAction[] enemyActionDatabase;
-    
-    //TMPro
-    public TMP_Text homeDaylightCount;
+
+    public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
 
     //Bools
     public bool isBattle = false;
@@ -32,6 +31,7 @@ public class GameState : MonoBehaviour
     public List<Card> playerDeck;
     public Card[] database;
     public List<Card> cardDatabase = new List<Card>();
+    public List<Card> ultimateCardDatabase = new List<Card>();
 
     //Counters
     public int numOfEnemies = 0;
@@ -42,13 +42,6 @@ public class GameState : MonoBehaviour
         singleton = GameObject.FindObjectOfType<Singleton>();
         if(singleton.cardDatabase.Count <= 0){
             LoadCardDatabase();
-        }
-        
-       
-        //Update UI showing daylight at camp
-        if(SceneManager.GetActiveScene().name == "Home")
-        {
-             UpdateHomeDaylightCount();
         }
 
         //Set up Card Manager
@@ -81,20 +74,41 @@ public class GameState : MonoBehaviour
         }
     }
 
-    //Update UI to show current daylight
-    public void UpdateHomeDaylightCount(){
-        homeDaylightCount.text = singleton.dayLeft.ToString() + " minutes left in the day";
-    }
-
     //Pull in card db
     public void LoadCardDatabase()
     {
         database = Resources.LoadAll<Card>("Cards");
-        for(int i = 0; i < database.Length; i++)
+          for(int i = 0; i < database.Length; i++)
         {
             cardDatabase.Add(database[i]);
         }
+        CreateCardDatabaseLevels();
         singleton.cardDatabase = cardDatabase;
+        singleton.cardDictionary = cardDictionary;
+    }
+
+    public void CreateCardDatabaseLevels(){
+        // Create a dictionary to represent the card levels
+        cardDictionary = new Dictionary<int, Dictionary<int, Dictionary<int, Card>>>();
+
+        // Loop through each card level and create a dictionary for each level
+        for (int i = 1; i <= 10; i++)
+        {
+            Dictionary<int, Dictionary<int, Card>> rarityDictionary = new Dictionary<int, Dictionary<int, Card>>();
+
+            // Loop through each rarity level and create a dictionary for each rarity
+            for (int j = 1; j <= 4; j++)
+            {
+                Dictionary<int, Card> cards = new Dictionary<int, Card>();
+                foreach(Card card in cardDatabase){
+                    if(card.cardLevel == i && card.cardRarity == j){
+                        cards.Add(j, card);
+                    }
+                }
+                rarityDictionary.Add(j, cards);
+            }
+            cardDictionary.Add(i, rarityDictionary);
+        }
     }
 
     //Load Enemies
@@ -114,8 +128,8 @@ public class GameState : MonoBehaviour
     {
         GameObject playerObject = GameObject.Instantiate(playerPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(playerArea.transform, false); 
-        player = playerObject.GetComponent<Player>();
-        singleton.player = player;
+        player = singleton.player;
+        
     }
 
     //Create Enemy

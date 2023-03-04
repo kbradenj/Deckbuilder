@@ -15,5 +15,6 @@ public class PlayerStatReward : Reward
     {
         base.PickReward();
         singleton.player.maxHealth += 10;
+        singleton.player.health += 10;
     }
 }
