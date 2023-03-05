@@ -15,8 +15,10 @@ MonoBehaviour:
   actionList:
   - strength
   cardID: 4
-  cardName: Strength Powder
+  cardName: Earth
   cardDescription: Gain {0} Strength
+  cardLevel: 1
+  cardRarity: 1
   cardCost: 1
   block: 0
   attack: 0
@@ -24,6 +26,7 @@ MonoBehaviour:
   vulnerable: 0
   weak: 0
   strength: 2
+  quantity: 0
   needsTarget: 0
-  cardImage: {fileID: 21300000, guid: 5d5f4070dd90c42c0ae2bfc455631f0a, type: 3}
+  cardImage: {fileID: 21300000, guid: f0f3ea588f95f4355a7880007c500a4c, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}

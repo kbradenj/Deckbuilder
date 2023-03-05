@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 7_Medicine Stick
   m_EditorClassIdentifier: 
   actionList:
-  - block
   - attack
+  - block
   cardID: 7
   cardName: Medicine Stick
-  cardDescription: Attack All for {0} and Gain {1} Block
+  cardDescription: Attack for {0} and Gain {1} Block
   cardLevel: 2
   cardRarity: 2
   cardCost: 1
@@ -29,5 +29,5 @@ MonoBehaviour:
   strength: 0
   quantity: 0
   needsTarget: 0
-  cardImage: {fileID: 21300000, guid: ca1da4cc2f6644c6caefcf5202e47a47, type: 3}
+  cardImage: {fileID: 21300000, guid: 3239b0446fbb84b378f7f852ce1afb62, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}

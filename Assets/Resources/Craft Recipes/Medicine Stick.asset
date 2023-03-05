@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bd8aab55ee84397b1d67534bcf9895, type: 3}
   m_Name: Medicine Stick
   m_EditorClassIdentifier: 
-  timeCost: 0
-  craftingMaterials: []
-  resultItem: {fileID: 0}
+  timeCost: 45
+  craftingMaterials:
+  - key: Stick
+    amount: 3
+  - key: Feather
+    amount: 1
+  resultItem: {fileID: 11400000, guid: 4029ea77ecd3849a0a848174e0f4fb0c, type: 2}

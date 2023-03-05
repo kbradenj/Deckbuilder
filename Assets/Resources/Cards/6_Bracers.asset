@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionList:
   - xblock
-  cardID: 1
+  cardID: 6
   cardName: Bracers
   cardDescription: Gain {0} Block * X
-  cardRarity: 1
+  cardLevel: 2
+  cardRarity: 2
   cardCost: 0
   block: 5
   attack: 0
@@ -27,5 +28,5 @@ MonoBehaviour:
   strength: 0
   quantity: 0
   needsTarget: 0
-  cardImage: {fileID: 21300000, guid: ca1da4cc2f6644c6caefcf5202e47a47, type: 3}
+  cardImage: {fileID: 21300000, guid: c6e04ed4e7dd940848a1be4809d2213e, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}

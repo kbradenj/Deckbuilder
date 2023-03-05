@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: 2_Feather
   m_EditorClassIdentifier: 
   actionList:
-  - attack
-  - vulnerable
+  - block
+  - weak
   cardID: 2
-  cardName: Vulnerable Punch
-  cardDescription: Attack for {0} damage, apply {1} vulnerable
+  cardName: Feather
+  cardDescription: Block for {0} damage, apply {1} weak
+  cardLevel: 1
+  cardRarity: 2
   cardCost: 2
-  block: 0
-  attack: 10
+  block: 7
+  attack: 0
   multiAction: 1
-  vulnerable: 2
-  weak: 0
+  vulnerable: 0
+  weak: 2
   strength: 0
+  quantity: 0
   needsTarget: 1
-  cardImage: {fileID: 21300000, guid: 01c34e59e4cd847038f0859614339ad1, type: 3}
+  cardImage: {fileID: 21300000, guid: 3df758465e3c74d1193d11cce85b47b2, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}

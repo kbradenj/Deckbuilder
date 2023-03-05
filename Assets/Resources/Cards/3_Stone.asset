@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: 3_Stone
   m_EditorClassIdentifier: 
   actionList:
-  - block
-  - weak
+  - attack
+  - vulnerable
   cardID: 3
-  cardName: Weakness Juice
-  cardDescription: Gain {0} Block, Apply {1} Weak
+  cardName: Stone
+  cardDescription: Attack for {0} Damage, Apply {1} Vulnerable
+  cardLevel: 1
+  cardRarity: 2
   cardCost: 1
-  block: 5
-  attack: 0
+  block: 0
+  attack: 10
   multiAction: 1
-  vulnerable: 0
-  weak: 3
+  vulnerable: 2
+  weak: 0
   strength: 0
+  quantity: 0
   needsTarget: 1
-  cardImage: {fileID: 21300000, guid: 19fe092aa1a9e47dba191c2229507562, type: 3}
+  cardImage: {fileID: 21300000, guid: f7827dd49db254af0b110397c8924ce3, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}

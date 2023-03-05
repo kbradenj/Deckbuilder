@@ -12,9 +12,10 @@ public class MultiCardReward : Reward
     protected override void Awake()
     {
         base.Awake();
-            multiRewards.Add(singleton.cardDatabase[0]);
-            multiRewards.Add(singleton.cardDatabase[0]);
-            multiRewards.Add(singleton.cardDatabase[0]);
+        for(int i = 0; i < 3; i++)
+        {
+            multiRewards.Add(GetRandomCard(singleton.player.level, singleton.player.level));
+        }
         foreach(Card card in multiRewards){
             GameObject newCard = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity);
             newCard.transform.SetParent(gameObject.transform);

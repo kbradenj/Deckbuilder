@@ -130,8 +130,8 @@ public class Craft : MonoBehaviour
                 if(onTableCards[i].GetComponent<CardBehavior>().card.cardName == cardName)
                 {
                     onTableCards.Remove(onTableCards[i]);
-                    Destroy(cardObject);   
-                    Debug.Log(onTableCards.Count);
+                    tableMaterials.Remove(cardName);
+                    Destroy(cardObject);                  
                     break;
                 }
             }
@@ -183,24 +183,19 @@ public class Craft : MonoBehaviour
         List<Card> availableCraftingOptions = new List<Card>();
         foreach(CraftingRecipe recipe in craftingRecipes) 
         {
-            if(CanCraft(recipe))
+            if(CanCraft(recipe) && !HasExtraMaterial(recipe))
             {
                 //if there is a card already instantiated
-                bool isInstantiated = false;
                 foreach(GameObject cardObject in resultCards){ 
                     CardBehavior cardScript = cardObject.GetComponent<CardBehavior>();
                     if(recipe.resultItem.cardName == cardScript.card.cardName){
-                        isInstantiated = true;
 
                         cardScript.card.quantity = GetCraftableQty(recipe);
                         cardScript.UpdateQuantity(cardScript.card.quantity);
-                      
-                        break;
                     }
                 }
-
                 //if there isn't a card already instantiated
-                if(!isInstantiated){
+                if(!DoesResultExist()){
                     availableCraftingOptions.Add(recipe.resultItem);
                     GameObject resultObject = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
                     resultCards.Add(resultObject);
@@ -219,8 +214,10 @@ public class Craft : MonoBehaviour
                 if(resultCards != null && resultCards.Count != 0){
                     for(int i = 0; i < resultCards.Count; i++)
                     {
+                        
                         if(resultCards[i].GetComponent<CardBehavior>().card.cardName == recipe.resultItem.cardName)
                         {
+                            
                             Destroy(resultCards[i].gameObject);
                             resultCards.Remove(resultCards[i]);
                         }
@@ -231,6 +228,44 @@ public class Craft : MonoBehaviour
         }
         return availableCraftingOptions;
     }
+
+public bool DoesResultExist()
+{
+    if(resultCards.Count <= 0){
+        return false;
+    }
+    return true;
+}
+
+public bool HasExtraMaterial(CraftingRecipe recipe)
+{
+    foreach(KeyValuePair<string, int> kvp in tableMaterials)
+    {
+        bool matched = false;
+        foreach(CraftingMaterial material in recipe.craftingMaterials)
+        {
+            if(matched == true)
+            {
+                break;
+            }
+            else
+            {
+                if(kvp.Key == material.key){
+                matched = true;
+                }
+                else
+                {
+                    matched = false;
+                }
+            } 
+        }
+        if(matched == false){
+            return true;
+        }
+        
+    }
+    return false;
+}
 
 public void AddCraftingCost(GameObject card, int craftCost)
 {
@@ -245,7 +280,7 @@ public void AddCraftingCost(GameObject card, int craftCost)
 public bool CanCraft(CraftingRecipe recipe)
 {
     return recipe.craftingMaterials.All(material => 
-        tableMaterials.ContainsKey(material.key) && tableMaterials[material.key] >= material.amount);
+        tableMaterials.ContainsKey(material.key) && tableMaterials[material.key] >= material.amount && HasExtraMaterial(recipe) == false);
 }
 
     //How many of each item can I make?
