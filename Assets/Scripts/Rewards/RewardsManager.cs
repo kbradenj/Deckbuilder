@@ -59,7 +59,6 @@ public class RewardsManager : MonoBehaviour
             GameObject prefab;
             RewardOption optionScript = optionObject.GetComponent<RewardOption>();
             int rarity = GetRarity();
-
             switch(optionScript.rewardType)
             {
                 case "card":
@@ -87,6 +86,7 @@ public class RewardsManager : MonoBehaviour
         
     }
 
+    
 
      public int GetRarity()
     {

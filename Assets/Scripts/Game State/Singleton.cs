@@ -9,6 +9,8 @@ public class Singleton : MonoBehaviour
     public Player player;
     public List<Card> cardDatabase;
 
+    public Navigation navigation;
+
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
     public int dayLeft;
 
@@ -46,9 +48,15 @@ public class Singleton : MonoBehaviour
         {
             dayLeft -= amount;
         }
+        else if(dayLeft - amount == 0)
+        {
+            dayLeft -= amount;
+            navigation.Night();
+            Debug.Log("Begin Night");
+        }
         else
         {
-            Debug.Log("Not enough time left in the day");
+            Debug.Log("Not Enough time in the day");
         }
         
     }

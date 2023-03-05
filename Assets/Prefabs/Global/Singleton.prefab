@@ -47,4 +47,5 @@ MonoBehaviour:
   playerDeck: []
   player: {fileID: 7009720307566896322, guid: 10e92aabd904c4544a2391dba26a728e, type: 3}
   cardDatabase: []
+  navigation: {fileID: 1762048016753403710, guid: 52fd0b48df6e64bd9a4d4156ce5fb079, type: 3}
   dayLeft: 0

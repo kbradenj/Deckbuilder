@@ -14,7 +14,6 @@ public class Reward : MonoBehaviour
     protected virtual void Awake()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
-        // rarity = rewardsManager.GetRarity();
     }
 
     public virtual void PickReward(){

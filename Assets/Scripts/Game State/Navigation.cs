@@ -20,4 +20,9 @@ public class Navigation : MonoBehaviour
     {
         SceneManager.LoadScene("Home");  
     }
+
+    public void Night()
+    {
+        SceneManager.LoadScene("Night");
+    }
 }

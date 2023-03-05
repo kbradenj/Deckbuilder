@@ -14,6 +14,8 @@ public class Character : MonoBehaviour
   public int weak = 0;
   public float weaknessMod = 1f;
   public int strength = 0;
+  public int baseStrength;
+  public int baseDexterity;
 
   public TMP_Text statusText;
 

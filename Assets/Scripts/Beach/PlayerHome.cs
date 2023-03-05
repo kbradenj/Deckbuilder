@@ -66,4 +66,9 @@ public class PlayerHome : MonoBehaviour
     public void UpdateHomeDaylightCount(){
         homeDaylightCount.text = singleton.dayLeft.ToString() + " minutes left in the day";
     }
+
+    public void Loiter(){
+        singleton.AdjustDaylight(singleton.dayLeft);
+        UpdateHomeDaylightCount();
+    }
 }
