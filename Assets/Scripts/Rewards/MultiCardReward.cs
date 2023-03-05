@@ -14,7 +14,7 @@ public class MultiCardReward : Reward
         base.Awake();
         for(int i = 0; i < 3; i++)
         {
-            multiRewards.Add(GetRandomCard(singleton.player.level, singleton.player.level));
+            multiRewards.Add(GetRandomCard(singleton.player.level, singleton.player.level, true));
         }
         foreach(Card card in multiRewards){
             GameObject newCard = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity);

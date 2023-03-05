@@ -145,8 +145,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   singleton: {fileID: 0}
-  rewardsManager: {fileID: 0}
-  rewardOptionMessage: Crafting Materials
+  rewardsManager: {fileID: 2544829772922312738, guid: bbf042313dc5b4e9baaf6dbbd0ed02a8, type: 3}
   rewardType: 
+  rarity: 0
+  cardCount: 0
+  randomRarity: 0
   multiRewards: []
   cardPrefab: {fileID: 1639937595311336888, guid: 1519c79c58543440c9db7c1cfcfe37f0, type: 3}

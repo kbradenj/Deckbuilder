@@ -13,7 +13,7 @@ public class CardReward : Reward
     protected override void Awake()
     {
         base.Awake();
-        card = GetRandomCard(singleton.player.level+1, singleton.player.level+1);
+        card = GetRandomCard(singleton.player.level+1, singleton.player.level+1, false);
         GameObject newCard = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity);
         newCard.transform.SetParent(gameObject.transform);
         newCard.GetComponent<CardBehavior>().RenderCard(card);

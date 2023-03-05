@@ -25,6 +25,7 @@ public class RewardsManager : MonoBehaviour
     //Lists
     public List<string> rewardType = new List<string>();
     public List<GameObject> rewardObjects;
+    public List<Card> shownCards;
 
     void Awake()
     {
@@ -54,6 +55,7 @@ public class RewardsManager : MonoBehaviour
 
     public void SelectReward(GameObject optionObject){
         rewardObjects = new List<GameObject>();
+        shownCards = new List<Card>();
         selectedOption = optionObject;
         for(int i = 0; i < 3; i++){
             GameObject prefab;
@@ -82,6 +84,7 @@ public class RewardsManager : MonoBehaviour
                 reward.GetComponent<Reward>().rewardsManager = this;
             }
             rewardOptionsArea = GameObject.Find("Reward Options List");
+            shownCards.Clear();
             HideRewardOptions();
         
     }

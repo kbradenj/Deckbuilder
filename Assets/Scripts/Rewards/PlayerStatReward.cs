@@ -13,7 +13,7 @@ public class PlayerStatReward : Reward
 
     public TMP_Text statText;
     public Image image;
-    public StatReward chosenReward;
+    public StatReward chosenStatReward;
     private string statType;
     private int amount;
 
@@ -39,22 +39,22 @@ public class PlayerStatReward : Reward
 
     public void DisplayStatRewardInfo()
     {
-        statText.text = "Increase your " + chosenReward.statType + " by " + (int)Mathf.Ceil(chosenReward.baseAmount * player.level * chosenReward.modifier);
-        image.sprite = chosenReward.sprite;
+        statText.text = "Increase your " + chosenStatReward.statType + " by " + (int)Mathf.Ceil(chosenStatReward.baseAmount * player.level * chosenStatReward.modifier);
+        image.sprite = chosenStatReward.sprite;
     }
 
     public void RandomStatSelection()
     {
         int rndNum = Random.Range(1, statRewardOptions.Count);
         StatReward stat = statRewardOptions[rndNum];
-        chosenReward = stat; 
-        statType = chosenReward.statType;
-        amount = (int)Mathf.Ceil(chosenReward.baseAmount * player.level * chosenReward.modifier);
+        chosenStatReward = stat; 
+        statType = chosenStatReward.statType;
+        amount = (int)Mathf.Ceil(chosenStatReward.baseAmount * player.level * chosenStatReward.modifier);
     }
 
     public void BaseStatIncrease()
     {   
-        string statType = chosenReward.statType;
+        string statType = chosenStatReward.statType;
 
         switch(statType)
         {

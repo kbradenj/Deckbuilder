@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee59959a898ed444a95ffa1cba172c17, type: 3}
   m_Name: Dexterity
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
+  statType: dexterity
+  baseAmount: 1
+  modifier: 1
+  sprite: {fileID: 21300000, guid: 61ac40b257b3a994f841856ad38b2b6b, type: 3}
