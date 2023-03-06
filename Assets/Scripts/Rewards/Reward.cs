@@ -49,7 +49,6 @@ public class Reward : MonoBehaviour
             chosenReward = levelDictionary[randomRarity][randomCardIndex];
             if (!IsDuplicate(chosenReward))
             {
-                Debug.Log("Adding " + chosenReward.cardName + " to the options");
                 cardFound = true;
                 if (!allowDuplicates)
                 {
@@ -60,7 +59,6 @@ public class Reward : MonoBehaviour
             {
                 cardFound = false;
                 cardCount = 0;
-                Debug.Log("Duplicate " + chosenReward.cardName + " found, skipping");
             }
         }
     }
@@ -69,7 +67,6 @@ public class Reward : MonoBehaviour
 
     public bool IsDuplicate(Card reward)
     {   
-        Debug.Log("IsDuplicate ran and passed in " + reward.cardName);
         bool matched = false;
         foreach(Card card in rewardsManager.shownCards)
         {
@@ -80,7 +77,6 @@ public class Reward : MonoBehaviour
                 break;
             }
         }
-        Debug.Log("Matched = " + matched);
         return matched;
     }
 }

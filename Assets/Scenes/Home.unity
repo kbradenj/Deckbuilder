@@ -788,10 +788,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1377477000}
-        m_TargetAssemblyTypeName: Singleton, Assembly-CSharp
-        m_MethodName: AdjustDaylight
-        m_Mode: 3
+      - m_Target: {fileID: 1068858427}
+        m_TargetAssemblyTypeName: PlayerHome, Assembly-CSharp
+        m_MethodName: Loiter
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1122,17 +1122,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349858758}
   m_CullTransparentMesh: 1
---- !u!114 &1377477000 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2818959855699546793, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
-  m_PrefabInstance: {fileID: 3155763086688456879}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0cfabeca7bc64316a9e53d57fd5211a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1386391798
 GameObject:
   m_ObjectHideFlags: 0

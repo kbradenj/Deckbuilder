@@ -39,8 +39,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 450}
+  m_AnchoredPosition: {x: 0, y: -95.914154}
+  m_SizeDelta: {x: 300, y: 258.1717}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1639937595311336892
 CanvasRenderer:
@@ -127,12 +127,13 @@ MonoBehaviour:
   rarity: 0
   cardCount: 0
   randomRarity: 0
+  chosenReward: {fileID: 0}
   statRewardOptions: []
   statRewardDatabase: []
   playerStatPrefab: {fileID: 1639937595311336888}
   statText: {fileID: 4856865132744353574}
   image: {fileID: 4036453818434537381}
-  chosenReward: {fileID: 0}
+  chosenStatReward: {fileID: 0}
 --- !u!1 &2122802714092126744
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -183}
+  m_AnchoredPosition: {x: 0, y: -14}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6728887853647197420
@@ -262,7 +263,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -47.957092, y: 0, z: -48.99951, w: -88.61633}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -303,7 +304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 79.086}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5292121563368853222
