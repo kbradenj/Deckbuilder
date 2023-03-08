@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Night.unity
     guid: f2678efd450f3482a81cf609d1abc403
+  - enabled: 1
+    path: Assets/Scenes/Scavenge.unity
+    guid: eebe3afe7aa864349ad317b146b97e32
   m_configObjects: {}

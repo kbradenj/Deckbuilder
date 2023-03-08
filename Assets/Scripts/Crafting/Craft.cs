@@ -30,10 +30,14 @@ public class Craft : MonoBehaviour
     // Singleton
     private Singleton singleton;
 
+    //TMPro
+    TMP_Text craftCostText;
+
     private void Awake()
     {
         // Get Singleton
         singleton = GameObject.FindObjectOfType<Singleton>();
+        singleton.AdjustDaylight();
     }
 
     private void Start()
@@ -191,6 +195,7 @@ public class Craft : MonoBehaviour
                     if(recipe.resultItem.cardName == cardScript.card.cardName){
 
                         cardScript.card.quantity = GetCraftableQty(recipe);
+                        craftCostText.text = "Crafting Time: " + (recipe.resultItem.quantity * recipe.timeCost).ToString() + " min";
                         cardScript.UpdateQuantity(cardScript.card.quantity);
                     }
                 }
@@ -271,7 +276,7 @@ public void AddCraftingCost(GameObject card, int craftCost)
 {
     GameObject craftCostObject = GameObject.Instantiate(craftCostPrefab, new Vector2(0,250), Quaternion.identity);
     craftCostObject.transform.SetParent(card.transform);
-    TMP_Text craftCostText = GameObject.Find("Craft Cost Text").GetComponent<TMP_Text>();
+    craftCostText = GameObject.Find("Craft Cost Text").GetComponent<TMP_Text>();
     craftCostText.text = "Crafting Time: " + craftCost.ToString() + " min";
 
 }
@@ -310,6 +315,11 @@ public bool CanCraft(CraftingRecipe recipe)
             card.quantity--;
         }
         singleton.playerDeck.AddRange(cardsToAdd);
+        for(int i = 0; i < quantityToMake; i++)
+        {
+            AddToInventory(card.cardName);
+        }
+        singleton.AdjustDaylight(0);
 
         Destroy(firstResultCard.gameObject);
         card.quantity = 0;
@@ -321,7 +331,7 @@ public bool CanCraft(CraftingRecipe recipe)
         CraftingRecipe recipeMatch = FindRecipeMatch();
 
         if (recipeMatch != null) {
-            singleton.dayLeft -= recipeMatch.timeCost;
+            singleton.AdjustDaylight(recipeMatch.timeCost);
             foreach (CraftingMaterial material in recipeMatch.craftingMaterials) {
                 UpdateTableMaterial(material);
             }

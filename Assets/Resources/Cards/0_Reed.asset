@@ -17,7 +17,7 @@ MonoBehaviour:
   cardID: 0
   cardName: Reed
   cardDescription: Gain {0} Block
-  cardLevel: 0
+  cardLevel: 1
   cardRarity: 1
   cardCost: 1
   block: 5

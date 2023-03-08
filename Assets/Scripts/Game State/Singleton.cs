@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Singleton : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Singleton : MonoBehaviour
     public List<Card> cardDatabase;
 
     public Navigation navigation;
+
+    public int storeLevel;
+    public int maxDaylight = 360;
 
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
     public int dayLeft;
@@ -25,7 +29,7 @@ public class Singleton : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            dayLeft = 360;
+            dayLeft = maxDaylight;
             player.maxHealth = 100;
             player.level = 1;
             player.baseStrength = 3;
@@ -36,30 +40,35 @@ public class Singleton : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
     }
 
     public void RemoveCardFromDeck(string cardName){
         playerDeck.Remove(playerDeck.Find(item => item.cardName == cardName));
     }
 
-    public void AdjustDaylight(int amount)
+    public void AdjustDaylight(int amount = 0)
     {
-        if(dayLeft - amount > 0)
-        {
-            dayLeft -= amount;
+        if(amount != 0){
+            if(dayLeft - amount > 0)
+            {
+                dayLeft -= amount;
+            }
+            else if(dayLeft - amount == 0)
+            {
+                dayLeft -= amount;
+                navigation.Night();
+                Debug.Log("Begin Night");
+            }
+            else
+            {
+                Debug.Log("Not Enough time in the day");
+            }
         }
-        else if(dayLeft - amount == 0)
-        {
-            dayLeft -= amount;
-            navigation.Night();
-            Debug.Log("Begin Night");
+
+        if(GameObject.Find("Daylight Counter") != null){
+            TMP_Text daylightCounter = GameObject.Find("Daylight Counter").GetComponentInChildren<TMP_Text>();
+            daylightCounter.text = dayLeft.ToString() + " minutes left in the day";
         }
-        else
-        {
-            Debug.Log("Not Enough time in the day");
-        }
-        
     }
 
     public void HealPlayer(int amount)
@@ -72,7 +81,6 @@ public class Singleton : MonoBehaviour
         {
             player.health += amount;
         }
-
     }
 
     public bool CanSpendDaylight(int cost)

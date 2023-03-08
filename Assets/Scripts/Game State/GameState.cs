@@ -186,6 +186,7 @@ public class GameState : MonoBehaviour
         player.block = 0;
         player.vulnerable = 0;
         player.weak = 0;
+        singleton.dayLeft = singleton.maxDaylight;
     }
 
 }

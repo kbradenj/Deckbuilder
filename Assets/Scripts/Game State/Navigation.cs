@@ -25,4 +25,9 @@ public class Navigation : MonoBehaviour
     {
         SceneManager.LoadScene("Night");
     }
+
+    public void GoToScavenge()
+    {
+        SceneManager.LoadScene("Scavenge");
+    }
 }

@@ -25,9 +25,9 @@ public class PlayerHome : MonoBehaviour
     }
 
     void Start(){
+        singleton.AdjustDaylight();
         UpdatePlayerStats();
         UpdateHealActionText();
-        UpdateHomeDaylightCount();
     }
 
     public void UpdatePlayerStats()
@@ -50,7 +50,7 @@ public class PlayerHome : MonoBehaviour
             singleton.HealPlayer(healAmount);
             singleton.AdjustDaylight(healCost);
             UpdatePlayerStats();
-            UpdateHomeDaylightCount();
+            singleton.AdjustDaylight();
             }
         }
         else
@@ -66,13 +66,8 @@ public class PlayerHome : MonoBehaviour
         healCostText.text = "Cost: " + healCost + " min";
     }
 
-    //Update UI to show current daylight
-    public void UpdateHomeDaylightCount(){
-        homeDaylightCount.text = singleton.dayLeft.ToString() + " minutes left in the day";
-    }
 
     public void Loiter(){
         singleton.AdjustDaylight(singleton.dayLeft);
-        UpdateHomeDaylightCount();
     }
 }
