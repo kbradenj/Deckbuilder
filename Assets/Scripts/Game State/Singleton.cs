@@ -28,6 +28,7 @@ public class Singleton : MonoBehaviour
             dayLeft = 360;
             player.maxHealth = 100;
             player.level = 1;
+            player.baseStrength = 3;
             player.health = player.maxHealth;
             DontDestroyOnLoad(gameObject);
         }    

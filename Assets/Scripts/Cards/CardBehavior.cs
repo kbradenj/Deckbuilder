@@ -185,14 +185,15 @@ public class CardBehavior : MonoBehaviour
             switch(type)
             {
                 case "attack":
-                actions.Attack(targetCharacter, card.attack + player.strength, card.multiAction);
+                actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, card.multiAction);
+                Debug.Log(card.attack + player.strength + player.baseStrength);
                 break;
                 case "xattack":
-                actions.Attack(targetCharacter, card.attack, player.turnAP);
+                actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, player.turnAP);
                 player.turnAP = 0;
                 break;
                 case "attackall":
-                actions.Attack(targetCharacter, card.attack, card.multiAction);
+                actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, card.multiAction);
                 break;
                 case "block":
                 if(target != null && target.tag == "enemy")

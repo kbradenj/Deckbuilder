@@ -807,7 +807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10.8, y: 43.546}
+  m_AnchoredPosition: {x: 4.3, y: 65.2}
   m_SizeDelta: {x: 14.28801, y: -87.0915}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6555767332954484076
@@ -1069,6 +1069,8 @@ MonoBehaviour:
   weak: 0
   weaknessMod: 1
   strength: 0
+  baseStrength: 0
+  baseDexterity: 0
   statusText: {fileID: 0}
   statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
   gameState: {fileID: 0}

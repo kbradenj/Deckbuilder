@@ -70,7 +70,6 @@ public class Reward : MonoBehaviour
         bool matched = false;
         foreach(Card card in rewardsManager.shownCards)
         {
-            Debug.Log(reward.cardName + " vs" + card.cardName);
             if(reward.cardName == card.cardName)
             {
                 matched = true;

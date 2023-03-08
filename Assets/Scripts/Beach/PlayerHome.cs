@@ -8,6 +8,8 @@ public class PlayerHome : MonoBehaviour
 
     public Singleton singleton;
     public TMP_Text healthText;
+    public TMP_Text strengthText;
+    public TMP_Text levelText;
     public TMP_Text healAmountText;
     public TMP_Text healCostText;
     public TMP_Text homeDaylightCount;
@@ -32,6 +34,8 @@ public class PlayerHome : MonoBehaviour
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
         healthText.text = "Health: " + singleton.player.health + "/" + singleton.player.maxHealth;
+        strengthText.text = "Strength: " + singleton.player.baseStrength;
+        levelText.text = "Level: " + singleton.player.level;
     }
 
     public void HomeHealPlayer()

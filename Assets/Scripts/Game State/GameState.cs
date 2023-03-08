@@ -69,6 +69,7 @@ public class GameState : MonoBehaviour
         if(numOfEnemies == 0 && enemiesLoaded && isBattle){
             singleton.player.health = player.health;
             isBattle = false;
+            ResetPlayerStats();
             SceneManager.LoadScene("WinScreen");
             return;
         }
@@ -131,7 +132,6 @@ public class GameState : MonoBehaviour
         GameObject playerObject = GameObject.Instantiate(playerPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
         playerObject.transform.SetParent(playerArea.transform, false); 
         player = singleton.player;
-        
     }
 
     //Create Enemy
@@ -179,6 +179,13 @@ public class GameState : MonoBehaviour
             }
         }
         
+    }
+
+    public void ResetPlayerStats(){
+        player.strength = 0;
+        player.block = 0;
+        player.vulnerable = 0;
+        player.weak = 0;
     }
 
 }
