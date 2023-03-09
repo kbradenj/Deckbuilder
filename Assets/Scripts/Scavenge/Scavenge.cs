@@ -13,13 +13,14 @@ public class Scavenge : MonoBehaviour
     private Singleton singleton;
 
     private List<GameObject> scavengeCardObjects;
+    private List<Card> cart;
 
     public int storeLevel;
     public int cartTotal;
 
     void Start()
     {
-        
+        cart = new List<Card>();
         scavengeCardObjects = new List<GameObject>();
         singleton = FindObjectOfType<Singleton>();
         if(singleton.storeLevel != 0){
@@ -82,7 +83,7 @@ public class Scavenge : MonoBehaviour
             cardBehavior.card.quantity++;
             int newQuantity = cardBehavior.card.quantity;
             cardBehavior.UpdateQuantity(newQuantity);
-            AddToCart(cardBehavior.card.price);
+            AddToCart(cardBehavior.card, cardBehavior.card.price);
         }
         else{
             Debug.Log("Not Enough Daylight");
@@ -90,9 +91,28 @@ public class Scavenge : MonoBehaviour
 
     }
 
-    public void AddToCart(int price)
+    public void AddToCart(Card card, int price)
     {
+        cart.Add(card);
         cartTotal += price;
         totalPriceText.text = "Total Price: " + cartTotal;
+    }
+
+    public void Checkout()
+    {
+        int initialCartCount = cart.Count;
+        for(int i = 0; i < initialCartCount; i++)
+        {
+            singleton.playerDeck.Add(cart[0]);
+        }
+        cart.Clear();
+        foreach(GameObject cardObject in scavengeCardObjects)
+        {
+            CardBehavior cardScript = cardObject.GetComponent<CardBehavior>();
+            cardScript.UpdateQuantity(0);
+            cardScript.card.quantity = 0;
+        }
+        singleton.AdjustDaylight(cartTotal);
+        cartTotal = 0;
     }
 }
