@@ -26,7 +26,8 @@ MonoBehaviour:
   vulnerable: 0
   weak: 0
   strength: 0
-  quantity: 0
   needsTarget: 0
+  quantity: 0
+  price: 10
   cardImage: {fileID: 21300000, guid: 32cffaa647b004d77a94f187b5a134ec, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}

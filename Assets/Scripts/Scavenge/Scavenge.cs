@@ -1,14 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Scavenge : MonoBehaviour
 {
+    public TMP_Text totalPriceText;
+
     public GameObject cardPrefab;
     private GameObject scavengeCardArea;
+
     private Singleton singleton;
+
     private List<GameObject> scavengeCardObjects;
+
     public int storeLevel;
+    public int cartTotal;
 
     void Start()
     {
@@ -22,7 +29,7 @@ public class Scavenge : MonoBehaviour
         {
             singleton.storeLevel = 1;
         }
-    
+        singleton.AdjustDaylight();
         scavengeCardArea = GameObject.Find("Scavenge Card Area");
         LoadStore();
     }
@@ -35,19 +42,25 @@ public class Scavenge : MonoBehaviour
                 for(int j = 0; j < singleton.cardDictionary[storeLevel][i].Count; j++)
                 {
                     GameObject scavengeCard = GameObject.Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);
+                    ScavengeCard scavengeScript = scavengeCard.AddComponent<ScavengeCard>();
+                    scavengeScript.scavengeScript = this;
                     scavengeCardObjects.Add(scavengeCard);
                     CardBehavior cardScript = scavengeCard.GetComponent<CardBehavior>();
-                    cardScript.displayAmount = false;
-                    cardScript.RenderCard(singleton.cardDictionary[storeLevel][i][j]);
+                    cardScript.RenderCard(singleton.cardDictionary[storeLevel][i][j], true);
+                    cardScript.card.quantity = 0;
+                    cardScript.UpdateQuantity(0);
                     scavengeCard.transform.SetParent(scavengeCardArea.transform);
+                    cardScript.AddPrice(scavengeCard, cardScript.card.price);
+                    cardScript.UpdatePriceText("Price: " + cardScript.card.price);
+              
                 }
             }
         }
     }
+
     public void UpgradeStore()
     {
         singleton.storeLevel++;
-        Debug.Log("Store upgraded and singleton store level is now " + singleton.storeLevel);
         storeLevel++;
         RemoveCards();
         LoadStore();
@@ -59,5 +72,27 @@ public class Scavenge : MonoBehaviour
         {
             Destroy(card);
         }
+    }
+
+    public void SelectScavengeCard(GameObject scavengeCard)
+    {
+        CardBehavior cardBehavior = scavengeCard.gameObject.GetComponentInChildren<CardBehavior>();
+        if(singleton.dayLeft - (cartTotal + cardBehavior.card.price) > 0)
+        {
+            cardBehavior.card.quantity++;
+            int newQuantity = cardBehavior.card.quantity;
+            cardBehavior.UpdateQuantity(newQuantity);
+            AddToCart(cardBehavior.card.price);
+        }
+        else{
+            Debug.Log("Not Enough Daylight");
+        }
+
+    }
+
+    public void AddToCart(int price)
+    {
+        cartTotal += price;
+        totalPriceText.text = "Total Price: " + cartTotal;
     }
 }

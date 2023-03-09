@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 241809793939094316}
   - component: {fileID: 5857229180466191479}
   m_Layer: 6
-  m_Name: Craft Cost
+  m_Name: Price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

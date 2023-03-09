@@ -193,9 +193,8 @@ public class Craft : MonoBehaviour
                 foreach(GameObject cardObject in resultCards){ 
                     CardBehavior cardScript = cardObject.GetComponent<CardBehavior>();
                     if(recipe.resultItem.cardName == cardScript.card.cardName){
-
                         cardScript.card.quantity = GetCraftableQty(recipe);
-                        craftCostText.text = "Crafting Time: " + (recipe.resultItem.quantity * recipe.timeCost).ToString() + " min";
+                        cardScript.UpdatePriceText("Crafting Time: " + (recipe.resultItem.quantity * recipe.timeCost).ToString() + " min");
                         cardScript.UpdateQuantity(cardScript.card.quantity);
                     }
                 }
@@ -206,12 +205,10 @@ public class Craft : MonoBehaviour
                     resultCards.Add(resultObject);
                     resultObject.transform.SetParent(resultArea.transform);
                     CardBehavior resultItemScript = resultObject.GetComponent<CardBehavior>();
-                    resultItemScript.displayAmount = true;
-                    resultItemScript.RenderCard(recipe.resultItem);
+                    resultItemScript.RenderCard(recipe.resultItem, true);
                     resultItemScript.card.quantity = GetCraftableQty(recipe);
                     resultItemScript.UpdateQuantity(resultItemScript.card.quantity);
-
-                    AddCraftingCost(resultObject, recipe.timeCost);
+                    resultItemScript.AddPrice(resultObject, recipe.timeCost);
                 }
             }
             else
@@ -278,7 +275,6 @@ public void AddCraftingCost(GameObject card, int craftCost)
     craftCostObject.transform.SetParent(card.transform);
     craftCostText = GameObject.Find("Craft Cost Text").GetComponent<TMP_Text>();
     craftCostText.text = "Crafting Time: " + craftCost.ToString() + " min";
-
 }
 
 //Do you have enough materials on the table to qualify for a recipe

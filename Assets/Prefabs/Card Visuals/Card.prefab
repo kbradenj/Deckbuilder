@@ -448,6 +448,7 @@ MonoBehaviour:
   cardNameField: {fileID: 1639937595715554329}
   descriptionField: {fileID: 1639937594845874933}
   costField: {fileID: 1639937593871710039}
+  priceText: {fileID: 0}
   quantity: {fileID: 5296737303066146196}
   image: {fileID: 1639937594815952562}
   bgImage: {fileID: 7768726120690992734}
@@ -457,6 +458,7 @@ MonoBehaviour:
   actions: {fileID: 0}
   Canvas: {fileID: 0}
   inspectCardPrefab: {fileID: 1639937595311336888, guid: e69bce458c1104c2888f01b9f8d7e2e5, type: 3}
+  pricePrefab: {fileID: 3065387812838022230, guid: 0f4d47f7461b6470c8162e23f3424619, type: 3}
   amountDisplay: {fileID: 2463340353295502308, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
   displayAmount: 0
 --- !u!114 &3740688299664133413

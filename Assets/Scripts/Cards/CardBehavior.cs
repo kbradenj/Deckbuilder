@@ -11,6 +11,7 @@ public class CardBehavior : MonoBehaviour
     public TextMeshProUGUI cardNameField;
     public TextMeshProUGUI descriptionField;
     public TextMeshProUGUI costField;
+    public TMP_Text priceText;
     public TMP_Text quantity;
 
     //UI
@@ -33,6 +34,7 @@ public class CardBehavior : MonoBehaviour
     private GameObject target;
     private GameObject[] enemies;
     public GameObject inspectCardPrefab;
+    public GameObject pricePrefab;
     public GameObject amountDisplay;
 
 
@@ -82,8 +84,9 @@ public class CardBehavior : MonoBehaviour
     }
 
     //Populate Card Data to UI
-    public void RenderCard(Card c)
+    public void RenderCard(Card c, bool showQty = false)
     {
+        displayAmount = showQty;
         card = c;
         cardNameField.text = c.cardName;
         descriptionField.text = c.FormatString();
@@ -97,6 +100,19 @@ public class CardBehavior : MonoBehaviour
         if(displayAmount != true){
             GameObject.Find("QuantityDisplay").SetActive(false);
         }
+    }
+
+    public void AddPrice(GameObject card, int craftCost)
+    {
+        GameObject craftCostObject = GameObject.Instantiate(pricePrefab, new Vector2(0,250), Quaternion.identity);
+        craftCostObject.transform.SetParent(card.transform);
+        priceText = craftCostObject.GetComponentInChildren<TMP_Text>();
+        priceText.text = "Crafting Time: " + craftCost.ToString() + " min";
+    }
+
+    public void UpdatePriceText(string textToUpdate){
+        priceText.text = textToUpdate;
+
     }
 
     public void UpdateQuantity(int amount)

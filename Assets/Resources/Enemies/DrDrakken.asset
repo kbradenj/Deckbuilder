@@ -20,5 +20,5 @@ MonoBehaviour:
   enemyName: Dr. Drakken
   level: 2
   maxHealth: 25
-  health: 30
+  health: 15
   enemyImage: {fileID: 21300000, guid: 0d9d2b4a7541e4884bd70486f8c98a87, type: 3}

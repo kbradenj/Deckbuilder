@@ -43,8 +43,7 @@ public class CraftingMaterialBehavior : MonoBehaviour
 
                 //Set Up UI
                 CardBehavior cardBehavior = usedMaterial.GetComponent<CardBehavior>();
-                cardBehavior.displayAmount = true;
-                cardBehavior.RenderCard(card);
+                cardBehavior.RenderCard(card, true);
                 usedMaterial.transform.localScale *= 0.5f;
                 usedMaterial.transform.SetParent(craftingTable.transform);
             }

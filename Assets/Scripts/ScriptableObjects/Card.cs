@@ -10,11 +10,14 @@ using UnityEngine.UI;
 public class Card : ScriptableObject
 {
     [SerializeField] public List<string> actionList = new List<string>();
+    [Header("Card Details")]
     public int cardID;
     public string cardName = "New Card";
     public string cardDescription;
     public int cardLevel;
     public int cardRarity;
+
+    [Header("Battle")]
     public int cardCost;
     public int block;
     public int attack;
@@ -22,12 +25,13 @@ public class Card : ScriptableObject
     public int vulnerable;
     public int weak;
     public int strength;
-    public int quantity;
-
-    string testString;
-    
     public bool needsTarget = false;
 
+    [Header("Crafting")]
+    public int quantity;
+    public int price;
+
+    [Header("Visuals")]
     public Sprite cardImage;
     public Sprite cardOverlay;
 
