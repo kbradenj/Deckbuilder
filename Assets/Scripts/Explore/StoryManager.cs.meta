@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 71c72b2383dbb4dd6af5a039af5a3f27
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - chosenStory: {instanceID: 0}
+  - storyOptionPrefab: {fileID: 1158799480630394493, guid: 39da53c646e2e41418ceea301f186ec3, type: 3}
+  - paragraphText: {instanceID: 0}
+  - image: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

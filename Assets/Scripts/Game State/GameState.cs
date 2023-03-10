@@ -175,7 +175,7 @@ public class GameState : MonoBehaviour
             }
             else
             {
-            enemies[i].EnemyTurn();
+                enemies[i].EnemyTurn();
             }
         }
         
