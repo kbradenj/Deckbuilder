@@ -27,18 +27,22 @@ MonoBehaviour:
   - optionTitle: Get lost in the creature's eyes
     optionEffectText: Gain a random card
     effects:
-    - effectKey: card
-      amount: 1
-  paragraphs:
-  - 'As you wandered through the dense forest, you stumbled upon a clearing unlike
-    any you had ever seen before. The trees surrounding it were tall and ancient,
-    their gnarled branches reaching towards the sky like bony fingers. The sunlight
-    filtered through the leaves, casting a dappled green glow across the mossy ground.
-    You stepped forward, your heart racing with excitement and curiosity. '
-  - As you crossed the threshold of the clearing, a sudden hush descended upon the
-    forest. The air felt charged with magic, and you could sense that you were standing
-    in a place of great power. The stillness was broken by the sound of a trickling
+    - effectKey: randomCard
+      amount: 2
+  storyWords: '<color=#cccccc>As you wandered through the dense forest, you stumbled
+    upon a clearing unlike any you had ever seen before. The trees surrounding it
+    were tall and ancient, their gnarled branches reaching towards the sky like <mark=#00000040><color=red><b>bony
+    fingers</b></color></mark>. The sunlight filtered through the leaves, casting
+    a dappled <mark=#00000040><color=green><b>green glow</b></color></mark> across
+    the mossy ground. You stepped forward, your heart racing with excitement and
+    curiosity.
+
+
+    As you crossed the threshold of the clearing, a sudden hush
+    descended upon the forest. The air felt charged with magic, and you could sense
+    that you were standing <mark=#00000040><color=#E0A7F3><b>in a place of great
+    power</b></color></mark>. The stillness was broken by the sound of a trickling
     stream, and you followed its path to a small pool nestled in the center of the
     clearing. As you peered into the water, you saw a reflection that was not your
     own, but that of a mystical creature, beckoning you to explore further into the
-    enchanted forest.
+    enchanted forest.'

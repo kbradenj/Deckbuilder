@@ -26,6 +26,7 @@ public class RewardsManager : MonoBehaviour
     public List<string> rewardType = new List<string>();
     public List<GameObject> rewardObjects;
     public List<Card> shownCards;
+    public List<StatReward> shownStat;
 
     void Awake()
     {

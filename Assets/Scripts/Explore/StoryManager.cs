@@ -16,13 +16,15 @@ public class StoryManager : MonoBehaviour
     //Game Objects
     public GameObject storyOptionPrefab;
     public GameObject optionsArea;
+    public Singleton singleton;
 
     //UI
-    public TMP_Text paragraphText;
+    public TMP_Text storyText;
     public Image image;
 
     void Start()
     {
+        singleton = GameObject.FindObjectOfType<Singleton>();
        LoadStories();
        ChooseStory();
     }
@@ -42,13 +44,8 @@ public class StoryManager : MonoBehaviour
     }
 
     public void DisplayStory(){
-        paragraphText.text = "";
-        StringBuilder sb = new StringBuilder();
-        foreach(string paragraph in chosenStory.paragraphs)
-        {   
-            sb.AppendLine(paragraph + "\n");
-        }
-        paragraphText.text = sb.ToString();
+        storyText.text = chosenStory.storyWords;
+
         LoadOptions();
     }
 
@@ -60,7 +57,52 @@ public class StoryManager : MonoBehaviour
             optionObject.transform.SetParent(optionsArea.transform);
             optionObject.GetComponent<StoryOptionBehavior>().storyOption = option;
         }
-        
-
     }
+
+    public void Choice(StoryOption option)
+    {
+    foreach(OptionEffect effect in option.effects)
+        {
+            switch(effect.effectKey)
+            {
+                case "strength":
+                AddStrength(effect.amount);
+                break;
+
+                case "heal":
+                Heal(effect.amount);
+                break;
+
+                case "randomCard":
+                int randomIndex = Random.Range(0, singleton.cardDatabase.Count -1);
+                AddCardToDeck(singleton.cardDatabase[randomIndex], effect.amount);
+                break;
+
+            }
+        }
+        GameObject.FindObjectOfType<Navigation>().Navigate("Home");
+    }
+
+    void AddStrength(int amount)
+    {
+        Debug.Log("Added Strength");
+    }
+
+    void Heal(int amount)
+    {
+        Debug.Log("Added Health");
+    }
+
+    void AddCardToDeck(Card card, int amount)
+    {
+        for(int i = 0; i < amount; i++)
+        {
+               Debug.Log("Added Card");
+        }
+     
+    }
+
+
+
+
 }

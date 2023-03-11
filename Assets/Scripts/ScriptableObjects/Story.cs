@@ -8,8 +8,8 @@ public class Story : ScriptableObject
 {
     public Sprite sprite;
     public List<StoryOption> storyOptions;
-    [TextArea(1,8)] 
-    public List<string> paragraphs;
+    [TextArea(1,20)] 
+    public string storyWords;
 }
 
 [System.Serializable]

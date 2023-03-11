@@ -21,8 +21,9 @@ public class StoryOptionBehavior : MonoBehaviour
         effectText.text = storyOption.optionEffectText;
     }
 
-    public void ChooseReward()
+    public void ChooseOption()
     {
-        Debug.Log("Reward Chosen");
+       GameObject.FindObjectOfType<StoryManager>().Choice(storyOption);
     }
+
 }

@@ -6,28 +6,13 @@ using UnityEngine.SceneManagement;
 public class Navigation : MonoBehaviour
 {
 
-    public void GoToCrafting()
-    {
-        SceneManager.LoadScene("Crafting");
-    }
-    
-    public void GoToBattle()
-    {
-        SceneManager.LoadScene("Battle");
-    }
-
-    public void GoToCamp()
-    {
-        SceneManager.LoadScene("Home");  
-    }
-
     public void Night()
     {
         SceneManager.LoadScene("Night");
     }
 
-    public void GoToScavenge()
+    public void Navigate(string sceneName)
     {
-        SceneManager.LoadScene("Scavenge");
+        SceneManager.LoadScene(sceneName);
     }
 }

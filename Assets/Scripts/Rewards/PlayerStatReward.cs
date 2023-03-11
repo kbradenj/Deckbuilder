@@ -45,11 +45,39 @@ public class PlayerStatReward : Reward
 
     public void RandomStatSelection()
     {
-        int rndNum = Random.Range(1, statRewardOptions.Count);
-        StatReward stat = statRewardOptions[rndNum];
-        chosenStatReward = stat; 
-        statType = chosenStatReward.statType;
-        amount = (int)Mathf.Ceil(chosenStatReward.baseAmount * player.level * chosenStatReward.modifier);
+        bool statFound = false;
+        int counter = 0;
+        while((statFound == false) || counter > 500)
+        {
+            int rndNum = Random.Range(1, statRewardOptions.Count);
+            StatReward stat = statRewardOptions[rndNum];
+            if(!IsDuplicate(stat))
+            {
+                chosenStatReward = stat;
+                amount = (int)Mathf.Ceil(chosenStatReward.baseAmount * player.level * chosenStatReward.modifier);
+                rewardsManager.shownStat.Add(chosenStatReward);
+                statFound = true;
+            }
+            else
+            {
+                statFound = false;
+            }
+            counter++;
+        }
+    }
+
+    public bool IsDuplicate(StatReward stat)
+    {
+        bool matched = false;
+        foreach(StatReward statReward in rewardsManager.shownStat)
+        {
+            if(statReward.statType == stat.statType)
+            {
+                matched = true;
+                break;
+            }
+        }
+        return matched;
     }
 
     public void BaseStatIncrease()

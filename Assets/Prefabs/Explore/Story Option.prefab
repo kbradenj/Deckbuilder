@@ -396,7 +396,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8832573416005632883}
         m_TargetAssemblyTypeName: StoryOptionBehavior, Assembly-CSharp
-        m_MethodName: ChooseReward
+        m_MethodName: ChooseOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

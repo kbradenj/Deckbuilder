@@ -23,6 +23,7 @@ public class Scavenge : MonoBehaviour
         cart = new List<Card>();
         scavengeCardObjects = new List<GameObject>();
         singleton = FindObjectOfType<Singleton>();
+        Debug.Log(scavengeCardObjects.Count + " scavengeCardObject size on load");
         if(singleton.storeLevel != 0){
             storeLevel = singleton.storeLevel;
         }
@@ -37,6 +38,7 @@ public class Scavenge : MonoBehaviour
 
     public void LoadStore()
     {
+        scavengeCardObjects.Clear();
         for(int i = 1; i <= singleton.cardDictionary[storeLevel].Count; i++) //4
         {
             if(singleton.cardDictionary[storeLevel][i].Count != 0){
@@ -106,6 +108,7 @@ public class Scavenge : MonoBehaviour
             singleton.playerDeck.Add(cart[0]);
         }
         cart.Clear();
+        Debug.Log("Scavenge Card Count " + scavengeCardObjects.Count);
         foreach(GameObject cardObject in scavengeCardObjects)
         {
             CardBehavior cardScript = cardObject.GetComponent<CardBehavior>();

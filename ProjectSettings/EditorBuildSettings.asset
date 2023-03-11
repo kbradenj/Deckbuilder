@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scavenge.unity
     guid: eebe3afe7aa864349ad317b146b97e32
+  - enabled: 1
+    path: Assets/Scenes/Story.unity
+    guid: 29960cd454ae74b6bb15d644d907dfcd
   m_configObjects: {}
