@@ -33,6 +33,12 @@ public class Craft : MonoBehaviour
     //TMPro
     TMP_Text craftCostText;
 
+    //Color
+    public Color disabledColor;
+
+    //States
+    public bool isRecipeView = false;
+
     private void Awake()
     {
         // Get Singleton
@@ -60,8 +66,18 @@ public class Craft : MonoBehaviour
     }
 
     //Creates UI Inventory for Crafting
-    void LoadInventory()
+    public void LoadInventory()
     {
+        if(isRecipeView == true){
+             isRecipeView = false;
+            int initialInvCount = inventoryItems.Count;
+            for(int i = 0; i < initialInvCount; i++)
+            {
+                Destroy(inventoryItems[i].gameObject);
+            }
+            inventoryItems.Clear();
+            inventory.Clear();
+        }
         //Go through player deck
         foreach(Card card in playerDeck)
         {
@@ -100,7 +116,7 @@ public class Craft : MonoBehaviour
         }
     }
 
-   // Add card object to the table and Dictionary
+   // Add card Dictionary
     public void AddToTable(Card card)
     {
         if (tableMaterials.ContainsKey(card.cardName))
@@ -139,7 +155,6 @@ public class Craft : MonoBehaviour
                     break;
                 }
             }
-            
         }
         GetAvailableCraftingOptions();
     }
@@ -170,15 +185,53 @@ public class Craft : MonoBehaviour
         materialObject.transform.SetParent(materialsArea.transform);
         inventoryItems.Add(materialObject);
         materialBehavior.materialName = material;
-
+       
         //find matching card from player deck
-        foreach(Card card in playerDeck){
+        foreach(Card card in singleton.cardDatabase){
             if(card.cardName == material){
                 materialObject.GetComponent<Image>().sprite = card.cardImage;
                 materialBehavior.card = card;
                 break;
             }
-        }            
+        }    
+
+         if(isRecipeView)
+        {
+            //find matching recipe to card that was clicked
+            foreach(CraftingRecipe recipe in recipeDatabase){
+                if (recipe.resultItem.cardName == materialBehavior.card.cardName)
+                {
+                    materialBehavior.recipe = recipe;   
+                    materialBehavior.UpdateValue(GetCraftableQty(recipe));
+                }
+            }
+        }        
+    }
+
+    public void PossibleRecipeView()
+    {
+        if(!isRecipeView)
+        {
+            isRecipeView = true;
+            int initialInvCount = inventoryItems.Count;
+            for(int i = 0; i < initialInvCount; i++)
+            {
+                Destroy(inventoryItems[i].gameObject);
+            }
+            //Remove game objects from inventoryItems list
+            inventoryItems.Clear();
+
+            //Go through recipes
+            foreach(CraftingRecipe recipe in craftingRecipes)
+            {
+                //if it doesn't exist
+                if(!inventory.ContainsKey(recipe.resultItem.cardName) && CanCraft(recipe))
+                {
+                    //Create visual material item
+                    InstantiateMaterialToInventory(recipe.resultItem.cardName);
+                }
+            }
+        }
     }
 
     //What can be made with cards on the table?
@@ -231,65 +284,81 @@ public class Craft : MonoBehaviour
         return availableCraftingOptions;
     }
 
-public bool DoesResultExist()
-{
-    if(resultCards.Count <= 0){
-        return false;
-    }
-    return true;
-}
-
-public bool HasExtraMaterial(CraftingRecipe recipe)
-{
-    foreach(KeyValuePair<string, int> kvp in tableMaterials)
+    public bool DoesResultExist()
     {
-        bool matched = false;
-        foreach(CraftingMaterial material in recipe.craftingMaterials)
+        if(resultCards.Count <= 0){
+            return false;
+        }
+        return true;
+    }
+
+    public bool HasExtraMaterial(CraftingRecipe recipe)
+    {
+        foreach(KeyValuePair<string, int> kvp in tableMaterials)
         {
-            if(matched == true)
+            bool matched = false;
+            foreach(CraftingMaterial material in recipe.craftingMaterials)
             {
-                break;
-            }
-            else
-            {
-                if(kvp.Key == material.key){
-                matched = true;
+                if(matched == true)
+                {
+                    break;
                 }
                 else
                 {
-                    matched = false;
-                }
-            } 
+                    if(kvp.Key == material.key){
+                    matched = true;
+                    }
+                    else
+                    {
+                        matched = false;
+                    }
+                } 
+            }
+            if(matched == false){
+                return true;
+            }
+            
         }
-        if(matched == false){
-            return true;
-        }
-        
+        return false;
     }
-    return false;
-}
 
-public void AddCraftingCost(GameObject card, int craftCost)
-{
-    GameObject craftCostObject = GameObject.Instantiate(craftCostPrefab, new Vector2(0,250), Quaternion.identity);
-    craftCostObject.transform.SetParent(card.transform);
-    craftCostText = GameObject.Find("Craft Cost Text").GetComponent<TMP_Text>();
-    craftCostText.text = "Crafting Time: " + craftCost.ToString() + " min";
-}
+    public void AddCraftingCost(GameObject card, int craftCost)
+    {
+        GameObject craftCostObject = GameObject.Instantiate(craftCostPrefab, new Vector2(0,250), Quaternion.identity);
+        craftCostObject.transform.SetParent(card.transform);
+        craftCostText = GameObject.Find("Craft Cost Text").GetComponent<TMP_Text>();
+        craftCostText.text = "Crafting Time: " + craftCost.ToString() + " min";
+    }
 
-//Do you have enough materials on the table to qualify for a recipe
-public bool CanCraft(CraftingRecipe recipe)
-{
-    return recipe.craftingMaterials.All(material => 
-        tableMaterials.ContainsKey(material.key) && tableMaterials[material.key] >= material.amount && HasExtraMaterial(recipe) == false);
-}
+    //Do you have enough materials on the table to qualify for a recipe
+    public bool CanCraft(CraftingRecipe recipe)
+    {
+        if(!isRecipeView)
+        {
+        return recipe.craftingMaterials.All(material => 
+            tableMaterials.ContainsKey(material.key) && tableMaterials[material.key] >= material.amount && HasExtraMaterial(recipe) == false);
+        }
+        else
+        {
+            return recipe.craftingMaterials.All(material => 
+            inventory.ContainsKey(material.key) && inventory[material.key] >= material.amount);
+        }
+    }
 
     //How many of each item can I make?
     public int GetCraftableQty(CraftingRecipe recipe){
         int amountToCraft = int.MaxValue;
         int tempAmount;
         foreach(CraftingMaterial material in recipe.craftingMaterials){
-            tempAmount = tableMaterials[material.key]/material.amount;
+            if(isRecipeView){
+                tempAmount = inventory[material.key]/material.amount;
+            }
+            else
+            {
+                tempAmount = tableMaterials[material.key]/material.amount;
+            }
+           
+
             if(tempAmount < amountToCraft)
             {
                 amountToCraft = tempAmount;
@@ -319,7 +388,8 @@ public bool CanCraft(CraftingRecipe recipe)
 
         Destroy(firstResultCard.gameObject);
         card.quantity = 0;
-        resultCards.Remove(firstResultCard);
+        cardsToAdd.Clear();
+        resultCards.Clear();
     }
 
     //Remove the Cards in the player deck that were used to craft
@@ -369,7 +439,6 @@ public bool CanCraft(CraftingRecipe recipe)
                 } else {
                     cardBehavior.UpdateQuantity(newQty);
                 }
-
                 break;
             }
         }

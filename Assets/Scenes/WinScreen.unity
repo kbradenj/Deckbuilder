@@ -460,7 +460,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Go Back to Camp
+  m_text: Fight On
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -938,8 +938,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1247681600}
         m_TargetAssemblyTypeName: Navigation, Assembly-CSharp
-        m_MethodName: Navigate
-        m_Mode: 5
+        m_MethodName: Night
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

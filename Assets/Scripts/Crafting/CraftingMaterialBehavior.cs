@@ -12,6 +12,7 @@ public class CraftingMaterialBehavior : MonoBehaviour
     public Image materialImage;
     public Craft craft;
     public Card card;
+    public CraftingRecipe recipe;
     public GameObject cardPrefab;
     public TMP_Text materialCountText;
 
@@ -28,52 +29,95 @@ public class CraftingMaterialBehavior : MonoBehaviour
     }
 
     public void MoveToTable()
-    {
+    {   if(!craft.isRecipeView){
             //Did we already instantiate this material's Card on the table?
             if(!craft.tableMaterials.TryGetValue(materialName, out amount) || craft.tableMaterials[materialName] == 0)
             {
-                //Instantiate Card Object
-                GameObject usedMaterial = GameObject.Instantiate(cardPrefab, new Vector2 (0,0), Quaternion.identity);
-
-                //Add remove from table script
-                usedMaterial.AddComponent<RemoveFromTable>();
-
-                //Add table object to list
-                craft.onTableCards.Add(usedMaterial);
-
-                //Set Up UI
-                CardBehavior cardBehavior = usedMaterial.GetComponent<CardBehavior>();
-                cardBehavior.RenderCard(card, true);
-                usedMaterial.transform.localScale *= 0.5f;
-                usedMaterial.transform.SetParent(craftingTable.transform);
+               InstantiateToTable();
             }
 
             //Adds to the dictionary and updates QTY shown on card stack on table
             craft.AddToTable(card);
+            RemoveFromInventory();
+        }
+        else
+        {
+            MakeFromRecipe();
+        }
+        
+    }
 
-            //Remove amount in inventory (not actual player deck)
-            int tempCount = craft.inventory[materialName];
-            tempCount -= 1;
-            craft.inventory[materialName] = tempCount;
+    public void RemoveFromInventory()
+    {
+        //Remove amount in inventory (not actual player deck)
+        int tempCount = craft.inventory[materialName];
+        tempCount -= 1;
+        craft.inventory[materialName] = tempCount;
 
-            //Did we use them all?
-            if(tempCount <= 0)
+        //Did we use them all?
+        if(tempCount <= 0)
+        {
+            craft.inventory.Remove(materialName);
+            for(int i = 0; i < craft.inventoryItems.Count; i++)
             {
-                craft.inventory.Remove(materialName);
-                for(int i = 0; i < craft.inventoryItems.Count; i++)
+                if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().materialName == materialName)
                 {
-                    if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().materialName == materialName)
-                    {
-                        craft.inventoryItems.Remove(craft.inventoryItems[i]);
-                        break;
-                    }
+                    craft.inventoryItems.Remove(craft.inventoryItems[i]);
+                    break;
                 }
-                Destroy(this.gameObject);
             }
-            else
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            UpdateValue(tempCount);
+        }
+    }
+
+    public void InstantiateToTable()
+    {
+        //Instantiate Card Object
+        GameObject usedMaterial = GameObject.Instantiate(cardPrefab, new Vector2 (0,0), Quaternion.identity);
+
+        //Add remove from table script
+        usedMaterial.AddComponent<RemoveFromTable>();
+
+        //Add table object to list
+        craft.onTableCards.Add(usedMaterial);
+
+        //Set Up UI
+        CardBehavior cardBehavior = usedMaterial.GetComponent<CardBehavior>();
+        cardBehavior.RenderCard(card, true);
+        usedMaterial.transform.localScale *= 0.5f;
+        usedMaterial.transform.SetParent(craftingTable.transform);
+    }
+
+    public void MakeFromRecipe()
+    {
+       foreach(CraftingMaterial material in recipe.craftingMaterials)
+       {
+         for(int i = 0; i < craft.playerDeck.Count; i++)
+         {
+            if(material.key == craft.playerDeck[i].cardName)
             {
-                UpdateValue(tempCount);
+                card = craft.playerDeck[i];
+                break;
             }
-           
+         }
+         for(int j = 0; j < material.amount; j++)
+         {
+            materialName = material.key;
+            if(!craft.tableMaterials.TryGetValue(materialName, out amount) || craft.tableMaterials[materialName] == 0)
+            {
+               InstantiateToTable();
+            }
+
+            //Adds to the dictionary and updates QTY shown on card stack on table
+            craft.AddToTable(card);
+            RemoveFromInventory();
+         }
+       }
+
+       craft.GetAvailableCraftingOptions();
     }
 }

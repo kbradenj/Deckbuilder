@@ -97,8 +97,10 @@ MonoBehaviour:
   materialImage: {fileID: 0}
   craft: {fileID: 0}
   card: {fileID: 0}
+  recipe: {fileID: 0}
   cardPrefab: {fileID: 1639937595311336888, guid: 1519c79c58543440c9db7c1cfcfe37f0, type: 3}
   materialCountText: {fileID: 7606600258783613704}
+  materialCountObject: {fileID: 8704629088828816760}
 --- !u!114 &-6033908330520799076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,3 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8704629088828816760 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2463340353295502308, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
+  m_PrefabInstance: {fileID: 6548943002297710236}
+  m_PrefabAsset: {fileID: 0}
