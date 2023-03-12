@@ -20,7 +20,6 @@ public class CraftingMaterialBehavior : MonoBehaviour
     {
         craft = GameObject.FindObjectOfType<Craft>();
         craftingTable = GameObject.Find("Crafting Area");
-        amount = 3;
     }
 
     public void UpdateValue(int newAmount)
@@ -29,7 +28,8 @@ public class CraftingMaterialBehavior : MonoBehaviour
     }
 
     public void MoveToTable()
-    {   if(!craft.isRecipeView){
+    {  
+         if(!craft.isRecipeView){
             //Did we already instantiate this material's Card on the table?
             if(!craft.tableMaterials.TryGetValue(materialName, out amount) || craft.tableMaterials[materialName] == 0)
             {
@@ -38,29 +38,27 @@ public class CraftingMaterialBehavior : MonoBehaviour
 
             //Adds to the dictionary and updates QTY shown on card stack on table
             craft.AddToTable(card);
-            RemoveFromInventory();
+            RemoveFromInventory(materialName);
         }
         else
         {
             MakeFromRecipe();
+            
         }
         
     }
 
-    public void RemoveFromInventory()
+    public void RemoveFromInventory(string material)
     {
         //Remove amount in inventory (not actual player deck)
-        int tempCount = craft.inventory[materialName];
-        tempCount -= 1;
-        craft.inventory[materialName] = tempCount;
 
         //Did we use them all?
-        if(tempCount <= 0)
+        if(amount <= 0)
         {
-            craft.inventory.Remove(materialName);
+            craft.inventory.Remove(material);
             for(int i = 0; i < craft.inventoryItems.Count; i++)
             {
-                if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().materialName == materialName)
+                if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().materialName == material)
                 {
                     craft.inventoryItems.Remove(craft.inventoryItems[i]);
                     break;
@@ -70,8 +68,13 @@ public class CraftingMaterialBehavior : MonoBehaviour
         }
         else
         {
-            UpdateValue(tempCount);
+            UpdateValue(amount);
         }
+    }
+
+    public void RemoveRecipeFromView()
+    {
+
     }
 
     public void InstantiateToTable()
@@ -94,12 +97,15 @@ public class CraftingMaterialBehavior : MonoBehaviour
 
     public void MakeFromRecipe()
     {
+        //Go through each material inside of this recipe
        foreach(CraftingMaterial material in recipe.craftingMaterials)
        {
+        //Go through each card in the player deck to match it with a materials
          for(int i = 0; i < craft.playerDeck.Count; i++)
          {
             if(material.key == craft.playerDeck[i].cardName)
             {
+                //found an instance of the card
                 card = craft.playerDeck[i];
                 break;
             }
@@ -107,17 +113,30 @@ public class CraftingMaterialBehavior : MonoBehaviour
          for(int j = 0; j < material.amount; j++)
          {
             materialName = material.key;
-            if(!craft.tableMaterials.TryGetValue(materialName, out amount) || craft.tableMaterials[materialName] == 0)
+            int testInt = int.MaxValue;
+            if(!craft.tableMaterials.TryGetValue(materialName, out testInt) || craft.tableMaterials[materialName] == 0)
             {
                InstantiateToTable();
             }
-
             //Adds to the dictionary and updates QTY shown on card stack on table
             craft.AddToTable(card);
-            RemoveFromInventory();
+            craft.isTableLoaded = true;
+            RemoveFromInventory(material.key);
          }
        }
-
-       craft.GetAvailableCraftingOptions();
+        amount--;
+        UpdateValue(amount);
+        Debug.Log(amount);
+        if(amount < 1)
+        {
+            for(int i = 0; i < craft.inventoryItems.Count; i++)
+            {
+                if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().recipe.resultItem.cardName == recipe.resultItem.cardName)
+                {
+                    Destroy(craft.inventoryItems[i].gameObject);
+                    craft.inventoryItems.Remove(craft.inventoryItems[i]);       
+                }
+            }
+        }
     }
 }

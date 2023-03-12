@@ -1071,14 +1071,17 @@ MonoBehaviour:
   inventoryItems: []
   craftingRecipes: []
   playerDeck: []
-  resultCards: []
+  resultCard: {fileID: 0}
   recipeDatabase: []
   materialPrefab: {fileID: 3840540609027649376, guid: a3e38b33dab944d539d20cf9a3077ab9, type: 3}
   cardPrefab: {fileID: 1639937595311336888, guid: f10343db443d9485db3e8872b61af4b0, type: 3}
   materialsArea: {fileID: 0}
   resultArea: {fileID: 0}
   craftCostPrefab: {fileID: 3065387812838022230, guid: 0f4d47f7461b6470c8162e23f3424619, type: 3}
+  disabledColor: {r: 0.4056604, g: 0.39226595, b: 0.39226595, a: 0.54509807}
   isRecipeView: 0
+  isInventoryLoaded: 0
+  isTableLoaded: 0
 --- !u!114 &1639839100
 MonoBehaviour:
   m_ObjectHideFlags: 0
