@@ -265,7 +265,6 @@ public class Craft : MonoBehaviour
                     materialBehavior.recipe = recipe;   
                     materialBehavior.amount = GetCraftableQty(materialBehavior.recipe);
                     materialBehavior.UpdateValue(materialBehavior.amount);
-                    Debug.Log(GetCraftableQty(recipe));
                 }
             }
         }  
@@ -305,6 +304,7 @@ public class Craft : MonoBehaviour
         }
         isInventoryLoaded = false;
     }
+
 
     //What can be made with cards on the table?
     public List<Card> GetAvailableCraftingOptions()

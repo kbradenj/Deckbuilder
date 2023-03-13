@@ -50,26 +50,51 @@ public class CraftingMaterialBehavior : MonoBehaviour
 
     public void RemoveFromInventory(string material)
     {
-        //Remove amount in inventory (not actual player deck)
-
-        //Did we use them all?
-        if(amount <= 0)
-        {
-            craft.inventory.Remove(material);
-            for(int i = 0; i < craft.inventoryItems.Count; i++)
+        if(!craft.isRecipeView){
+            int tempCount = craft.inventory[materialName];
+            tempCount -= 1;
+            craft.inventory[materialName] = tempCount;
+            //Did we use them all?
+            if(tempCount <= 0)
             {
-                if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().materialName == material)
+                craft.inventory.Remove(material);
+                for(int i = 0; i < craft.inventoryItems.Count; i++)
                 {
-                    craft.inventoryItems.Remove(craft.inventoryItems[i]);
-                    break;
+                    if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().materialName == material)
+                    {
+                        craft.inventoryItems.Remove(craft.inventoryItems[i]);
+                        break;
+                    }
                 }
+                Destroy(this.gameObject);
             }
-            Destroy(this.gameObject);
+            else
+            {
+                UpdateValue(tempCount);
+            }
         }
         else
         {
-            UpdateValue(amount);
+            //Did we use them all?
+            if(amount <= 0)
+            {
+                craft.inventory.Remove(material);
+                for(int i = 0; i < craft.inventoryItems.Count; i++)
+                {
+                    if(craft.inventoryItems[i].GetComponent<CraftingMaterialBehavior>().materialName == material)
+                    {
+                        craft.inventoryItems.Remove(craft.inventoryItems[i]);
+                        break;
+                    }
+                }
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                UpdateValue(amount);
+            }
         }
+        
     }
 
     public void RemoveRecipeFromView()
@@ -126,7 +151,6 @@ public class CraftingMaterialBehavior : MonoBehaviour
        }
         amount--;
         UpdateValue(amount);
-        Debug.Log(amount);
         if(amount < 1)
         {
             for(int i = 0; i < craft.inventoryItems.Count; i++)
