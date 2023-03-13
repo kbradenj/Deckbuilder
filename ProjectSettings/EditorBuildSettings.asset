@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Explore.unity
     guid: dd8ec65c947c94fefa0b85fc05889cc2
+  - enabled: 1
+    path: Assets/Scenes/Crafting2.unity
+    guid: a3be79298a66c4af39afd8758fbffb26
   m_configObjects: {}

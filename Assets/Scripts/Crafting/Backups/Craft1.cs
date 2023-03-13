@@ -1,167 +1,72 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
-using TMPro;
+// using System.Collections.Generic;
+// using UnityEngine;
+// using UnityEngine.UI;
+// using System.Linq;
+// using TMPro;
 
-public class Craft : MonoBehaviour
-{
-    //Dictionary
-    public Dictionary<string, int> inventory = new Dictionary<string, int>();
+// public class Craft1 : MonoBehaviour
+// {
+//     // Dictionaries
+//     public Dictionary<string, int> tableMaterials = new Dictionary<string, int>();
+//     public Dictionary<string, int> inventory = new Dictionary<string, int>();
+//     public Dictionary<string, int> craftableRecipes = new Dictionary<string, int>();
 
-    //Lists
-    public List<GameObject> inventoryCards = new List<GameObject>();
-    public List<GameObject> recipeCards = new List<GameObject>();
-    public List<GameObject> tableCards = new List<GameObject>();
+//     // Lists
+//     public List<GameObject> onTableCards = new List<GameObject>();
+//     public List<GameObject> inventoryItems = new List<GameObject>();
+//     public List<CraftingRecipe> craftingRecipes = new List<CraftingRecipe>();
+//     public List<Card> playerDeck = new List<Card>();
+//     public GameObject resultCard;
 
-    //Database
-    public CraftingRecipe[] recipeDatabase;
+//     // Database
+//     public CraftingRecipe[] recipeDatabase;
 
-    //Singular Card
-    public ResultCard resultCard;
+//     // Game Objects
+//     public GameObject materialPrefab;
+//     public GameObject cardPrefab;
+//     public GameObject materialsArea;
+//     public GameObject resultArea;
+//     public GameObject craftCostPrefab;
 
-    // Singleton
-    private Singleton singleton;
+//     // Singleton
+//     private Singleton singleton;
 
-    //GameObjects
-    public GameObject compactPrefab;
-    public GameObject cardVisualPrefab;
+//     //TMPro
+//     TMP_Text craftCostText;
 
-    //States
-    public bool isRecipeView;
+//     //Color
+//     public Color disabledColor;
 
-    //TMPro
-//    TMP_Text craftCostText;
+//     //States
+//     public bool isRecipeView = false;
+//     public bool isInventoryLoaded = false;
+//     public bool isTableLoaded = false;
 
-    // Areas
-    public GameObject resultArea;
-    public GameObject tableArea;
-    public GameObject selectionArea;
+//     private void Awake()
+//     {
+//         // Get Singleton
+//         singleton = GameObject.FindObjectOfType<Singleton>();
+//         singleton.AdjustDaylight();
+//     }
 
-    //Color
-    public Color disabledColor;
+//     private void Start()
+//     {
+//         // Load Database
+//         recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
 
-    private void Awake()
-    {
-        // Get Singleton
-        singleton = GameObject.FindObjectOfType<Singleton>();
-        singleton.AdjustDaylight();
-    }
-
-    private void Start()
-    {
-        // Load Database
-        recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
+//         // Set Up Lists
+//         craftingRecipes.AddRange(recipeDatabase);
         
-        // Set Up Parent Areas
-        resultArea = GameObject.Find("Result Area");
-        tableArea = GameObject.Find("Table Area");
-        selectionArea = GameObject.Find("Selection Area");
+//         // Set Up Parent Areas
+//         resultArea = GameObject.Find("Result Area");
+//         materialsArea = GameObject.Find("Materials");
 
-        //Create Inventory Dictionary
-        LoadInventoryDictionary();
-        LoadInventoryCards();
-    }
+//         // Grab Most Recent Player Deck
+//         playerDeck = singleton.playerDeck;
 
-    public void LoadInventoryDictionary(){
-        foreach(Card card in singleton.playerDeck)
-        {
-            if(inventory.TryGetValue(card.cardName, out int count)){
-                
-                inventory[card.cardName]++;
-            }
-            else
-            {
-                inventory.Add(card.cardName, 1);
-            }
-        }
-    }
-
-    public void LoadInventoryCards()
-    {
-        ClearAll();
-        foreach (KeyValuePair<string, int> invCard in inventory)
-        {
-            foreach(Card dbCard in singleton.cardDatabase){
-                if(invCard.Key == dbCard.cardName)
-                {
-                    if(!inventoryCards.Any(inventoryCard => inventoryCard.GetComponent<SelectionCard>().card.cardName == invCard.Key))
-                    {
-                        GameObject newSelectionCard = GameObject.Instantiate(compactPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
-                        newSelectionCard.transform.SetParent(selectionArea.transform);
-                        SelectionCard selectionScript = newSelectionCard.AddComponent<SelectionCard>();
-                        selectionScript.card = dbCard;
-                        selectionScript.qty = invCard.Value;
-                        selectionScript.Render();
-                        inventoryCards.Add(newSelectionCard);
-                        break;
-                    }
-                }
-            }
-        } 
-    }
-
-    public void RemoveFromList(string listName, string cardName)
-    {
-        List<GameObject> listToRemove;
-        switch(listName)
-        {
-            case "inventory":
-            listToRemove = inventoryCards;
-            break;
-            case "table":
-            listToRemove = tableCards;
-            break;
-            case "recipe":
-            Debug.Log("Can't remove recipe");
-            return;
-            default:
-            Debug.Log("No list available, or typo");
-            return;
-        }
-        
-        for(int i = 0; i < listToRemove.Count; i++)
-        {
-            //if the card doesn't exist in the list
-            if(!listToRemove.Any(cardToRemove => cardToRemove.GetComponent<CraftCard>().card.cardName == cardName))
-            {
-                return;
-            }
-            //if the card does exist
-            else
-            {
-                //Get the script, check qty. Lower if remaining after, else destroy;
-                CraftCard craftCard = listToRemove[i].GetComponent<CraftCard>();
-                if(craftCard.card.cardName == cardName)
-                {
-                    if(craftCard.qty > 1)
-                    {
-                        craftCard.qty--;
-                        craftCard.Render();
-                    }
-                    else
-                    {
-                        craftCard.qty--;
-                        Destroy(listToRemove[i].gameObject);
-                        listToRemove.Remove(listToRemove[i]);
-                    }
-                }
-            }
-        }
-    }
-
-    public void ClearAll()
-    {
-        int initialInvCardsCount = inventoryCards.Count;
-        for(int i = 0; i < initialInvCardsCount; i++)
-        {
-            inventoryCards[i].GetComponent<CraftCard>().qty = 0;
-            Destroy(inventoryCards[i].gameObject);
-        }
-        inventoryCards.Clear();
-
-    }
-
+//         // Create UI Inventory
+//         LoadInventory();
+//     }
 
 //     //Creates UI Inventory for Crafting
 //     public void LoadInventory()
@@ -601,5 +506,4 @@ public class Craft : MonoBehaviour
 //         }
 //     }
 
-}
-
+// }

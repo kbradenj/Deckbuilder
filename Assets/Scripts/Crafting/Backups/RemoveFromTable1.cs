@@ -3,7 +3,7 @@
 // using UnityEngine;
 // using UnityEngine.EventSystems;
 
-// public class RemoveFromTable : MonoBehaviour, IPointerClickHandler
+// public class RemoveFromTable1 : MonoBehaviour, IPointerClickHandler
 // {
 //     public Craft craft;
 

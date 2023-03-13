@@ -4,7 +4,7 @@
 // using UnityEngine.UI;
 // using TMPro;
 
-// public class CraftingMaterialBehavior : MonoBehaviour
+// public class CraftingMaterialBehavior1 : MonoBehaviour
 // {
 //     public GameObject craftingTable;
 //     public int amount;
