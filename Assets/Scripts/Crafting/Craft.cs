@@ -6,7 +6,7 @@ public class Craft : MonoBehaviour
 {
     //Dictionary
     public Dictionary<string, int> inventory = new Dictionary<string, int>();
-
+    
     //Lists
     public List<GameObject> inventoryCards = new List<GameObject>();
     public List<GameObject> recipeCards = new List<GameObject>();
