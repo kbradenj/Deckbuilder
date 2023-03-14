@@ -41,7 +41,7 @@ public class CardBehavior : MonoBehaviour
     //States
     private bool isDragging = false;
     private bool isOverDropZone = false;
-    public bool displayAmount = false;
+    public int qty;
     
     void Start()
     {
@@ -86,7 +86,6 @@ public class CardBehavior : MonoBehaviour
     //Populate Card Data to UI
     public void RenderCard(Card c, bool showQty = false)
     {
-        displayAmount = showQty;
         card = c;
         cardNameField.text = c.cardName;
         descriptionField.text = c.FormatString();
@@ -97,7 +96,7 @@ public class CardBehavior : MonoBehaviour
             costField.text = c.cardCost.ToString(); 
         }
         image.sprite = c.cardImage;
-        if(displayAmount != true){
+        if(showQty != true){
             GameObject.Find("QuantityDisplay").SetActive(false);
         }
     }
@@ -202,7 +201,6 @@ public class CardBehavior : MonoBehaviour
             {
                 case "attack":
                 actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, card.multiAction);
-                Debug.Log(card.attack + player.strength + player.baseStrength);
                 break;
                 case "xattack":
                 actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, player.turnAP);

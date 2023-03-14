@@ -3,7 +3,13 @@ guid: 645b008a05b7e4e2bba4cd3236ecf841
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - resultCard: {instanceID: 0}
+  - compactPrefab: {fileID: 3840540609027649376, guid: a3e38b33dab944d539d20cf9a3077ab9, type: 3}
+  - cardVisualPrefab: {fileID: 1639937595311336888, guid: 1519c79c58543440c9db7c1cfcfe37f0, type: 3}
+  - resultArea: {instanceID: 0}
+  - tableArea: {instanceID: 0}
+  - selectionArea: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -3,7 +3,13 @@ guid: 21c47dd910498406089beb2c525e6f01
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - card: {instanceID: 0}
+  - image: {instanceID: 0}
+  - qtyText: {instanceID: 0}
+  - craft: {instanceID: 0}
+  - craftCostText: {instanceID: 0}
+  - craftCostPrefab: {fileID: 3065387812838022230, guid: 0f4d47f7461b6470c8162e23f3424619, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

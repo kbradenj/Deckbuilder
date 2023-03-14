@@ -11,25 +11,23 @@ public class CraftCard : MonoBehaviour, IPointerClickHandler
     public Card card;
     public Image image; 
     public TMP_Text qtyText;
+    public bool isInstantiated = false;
 
     public Craft craft;
 
 
-    void Awake()
+    public virtual void Awake()
     {
-        image = gameObject.GetComponentInChildren<Image>();
-        qtyText = gameObject.GetComponentInChildren<TMP_Text>();
         craft = GameObject.FindObjectOfType<Craft>();
     }
 
-      public virtual void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
-        craft.RemoveFromList("inventory", card.cardName);
+        
     }
 
     public virtual void Render()
     {
-        qtyText.text = qty.ToString();
-        image.sprite = card.cardImage;   
+      
     }
 }

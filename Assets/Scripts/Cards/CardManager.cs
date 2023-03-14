@@ -43,6 +43,8 @@ public class CardManager : MonoBehaviour
         
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
+        startingCardIDs.Add(2);
+        startingCardIDs.Add(3);
 
         for(int i = 0; i < startingCardIDs.Count; i++)
         {

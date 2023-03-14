@@ -8,6 +8,8 @@ TagManager:
   - enemy
   - Close Up
   - Card Reward
+  - Card Image
+  - Result Card
   layers:
   - Default
   - TransparentFX
