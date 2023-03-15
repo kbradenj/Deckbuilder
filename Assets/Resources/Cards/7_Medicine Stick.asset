@@ -20,6 +20,8 @@ MonoBehaviour:
   cardDescription: Attack for {0} and Gain {1} Block
   cardLevel: 2
   cardRarity: 2
+  deckQty: 1
+  recipe: {fileID: 11400000, guid: 1d78f870901f6458aba5e2659144f01c, type: 2}
   cardCost: 1
   block: 7
   attack: 7

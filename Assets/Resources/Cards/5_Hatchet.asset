@@ -19,6 +19,8 @@ MonoBehaviour:
   cardDescription: Attack for {0} Damage * X
   cardLevel: 2
   cardRarity: 1
+  deckQty: 2
+  recipe: {fileID: 11400000, guid: 65cc6c4667087498fbf9375b2b4b32a6, type: 2}
   cardCost: 0
   block: 0
   attack: 5

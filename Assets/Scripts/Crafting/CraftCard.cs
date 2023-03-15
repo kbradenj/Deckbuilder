@@ -12,6 +12,7 @@ public class CraftCard : MonoBehaviour, IPointerClickHandler
     public Image image; 
     public TMP_Text qtyText;
     public bool isInstantiated = false;
+    public bool isDisabled = false;
 
     public Craft craft;
 
@@ -21,13 +22,7 @@ public class CraftCard : MonoBehaviour, IPointerClickHandler
         craft = GameObject.FindObjectOfType<Craft>();
     }
 
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-        
-    }
-
-    public virtual void Render()
-    {
-      
-    }
+    public virtual void OnPointerClick(PointerEventData eventData){}
+    public virtual void Render(){}
+    public virtual void ToggleDisable(){}
 }

@@ -99,6 +99,9 @@ public class CardBehavior : MonoBehaviour
         if(showQty != true){
             GameObject.Find("QuantityDisplay").SetActive(false);
         }
+        else
+        {
+        }
     }
 
     public void AddPrice(GameObject card, int craftCost)

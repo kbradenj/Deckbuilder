@@ -5,12 +5,9 @@ using TMPro;
 public class Craft : MonoBehaviour
 {
     //Dictionary
-    public Dictionary<string, int> inventory = new Dictionary<string, int>();
-    
-    //Lists
-    public List<GameObject> inventoryCards = new List<GameObject>();
-    public List<GameObject> recipeCards = new List<GameObject>();
-    public List<GameObject> tableCards = new List<GameObject>();
+    public Dictionary<string, Card> playerDeck = new Dictionary<string, Card>();
+    public Dictionary<string, CraftCard> inventoryCards = new Dictionary<string, CraftCard>();
+    public Dictionary<string, CraftCard> tableCards = new Dictionary<string, CraftCard>();
 
     //Database
     public CraftingRecipe[] recipeDatabase;
@@ -26,7 +23,7 @@ public class Craft : MonoBehaviour
     public GameObject cardVisualPrefab;
 
     //States
-    public bool isRecipeView;
+    public bool isRecipeView = false;
     public bool exists;
 
     //TMPro
@@ -57,63 +54,52 @@ public class Craft : MonoBehaviour
         recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
 
         //Create Inventory Dictionary
-        LoadInventoryDictionary();
+        LoadPlayerDeckDictionary();
+        LoadInventoryCardObjects();
     }
 
     public void InventoryView()
     {
-        ClearAll();
-        LoadInventoryDictionary();
         isRecipeView = false;
+        ClearAll();
+        LoadPlayerDeckDictionary();
+        LoadInventoryCardObjects();
     }
 
-    public void ResetInventory(){
-        Dictionary<string, int> tempDictionary = new Dictionary<string, int>();
-        foreach(KeyValuePair<string, int> kvp in inventory){
-            tempDictionary.Add(kvp.Key, 0);
-        }
-        inventory = tempDictionary;
-        inventory.Clear();
-    }
-    public void LoadInventoryDictionary(){
-        ResetInventory();
+    public void LoadPlayerDeckDictionary(){
+        playerDeck.Clear();
         foreach(Card card in singleton.playerDeck)
         {
-            if(inventory.TryGetValue(card.cardName, out int count)){
+            if(playerDeck.ContainsKey(card.cardName)){
                 
-                inventory[card.cardName]++;
+                playerDeck[card.cardName].deckQty++;
+                continue;
             }
             else
             {
-                inventory.Add(card.cardName, 1);
+                playerDeck.Add(card.cardName, card);
+                playerDeck[card.cardName].deckQty = 1;
             }
         }
-        LoadInventoryCards();
+
     }
 
-    public void LoadInventoryCards()
+    public void LoadInventoryCardObjects()
     {
-        Card cardToLoad = null;
-        foreach(KeyValuePair<string, int> kvp in inventory)
+        foreach(KeyValuePair<string, Card> kvp in playerDeck)
         {
-            foreach(Card dbCard in singleton.cardDatabase){
-                cardToLoad = dbCard;
-                if(dbCard.cardName == kvp.Key)
-                {
-                    for(int i = 0; i < kvp.Value; i++)
-                    {
-                        AddToInventory(cardToLoad);
-                    }
-                } 
+            for(int i = 0; i < kvp.Value.deckQty; i++)
+            {
+                 AddToInventory(kvp.Value);
             }
+                
         }
     }
 
-    public void RemoveFromList(List<GameObject> list, CraftCard cardScript)
+    public void RemoveCard(Dictionary<string, CraftCard> area, CraftCard cardScript)
     {
-        for(int i = 0; i < list.Count; i++)
-        {
-            if(list[i].GetComponent<CraftCard>().card.cardName == cardScript.card.cardName)
+            string cardName = cardScript.card.cardName;
+            if(area.ContainsKey(cardName))
             {
                 if(cardScript.qty > 1)
                 {
@@ -124,112 +110,115 @@ public class Craft : MonoBehaviour
                 {
                     cardScript.qty--;
                     cardScript.Render();
-                    Destroy(list[i].gameObject);
-                    list.Remove(list[i]);
+                    Destroy(cardScript.gameObject);
+                    area.Remove(cardName);
                 }
             }
-        }
         GetAvailableCraftingOptions();
     }
 
+//possibly need to break out the instantiation part of this into its own script
     public void AddToInventory(Card card){
-        SelectionCard selectionCardScript;
-        int initialInvCardSize = inventoryCards.Count;
-        for(int i = 0; i < initialInvCardSize; i++)
+        string cardName = card.cardName;
+        CraftCard newCraftCard;
+        if(inventoryCards.ContainsKey(cardName))
         {
-            selectionCardScript = inventoryCards[i].GetComponent<SelectionCard>();
-            if (selectionCardScript.card.cardName == card.cardName)
-            {
-                selectionCardScript.qty += 1;
-                selectionCardScript.Render();
-                return;
-            } 
+            inventoryCards[cardName].qty++;
+            inventoryCards[cardName].Render();
         }
-        GameObject invCard = GameObject.Instantiate(compactPrefab, Vector2.zero, Quaternion.identity);
-        invCard.transform.SetParent(selectionArea.transform);
-        selectionCardScript = invCard.GetComponent<SelectionCard>();
-        selectionCardScript.qty = 1;
-        selectionCardScript.card = card;
-        selectionCardScript.Render();
-        selectionCardScript.isInstantiated = true;
-        inventoryCards.Add(invCard);
+        else
+        {
+            GameObject invCard = GameObject.Instantiate(compactPrefab, Vector2.zero, Quaternion.identity);
+            invCard.transform.SetParent(selectionArea.transform);
+            if(!isRecipeView){
+                newCraftCard = invCard.AddComponent<SelectionCard>();
+                newCraftCard.qty = 1;
+            }
+            else
+            { 
+                newCraftCard = invCard.AddComponent<RecipeCard>();
+                newCraftCard.qty = GetCraftableQty(card.recipe);
+                if(newCraftCard.qty == 0)
+                {
+                    Destroy(newCraftCard.gameObject);
+                    return;
+                }
+            }
+
+            newCraftCard.card = card;
+            newCraftCard.Render();
+            newCraftCard.isInstantiated = true;
+            inventoryCards.Add(cardName, newCraftCard);
+            if(isRecipeView)
+            {
+                if(!CanMakeRecipe(card.recipe) && !newCraftCard.isDisabled)
+                {
+                    newCraftCard.ToggleDisable();
+                }
+                if(CanMakeRecipe(card.recipe) && newCraftCard.isDisabled)
+                {
+                    newCraftCard.ToggleDisable();
+                }
+            }
+            
+        }
     }
 
-    public void AddToTable(CraftCard cardScript){
+    public void AddToTable(Card card){
 
-        TableCard tableCardScript;
-
-        for(int i = 0; i < tableCards.Count; i++)
+        string cardName = card.cardName;
+        if(tableCards.ContainsKey(cardName))
         {
-            if (tableCards[i].GetComponent<CraftCard>().card.cardName == cardScript.card.cardName)
-            {
-                tableCardScript = tableCards[i].GetComponent<TableCard>();
-                tableCardScript.qty += 1;
-                tableCardScript.Render();
-                return;
-            } 
+            tableCards[cardName].qty++;
+            tableCards[cardName].Render();
+            GetAvailableCraftingOptions();
+            return;
         }
-
-        GameObject tableCard = InstantiateCard("table");
-        tableCardScript = tableCard.GetComponent<TableCard>();
+        GameObject tableCard = GameObject.Instantiate(cardVisualPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
+        tableCard.transform.SetParent(tableArea.transform);
+        TableCard tableCardScript = tableCard.AddComponent<TableCard>();
         tableCardScript.qty = 1;
-        tableCardScript.card = cardScript.card;
+        tableCardScript.card = card;
         tableCardScript.Render();
         tableCard.transform.localScale *= 0.5f;
-        cardScript.isInstantiated = true;
         tableCardScript.isInstantiated = true;
-        tableCards.Add(tableCard);
-    }
+        tableCards.Add(cardName, tableCardScript);
 
-    public GameObject InstantiateCard(string location)
-    {
-        GameObject prefab = null;
-        GameObject parent = null;
-        switch(location)
-        {
-        case "inventory":
-            prefab = compactPrefab;
-            parent = selectionArea;
-            break;
-            case "table":
-            prefab = cardVisualPrefab;
-            parent = tableArea;
-            break;
-        }
-        GameObject newSelectionCard = GameObject.Instantiate(prefab, new Vector2(0,0), Quaternion.identity) as GameObject;
-        newSelectionCard.transform.SetParent(parent.transform);
-        return newSelectionCard;
+        GetAvailableCraftingOptions();
     }
 
     public void ClearAll()
     {
-        // Clear inventory cards
-        foreach (GameObject card in inventoryCards)
+        //Clear Inventory Cards
+        List<string> inventoryCardKeys = new List<string>(inventoryCards.Keys);
+        for(int i = 0; i < inventoryCardKeys.Count; i++)
         {
-            Destroy(card);
+            string cardKey = inventoryCardKeys[i];
+            inventoryCards[cardKey].qty = 0;
+            Destroy(inventoryCards[cardKey].gameObject);
+            inventoryCards.Remove(cardKey);
         }
-        inventoryCards.Clear();
 
-        // Clear table cards
-        foreach (GameObject card in tableCards)
+        //Clear Table Cards
+        List<string> tableCardKeys = new List<string>(tableCards.Keys);
+        for(int i = 0; i < tableCardKeys.Count; i++)
         {
-            Destroy(card);
+            string cardKey = tableCardKeys[i];
+            tableCards[cardKey].qty = 0;
+            Destroy(tableCards[cardKey].gameObject);
+            tableCards.Remove(cardKey);
         }
-        tableCards.Clear();
 
-        // Destroy result card
-        if (resultCard != null)
+        if(resultCard != null)
         {
             Destroy(resultCard.gameObject);
-            resultCard = null; 
+            resultCard = null;
         }
-        
     }
 
         public void RenderResultCard(CraftingRecipe recipe)
     {
         GameObject resultCardInstance = GameObject.Instantiate(cardVisualPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
-        resultCardInstance.tag = "Result Card";
         resultCardInstance.transform.SetParent(resultArea.transform);
         CardBehavior resultItemScript = resultCardInstance.GetComponent<CardBehavior>();
         resultItemScript.RenderCard(recipe.resultItem, true);
@@ -278,16 +267,11 @@ public class Craft : MonoBehaviour
 
     public bool CanCraft(CraftingRecipe recipe)
     {
-        // if(!isRecipeView)
-        // {
         bool canCraft = false;
         foreach(CraftingMaterial material in recipe.craftingMaterials){
-            canCraft = false;
-            foreach(GameObject cardObject in tableCards)
-            {
-                CraftCard craftCard = cardObject.GetComponent<CraftCard>();
-                if(material.key == craftCard.card.cardName){
-                    if(craftCard.qty < material.amount)
+            if(tableCards.ContainsKey(material.key))
+            {  
+                    if(tableCards[material.key].qty < material.amount)
                     {
                         return false;
                     }
@@ -295,35 +279,32 @@ public class Craft : MonoBehaviour
                     {
                         canCraft = true;
                     }
-                }
             }
-            if(canCraft == false){
+            else{
                 return false;
             }
         } 
+        if(canCraft == false){
+            return false;
+        }
         return canCraft;
-        // }
-        // else
-        // {
-        //     return recipe.craftingMaterials.All(material => 
-        //     inventory.ContainsKey(material.key) && inventory[material.key] >= material.amount);
-        // }
     }
 
     public bool HasExtraMaterial(CraftingRecipe recipe){
         bool matched = false;
-        foreach(GameObject cardObject in tableCards){
+        Dictionary<string, CraftCard> dictionary = tableCards;
+        foreach(KeyValuePair<string, CraftCard> kvp in dictionary){
             matched = false;
-            CraftCard craftCard = cardObject.GetComponent<CraftCard>();
             foreach(CraftingMaterial material in recipe.craftingMaterials){
                 if(matched == true){
-                    if(craftCard.card.cardName == material.key){
+                    if(kvp.Key == material.key){
                     matched = true;
                     }
                 }
                 else{
-                    if(craftCard.card.cardName == material.key){
+                    if(kvp.Key == material.key){
                         matched = true;
+                        break;
                     }
                 } 
             }
@@ -334,22 +315,27 @@ public class Craft : MonoBehaviour
         return false;
     }
 
-     public int GetCraftableQty(CraftingRecipe recipe){
-        int amountToCraft = int.MaxValue;
-        int tempAmount = 0;
-        CraftCard craftCard;
-        foreach(CraftingMaterial material in recipe.craftingMaterials){
-            foreach(GameObject cardObject in tableCards){
-                craftCard = cardObject.GetComponent<CraftCard>();
-                if(material.key == craftCard.card.cardName){
-                    tempAmount = craftCard.qty/material.amount; 
-                }
-                if(tempAmount < amountToCraft){
-                    amountToCraft = tempAmount;
-                }
+    public int GetCraftableQty(CraftingRecipe recipe){
+    int amountToCraft = int.MaxValue;
+    int tempAmount = 0;
+    foreach(CraftingMaterial material in recipe.craftingMaterials){
+            if(isRecipeView){
+                tempAmount = playerDeck[material.key].deckQty/material.amount;
+            }
+            else
+            {
+                tempAmount = tableCards[material.key].qty/material.amount;
+            }
+            if(tempAmount < amountToCraft){
+                amountToCraft = tempAmount;
             }
         }
-        return amountToCraft;    
+    if(resultCard != null){
+        CardBehavior resultCardBehavior = resultCard.GetComponent<CardBehavior>();
+        resultCardBehavior.qty = amountToCraft;
+        resultCardBehavior.RenderCard(resultCardBehavior.card, true);
+    }
+    return amountToCraft;    
     }
 
     //Let's make this thing
@@ -358,13 +344,19 @@ public class Craft : MonoBehaviour
         int quantityToMake = card.quantity;
         for(int i = 0; i < quantityToMake; i++)
         {
-            AddToInventory(card);
+            if(!isRecipeView)
+            {
+                AddToInventory(card);
+            }
+            
+            UseMaterials();
             singleton.playerDeck.Add(card);
         }
-        UseMaterials();
+
         singleton.AdjustDaylight(0);
         card.quantity = 0;
-        GetAvailableCraftingOptions();
+        Destroy(resultCard.gameObject);
+        resultCard = null;
     }
 
     //Remove the Cards in the player deck that were used to craft
@@ -373,9 +365,13 @@ public class Craft : MonoBehaviour
         if (recipeMatch != null) {
             singleton.AdjustDaylight(recipeMatch.timeCost);
             foreach (CraftingMaterial material in recipeMatch.craftingMaterials) {
-                UpdateTableMaterial(material);
+                for(int i = 0; i < material.amount; i++)
+                {
+                    RemoveMatchingCardsFromDeck(material);
+                }
+                UpdateTableMaterial(material); 
             }
-            RemoveMatchingCardsFromDeck(recipeMatch.craftingMaterials);
+    
         }
     }
 
@@ -387,63 +383,76 @@ public class Craft : MonoBehaviour
                     return recipe;
                 }
             }
-
         return null;
     }
 
     //Either reduce qty or remove card objects from crafting table
     private void UpdateTableMaterial(CraftingMaterial material) {
-        for (int i = 0; i < tableCards.Count; i++) {
-            CraftCard craftCard = tableCards[i].GetComponent<CraftCard>();
+            CraftCard craftCard = tableCards[material.key];
+            craftCard.qty -= material.amount;
+            int newQty = craftCard.qty;
 
-            if (material.key == craftCard.card.cardName) {
-                craftCard.qty -= material.amount;
-                int newQty = craftCard.qty;
-
-                if (newQty == 0) {
-                    craftCard.qty = 0;
-                    craftCard.Render();
-                    Destroy(tableCards[i].gameObject);
-                    tableCards.Remove(tableCards[i]);
-                } 
-                else 
-                {
-                    craftCard.qty = newQty;
-                    craftCard.Render();
-                }
-                break;
+            if (newQty == 0) {
+                craftCard.qty = 0;
+                craftCard.Render();
+                Destroy(craftCard.gameObject);
+                tableCards.Remove(material.key);
+                return;
+            } 
+            else 
+            {
+                craftCard.qty = newQty;
+                craftCard.Render();
             }
-        }
-    }
-
+     }
+    
     //Remove the used up cards in the player deck
-    private void RemoveMatchingCardsFromDeck(CraftingMaterial[] materials) {
-        foreach (CraftingMaterial material in materials) {
-            for (int i = 0; i < material.amount; i++) {
-                singleton.RemoveCardFromDeck(material.key);
+    private void RemoveMatchingCardsFromDeck(CraftingMaterial material) {
+            singleton.RemoveCardFromDeck(material.key);
+    }
+    
+    //For Recipe View Only
+    public bool CanMakeRecipe(CraftingRecipe recipe)
+    {
+        foreach(CraftingMaterial material in recipe.craftingMaterials)
+        {
+            if(!playerDeck.ContainsKey(material.key))
+            {
+                return false;
             }
         }
+        return true;
     }
 
+    //What happens when the player swaps over to the recipe view
     public void PossibleRecipeView()
     {
-      
-        if(!isRecipeView)
-        {
+        //need to never delete inventory unless playerdeckloader is called;
             ClearAll();
+            LoadPlayerDeckDictionary();
             isRecipeView = true;
-            int initialInvCount = inventoryCards.Count;
-            for(int i = 0; i < initialInvCount; i++)
-            {
-                Destroy(inventoryCards[i].gameObject);
-            }
 
             //Go through recipes
             foreach(CraftingRecipe recipe in recipeDatabase)
             {
-                    AddToInventory(recipe.resultItem);
+                if(CanMakeRecipe(recipe)){
+                      AddToInventory(recipe.resultItem);
+                }
+            }
+    }
+
+    public void MakeFromRecipe(CraftCard craftCard)
+    {
+    CraftingRecipe recipe = craftCard.card.recipe;
+    if(CanMakeRecipe(recipe)){
+        foreach(CraftingMaterial material in recipe.craftingMaterials)
+        {
+            //Go through each card in the player deck to match it with a materials
+            for(int i = 0; i < material.amount; i++){
+                AddToTable(playerDeck[material.key]);
             }
         }
+    }
     }
 }
 

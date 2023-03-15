@@ -7,17 +7,23 @@ using UnityEngine.EventSystems;
 
 public class TableCard : CraftCard
 {
+    public CardBehavior cardBehavior;
+    public override void Awake()
+    {
+        base.Awake();
+        cardBehavior = gameObject.GetComponent<CardBehavior>();
+    }
     public override void Render()
     {
-        CardBehavior cardBehavior = gameObject.GetComponent<CardBehavior>();
-        cardBehavior.RenderCard(card, true);
         cardBehavior.quantity.text = qty.ToString();
+        cardBehavior.RenderCard(card, true);
+  
     }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
         craft.AddToInventory(card);
-        craft.RemoveFromList(craft.tableCards, this);
+        craft.RemoveCard(craft.tableCards, this);
         base.OnPointerClick(eventData);
     }
 }

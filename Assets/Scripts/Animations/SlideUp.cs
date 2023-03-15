@@ -12,7 +12,6 @@ public class SlideUp : MonoBehaviour
     void Start()
     {
         map = gameObject.GetComponent<RectTransform>();
-        Debug.Log(gameObject.transform.position.y);
         map.DOAnchorPos(new Vector2(0, (Screen.height/2 - 650)), 1f);
     }
 

@@ -5,14 +5,16 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class SelectionCard : CraftCard
+public class RecipeCard : CraftCard
 {
 
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        craft.AddToTable(card);
-        craft.RemoveCard(craft.inventoryCards, this);
+        if(!isDisabled){
+            craft.MakeFromRecipe(this);
+            craft.RemoveCard(craft.inventoryCards, this);
+        }
     }
 
     public override void Render()
@@ -22,4 +24,17 @@ public class SelectionCard : CraftCard
         image.sprite = card.cardImage;
         qtyText.text = qty.ToString();
     }
+
+    public override void ToggleDisable()
+    {
+        if(isDisabled)
+        {
+            image.color = default;
+        }
+        else
+        {
+            image.color = craft.disabledColor;
+        }
+    }
+
 }

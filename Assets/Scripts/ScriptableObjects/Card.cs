@@ -16,6 +16,8 @@ public class Card : ScriptableObject
     public string cardDescription;
     public int cardLevel;
     public int cardRarity;
+    public int deckQty;
+    public CraftingRecipe recipe;
 
     [Header("Battle")]
     public int cardCost;

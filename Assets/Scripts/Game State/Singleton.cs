@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class Singleton : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class Singleton : MonoBehaviour
     }
 
     public void RemoveCardFromDeck(string cardName){
-        playerDeck.Remove(playerDeck.Find(item => item.cardName == cardName));
+            playerDeck.Remove(playerDeck.First(card => card.cardName == cardName));
     }
 
     public void AdjustDaylight(int amount = 0)
