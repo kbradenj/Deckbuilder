@@ -26,8 +26,6 @@ public class Craft : MonoBehaviour
     public bool isRecipeView = false;
     public bool exists;
 
-    //TMPro
-
     // Areas
     public GameObject resultArea;
     public GameObject tableArea;

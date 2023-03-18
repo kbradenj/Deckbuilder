@@ -19,7 +19,7 @@ TagManager:
   - UI
   - Card
   - Drop Zone
-  - 
+  - Clickable Object
   - 
   - 
   - 
@@ -46,4 +46,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Clickable Object
+    uniqueID: 3953977671
+    locked: 0
+  - name: UI
+    uniqueID: 1887072515
     locked: 0
