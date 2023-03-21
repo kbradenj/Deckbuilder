@@ -16,6 +16,7 @@ public class Singleton : MonoBehaviour
     public int storeLevel;
     public int maxDaylight = 360;
 
+    public Dictionary<string, TalentOption> talents = new Dictionary<string, TalentOption>();
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
     public int dayLeft;
 
