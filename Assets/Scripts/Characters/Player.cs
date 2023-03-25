@@ -17,27 +17,29 @@ public class Player : Character
   //Lists
   public List<Card> startingDeck;
 
-  //Scripts
-  public CardManager cardManager;
-  public Actions actions;
-
   //Player Stats
   public int ap = 4;
   public int drawSize = 5;
-
+  
   //Temp Stats
   public int turnAP;
 
   void Awake()
   {
-    cardManager = FindObjectOfType<CardManager>();
-    actions = FindObjectOfType<Actions>();
+    bonusDraw = 0;
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
+    gameState = GameObject.FindObjectOfType<GameState>();
   }
 
-  void Start()
+  public override void StartTurn()
   {
-    
+    turnAP = ap;
+    base.StartTurn();
+    cardManager.Draw(drawSize);
+    foreach(KeyValuePair<string, Card> kvp in gameState.powerCards["turnStart"])
+    {
+      gameState.powerCards["turnStart"][kvp.Key].Effect();
+    }
   }
 
   //Update UI Text Fields
@@ -48,30 +50,6 @@ public class Player : Character
     maxHealthText.text = "/" + maxHealth.ToString();
     healthSlider.value = ((float)health/maxHealth) * 100;
     actionPointsField.text = turnAP.ToString(); 
-  }
-
-  public override void UpdateStatus()
-  {
-    foreach (StatusIcon icon in statusIcons){
-      switch(icon.type)
-      {
-        case "weak":
-        icon.statusTextContainer.text = weak.ToString();
-        break;
-        case "strength":
-        icon.statusTextContainer.text = strength.ToString();
-        break;
-        case "vulnerable":
-        icon.statusTextContainer.text = vulnerable.ToString();
-        break;
-      }
-    }
-  }
-  //Battle States
-  public void EndTurn()
-  {
-    turnAP = ap; //might want to put in start turn rather than end turn
-    UpdateStats();
   }
 
   //PlayerDeath

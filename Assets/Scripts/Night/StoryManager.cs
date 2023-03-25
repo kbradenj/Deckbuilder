@@ -80,24 +80,31 @@ public class StoryManager : MonoBehaviour
 
             }
         }
-        GameObject.FindObjectOfType<Navigation>().Navigate("Home");
+        GameObject.FindObjectOfType<Navigation>().Night();
     }
 
     void AddStrength(int amount)
     {
-        Debug.Log("Added Strength");
+        singleton.player.baseStrength += amount;
     }
 
     void Heal(int amount)
     {
-        Debug.Log("Added Health");
+        if(singleton.player.health + amount > singleton.player.maxHealth){
+            singleton.player.health = singleton.player.maxHealth;
+        }
+        else
+        {
+            singleton.player.health += amount;
+        }
+
     }
 
     void AddCardToDeck(Card card, int amount)
     {
         for(int i = 0; i < amount; i++)
         {
-               Debug.Log("Added Card");
+               singleton.playerDeck.Add(card);
         }
      
     }

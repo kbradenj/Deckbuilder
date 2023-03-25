@@ -9,4 +9,5 @@ public class CraftingRecipe : ScriptableObject
     public int timeCost;
     public CraftingMaterial[] craftingMaterials;
     public Card resultItem;
+    public bool isLocked = true;
 }

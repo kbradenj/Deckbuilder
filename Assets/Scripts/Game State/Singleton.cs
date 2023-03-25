@@ -7,19 +7,31 @@ using System.Linq;
 public class Singleton : MonoBehaviour
 {
 
-    public List<Card> playerDeck;
+    //Character
     public Player player;
-    public List<Card> cardDatabase;
-
+    
+    //Navigation
     public Navigation navigation;
 
+    //Containers
     public int storeLevel;
+    public int dayCount = 1;
     public int maxDaylight = 360;
-
-    public Dictionary<string, TalentOption> talents = new Dictionary<string, TalentOption>();
-    public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
     public int dayLeft;
 
+    //Dictionaries
+    public Dictionary<string, TalentOption> talents = new Dictionary<string, TalentOption>();
+    public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
+
+    //Arrays
+    public CraftingRecipe[] recipeDatabase;
+
+    //Lists
+    public List<Card> cardDatabase;
+    public List<Card> playerDeck;
+    public List<CraftingRecipe> unlockedRecipes;
+
+    //Singleton Pattern
     private static Singleton instance;
     public static Singleton Instance
     {
@@ -36,6 +48,8 @@ public class Singleton : MonoBehaviour
             player.level = 1;
             player.baseStrength = 3;
             player.health = player.maxHealth;
+            PlayerPrefs.SetString("unlockedRecipes", "");
+            recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
             DontDestroyOnLoad(gameObject);
         }    
         else
@@ -59,7 +73,6 @@ public class Singleton : MonoBehaviour
             {
                 dayLeft -= amount;
                 navigation.Night();
-                Debug.Log("Begin Night");
             }
             else
             {
@@ -71,6 +84,12 @@ public class Singleton : MonoBehaviour
             TMP_Text daylightCounter = GameObject.Find("Daylight Counter").GetComponentInChildren<TMP_Text>();
             daylightCounter.text = dayLeft.ToString() + " minutes left in the day";
         }
+    }
+
+    public void UpdateDayCount()
+    {
+        TMP_Text dayCounter = GameObject.Find("Day Counter").GetComponentInChildren<TMP_Text>();
+        dayCounter.text = "Day: " + dayCount;
     }
 
     public void HealPlayer(int amount)

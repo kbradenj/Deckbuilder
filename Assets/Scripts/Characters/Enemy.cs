@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
+
 public class Enemy : Character
 {
     //TMP
@@ -14,8 +15,6 @@ public class Enemy : Character
     public TMP_Text enemyActionTitle;
     public TMP_Text enemyBlockField;
    
-
-
     public Image image;
     public Color highlightColor;
     public Color defaultColor;
@@ -25,7 +24,6 @@ public class Enemy : Character
     private Player player;
     public EnemyObject[] database;
     public EnemyObject enemy;
-    public Actions actions;
 
     //Enemy Stats
     public int attack;
@@ -36,7 +34,6 @@ public class Enemy : Character
     void Start()
     {
         player = FindObjectOfType<Player>();
-        actions = FindObjectOfType<Actions>();
         health = enemy.health;
         maxHealth = enemy.maxHealth;
         healthSlider.value = ((float)health/enemy.maxHealth) * 100;
@@ -52,16 +49,6 @@ public class Enemy : Character
         Destroy(this.gameObject);
     }
 
-    public override void RemoveStatusIcon(string icon)
-    {
-        foreach(StatusIcon status in statusIcons)
-        {
-            if(status.type == icon){
-                Destroy(status.statusIconContainer);
-            }
-        }
-    }
-
     public override void UpdateStats()
     {
         enemyHealthField.text = health.ToString();
@@ -70,60 +57,10 @@ public class Enemy : Character
         enemyBlockField.text = block.ToString();
     }
 
-    public override void UpdateStatus()
-    {
-        foreach (StatusIcon icon in statusIcons){
-            switch(icon.type)
-            {
-                case "weak":
-                icon.statusTextContainer.text = weak.ToString();
-                break;
-                case "strength":
-                icon.statusTextContainer.text = strength.ToString();
-                break;
-                case "vulnerable":
-                icon.statusTextContainer.text = vulnerable.ToString();
-                break;
-            }
-        }
-    }
-
-    public override void AdjustStatus()
-    {
-        if(statusIcons == null){
-            return;
-        } 
-        else
-        {
-            if(vulnerable > 1)
-            {
-                vulnerable --;
-            }
-            else if(vulnerable == 1)
-            {
-                vulnerable --;
-                RemoveStatusIcon("vulnerable");
-            }
-
-            if(weak > 1)
-            {
-                weak --;
-            }
-            else if(weak == 1)
-            {
-                weak --;
-                RemoveStatusIcon("weak");
-                weaknessMod = 1;
-            }
-                UpdateStatus();
-        }
-    }
-
     public void EnemyTurn()
     {
-        block = 0;
+        StartTurn();
         UpdateStats();
-        AdjustStatus();
         EnemyAction currentAction = enemy.actionList[turnNumber-1];
         switch(currentAction.type)
         {
@@ -139,6 +76,11 @@ public class Enemy : Character
             case "strength":
             actions.Strength(this, currentAction.baseAmount);
             break;
+            case "poison":
+            actions.Poison(player, player.poison);
+            player.poison += currentAction.baseAmount;
+            player.UpdateStatus();
+            break;
         }
 
         if(turnNumber == enemy.actionList.Count){
@@ -147,13 +89,9 @@ public class Enemy : Character
         else{
             turnNumber++;
         }
-
-        player.block = 0; //maybe move to start turn?
         
         NextTurn();
-        
-      
-        
+        EndTurn();
     }
 
     public override void NextTurn(){

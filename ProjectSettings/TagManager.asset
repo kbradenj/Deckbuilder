@@ -10,6 +10,7 @@ TagManager:
   - Card Reward
   - Card Image
   - Result Card
+  - Recipe List Item
   layers:
   - Default
   - TransparentFX

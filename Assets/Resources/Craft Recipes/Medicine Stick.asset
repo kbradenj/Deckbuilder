@@ -19,3 +19,4 @@ MonoBehaviour:
   - key: Feather
     amount: 1
   resultItem: {fileID: 11400000, guid: 4029ea77ecd3849a0a848174e0f4fb0c, type: 2}
+  isLocked: 1

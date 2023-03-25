@@ -74,5 +74,14 @@ public class Actions : MonoBehaviour
         target.UpdateStatus();
     }
 
+    //Poison
+    public void Poison(Character target, int amount)
+    {
+        if(amount == 0)
+        {
+            target.AddStatusIcon("poison", amount);
+        }
+    }
+
    
 }

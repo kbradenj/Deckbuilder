@@ -12,23 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
   m_Name: 2_Feather
   m_EditorClassIdentifier: 
+  cardID: 2
+  cardName: Feather
+  cardType: Standard
+  cardDescription: Block for {0} damage, apply {1} weak
+  cardCost: 2
+  cardLevel: 1
+  cardRarity: 2
+  needsTarget: 1
+  recipe: {fileID: 0}
+  cardImage: {fileID: 21300000, guid: 3df758465e3c74d1193d11cce85b47b2, type: 3}
+  cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
   actionList:
   - block
   - weak
-  cardID: 2
-  cardName: Feather
-  cardDescription: Block for {0} damage, apply {1} weak
-  cardLevel: 1
-  cardRarity: 2
-  cardCost: 2
   block: 7
   attack: 0
   multiAction: 1
   vulnerable: 0
   weak: 2
   strength: 0
-  needsTarget: 1
+  deckQty: 0
+  gameState: {fileID: 0}
   quantity: 0
   price: 20
-  cardImage: {fileID: 21300000, guid: 3df758465e3c74d1193d11cce85b47b2, type: 3}
-  cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
+  phase: 
+  power: {fileID: 0}

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class Craft : MonoBehaviour
 {
@@ -18,9 +19,12 @@ public class Craft : MonoBehaviour
     // Singleton
     private Singleton singleton;
 
-    //GameObjects
+    //Prefabs
     public GameObject compactPrefab;
     public GameObject cardVisualPrefab;
+    public GameObject recipeBookPrefab;
+    public GameObject switchKnob;
+    public Vector2 initialKnobPosition;
 
     //States
     public bool isRecipeView = false;
@@ -36,6 +40,7 @@ public class Craft : MonoBehaviour
 
     private void Awake()
     {
+        initialKnobPosition = switchKnob.transform.position;
         // Get Singleton
         singleton = GameObject.FindObjectOfType<Singleton>();
         singleton.AdjustDaylight();
@@ -49,19 +54,39 @@ public class Craft : MonoBehaviour
     private void Start()
     {
         // Load Database
-        recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
+        recipeDatabase = singleton.recipeDatabase;
 
         //Create Inventory Dictionary
         LoadPlayerDeckDictionary();
         LoadInventoryCardObjects();
+        LoadUnlockedRecipesFromPrefs();
     }
 
-    public void InventoryView()
+    public void SwitchView()
     {
-        isRecipeView = false;
-        ClearAll();
-        LoadPlayerDeckDictionary();
-        LoadInventoryCardObjects();
+        if(isRecipeView)
+        {
+            isRecipeView = false;
+            switchKnob.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-25f, 0), .25f);
+            ClearAll();
+            LoadPlayerDeckDictionary();
+            LoadInventoryCardObjects();
+        }
+        else
+        {
+            ClearAll();
+            switchKnob.GetComponent<RectTransform>().DOAnchorPos(new Vector2(25f, 0), .25f);
+            LoadPlayerDeckDictionary();
+            isRecipeView = true;
+
+            //Go through recipes
+            foreach(CraftingRecipe recipe in recipeDatabase)
+            {
+                if(CanMakeRecipe(recipe)){
+                      AddToInventory(recipe.resultItem);
+                }
+            }    
+        }
     }
 
     public void LoadPlayerDeckDictionary(){
@@ -79,7 +104,6 @@ public class Craft : MonoBehaviour
                 playerDeck[card.cardName].deckQty = 1;
             }
         }
-
     }
 
     public void LoadInventoryCardObjects()
@@ -90,7 +114,26 @@ public class Craft : MonoBehaviour
             {
                  AddToInventory(kvp.Value);
             }
-                
+        }
+    }
+
+    public void LoadUnlockedRecipesFromPrefs()
+    {
+        Debug.Log("unlocked rec. count " + singleton.unlockedRecipes.Count);
+        string unlockedRecipeNames = PlayerPrefs.GetString("unlockedRecipes");
+        Debug.Log("unlockedRecipes string = " + unlockedRecipeNames);
+        string[] unlockedRecipeNameArray = unlockedRecipeNames.Split(new string[] {"###"}, System.StringSplitOptions.RemoveEmptyEntries);
+        foreach (CraftingRecipe craftingRecipe in singleton.recipeDatabase)
+        {
+            foreach(string recipeName in unlockedRecipeNameArray)
+            {
+                if(recipeName == craftingRecipe.resultItem.cardName)
+                {
+                    craftingRecipe.isLocked = false;
+                    Debug.Log(recipeName + " isLocked = " + craftingRecipe.isLocked);
+                    singleton.unlockedRecipes.Add(craftingRecipe);
+                }
+            }
         }
     }
 
@@ -422,35 +465,24 @@ public class Craft : MonoBehaviour
         return true;
     }
 
-    //What happens when the player swaps over to the recipe view
-    public void PossibleRecipeView()
-    {
-        //need to never delete inventory unless playerdeckloader is called;
-            ClearAll();
-            LoadPlayerDeckDictionary();
-            isRecipeView = true;
-
-            //Go through recipes
-            foreach(CraftingRecipe recipe in recipeDatabase)
-            {
-                if(CanMakeRecipe(recipe)){
-                      AddToInventory(recipe.resultItem);
-                }
-            }
-    }
-
     public void MakeFromRecipe(CraftCard craftCard)
     {
-    CraftingRecipe recipe = craftCard.card.recipe;
-    if(CanMakeRecipe(recipe)){
-        foreach(CraftingMaterial material in recipe.craftingMaterials)
-        {
-            //Go through each card in the player deck to match it with a materials
-            for(int i = 0; i < material.amount; i++){
-                AddToTable(playerDeck[material.key]);
+        CraftingRecipe recipe = craftCard.card.recipe;
+        if(CanMakeRecipe(recipe)){
+            foreach(CraftingMaterial material in recipe.craftingMaterials)
+            {
+                //Go through each card in the player deck to match it with a materials
+                for(int i = 0; i < material.amount; i++){
+                    AddToTable(playerDeck[material.key]);
+                }
             }
         }
     }
+
+    public void OpenRecipeBook()
+    {
+        GameObject recipeBook = GameObject.Instantiate(recipeBookPrefab, new Vector2 (Screen.width/2f, Screen.height/2f), Quaternion.identity);
+        recipeBook.transform.SetParent(GameObject.FindObjectOfType<Canvas>().transform);
     }
 }
 

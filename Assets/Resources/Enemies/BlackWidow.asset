@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faf17b10b9c584bb59551b7c31ebc948, type: 3}
-  m_Name: Shego
+  m_Name: BlackWidow
   m_EditorClassIdentifier: 
   actionList:
-  - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
-  - {fileID: 11400000, guid: 770435aa523c4485fb787a6643beb9b9, type: 2}
+  - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
+  - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
   - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
   ID: 0
-  enemyName: Shego
-  level: 3
+  enemyName: Black Widow
+  level: 4
   maxHealth: 50
   health: 1
-  enemyImage: {fileID: 21300000, guid: b141d3ad03ebb40a996e2818151f95d4, type: 3}
+  enemyImage: {fileID: 21300000, guid: 3b435906ce0f64e9198140fe90e2e0e7, type: 3}
+  rarity: Common

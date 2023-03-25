@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -58,7 +57,7 @@ public class CardBehavior : MonoBehaviour
             {
                 transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 transform.SetParent(Canvas.transform, true);
-                if(!card.needsTarget && card.actionList[0] == "attackall"){
+                if(!card.needsTarget && card.cardType != "power" && card.actionList[0] == "attackall"){
                     enemies = GameObject.FindGameObjectsWithTag("enemy");
                     foreach(GameObject enemy in enemies){
                         enemy.GetComponent<Enemy>().Highlight();
@@ -89,18 +88,23 @@ public class CardBehavior : MonoBehaviour
         card = c;
         cardNameField.text = c.cardName;
         descriptionField.text = c.FormatString();
-        if(c.actionList[0] == "xattack" || c.actionList[0] == "xblock"){
-            costField.text = "X"; 
-        }
-        else{
-            costField.text = c.cardCost.ToString(); 
-        }
-        image.sprite = c.cardImage;
-        if(showQty != true){
-            GameObject.Find("QuantityDisplay").SetActive(false);
+        if(c.actionList.Count != 0)
+        {
+            if(c.actionList[0] == "xattack" || c.actionList[0] == "xblock"){
+                costField.text = "X"; 
+            }
+            else{
+                costField.text = c.cardCost.ToString(); 
+            }
         }
         else
         {
+            costField.text = c.cardCost.ToString();
+        }
+           
+        image.sprite = c.cardImage;
+        if(showQty != true){
+            GameObject.Find("QuantityDisplay").SetActive(false);
         }
     }
 
@@ -129,8 +133,24 @@ public class CardBehavior : MonoBehaviour
        if(card.needsTarget && collision.gameObject.tag == "enemy")
        {
        target = collision.gameObject;
-       target.GetComponent<Enemy>().Highlight();
-       }
+       Enemy enemy = target.GetComponent<Enemy>();
+       float vulnerable = 1;
+       enemy.Highlight();
+        foreach(string action in card.actionList)
+            {
+                if(action == "attack")
+                {
+                    if(enemy.vulnerable > 0)
+                    {
+                        vulnerable = player.vulnerableMod;
+                    }
+                    int currentDmg = card.attack;
+                    card.attack = (int) Math.Floor(card.attack * player.weaknessMod * vulnerable);
+                    descriptionField.text = card.FormatString();
+                    card.attack = currentDmg;
+                }
+            }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -138,6 +158,7 @@ public class CardBehavior : MonoBehaviour
         isOverDropZone = false;
         if(target != null && target.tag == "enemy"){
          target.GetComponent<Enemy>().StopHighlight();
+         descriptionField.text = card.FormatString();
          target = null;
         }
     }
@@ -156,7 +177,7 @@ public class CardBehavior : MonoBehaviour
         {
             if((card.needsTarget && target != null) || !card.needsTarget){
                 
-                if(card.actionList[0] == "attackall"){
+                if(card.cardType != "power" && card.actionList[0] == "attackall"){
                     foreach(GameObject enemy in enemies){
                         target = enemy;
                         Play(target);
@@ -182,7 +203,7 @@ public class CardBehavior : MonoBehaviour
                 transform.position = startPosition;
                 transform.SetParent(startParent.transform, false);
             }
-        if(!card.needsTarget && card.actionList[0] == "attackall"){
+        if(!card.needsTarget && card.cardType != "power" && card.actionList[0] == "attackall"){
                 foreach(GameObject enemy in enemies){
                     enemy.GetComponent<Enemy>().StopHighlight();
                 }
@@ -197,50 +218,63 @@ public class CardBehavior : MonoBehaviour
         {
            targetCharacter = target.GetComponent<Character>(); 
         }
-
-        foreach(string type in card.actionList)
+        if(card.cardType == "power")
         {
-            switch(type)
+            Debug.Log(player.drawSize);
+            if(card.phase == "oneTime")
             {
-                case "attack":
-                actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, card.multiAction);
-                break;
-                case "xattack":
-                actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, player.turnAP);
-                player.turnAP = 0;
-                break;
-                case "attackall":
-                actions.Attack(targetCharacter, card.attack + player.strength + player.baseStrength, card.multiAction);
-                break;
-                case "block":
-                if(target != null && target.tag == "enemy")
-                {
-                    actions.Block(player, card.block);
-                }
-                else
-                {
-                    actions.Block(targetCharacter, card.block);
-                }
-                break;
-                case "xblock":
-                for(int i = 0; i < player.turnAP; i++){
-                    actions.Block(player, card.block);
-                }
-                player.turnAP = 0;
-                break;
-                case "vulnerable":
-                actions.Vulnerable(targetCharacter, card.vulnerable);
-                break;
-                case "weak":
-                actions.Weak(targetCharacter, card.weak);
-                targetCharacter.NextTurn();
-                break;
-                case "strength":
-                actions.Strength(targetCharacter, card.strength);
-                targetCharacter.NextTurn();
-                break;
+                card.Effect();
             }
-        }   
+            else
+            {
+                GameObject.FindObjectOfType<GameState>().powerCards[card.phase].Add(card.cardName, card);
+            }
+            Debug.Log(player.drawSize);
+
+        }
+            foreach(string type in card.actionList)
+            {
+                switch(type)
+                {
+                    case "attack":
+                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength) * player.weaknessMod), card.multiAction);
+                    break;
+                    case "xattack":
+                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength) * player.weaknessMod), player.turnAP);
+                    player.turnAP = 0;
+                    break;
+                    case "attackall":
+                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength) * player.weaknessMod), card.multiAction);
+                    break;
+                    case "block":
+                    if(target != null && target.tag == "enemy")
+                    {
+                        actions.Block(player, card.block);
+                    }
+                    else
+                    {
+                        actions.Block(targetCharacter, card.block);
+                    }
+                    break;
+                    case "xblock":
+                    for(int i = 0; i < player.turnAP; i++){
+                        actions.Block(player, card.block);
+                    }
+                    player.turnAP = 0;
+                    break;
+                    case "vulnerable":
+                    actions.Vulnerable(targetCharacter, card.vulnerable);
+                    break;
+                    case "weak":
+                    actions.Weak(targetCharacter, card.weak);
+                    targetCharacter.NextTurn();
+                    break;
+                    case "strength":
+                    actions.Strength(targetCharacter, card.strength);
+                    targetCharacter.NextTurn();
+                    break;
+                }
+            }   
         targetCharacter.UpdateStats();
       
     }

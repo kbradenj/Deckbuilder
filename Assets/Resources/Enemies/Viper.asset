@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faf17b10b9c584bb59551b7c31ebc948, type: 3}
-  m_Name: DrDrakken
+  m_Name: Viper
   m_EditorClassIdentifier: 
   actionList:
-  - {fileID: 11400000, guid: 0387df75c543642329d05f599ba7e5e0, type: 2}
-  - {fileID: 11400000, guid: 770435aa523c4485fb787a6643beb9b9, type: 2}
-  - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
+  - {fileID: 11400000, guid: 152b8a83598e94b13bab5c75dd77489a, type: 2}
+  - {fileID: 11400000, guid: 152b8a83598e94b13bab5c75dd77489a, type: 2}
+  - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
   ID: 2
-  enemyName: Dr. Drakken
+  enemyName: Viper
   level: 2
   maxHealth: 25
   health: 15
-  enemyImage: {fileID: 21300000, guid: 0d9d2b4a7541e4884bd70486f8c98a87, type: 3}
+  enemyImage: {fileID: 21300000, guid: 60f1e97c490ad4b12b88f7fe826b1996, type: 3}
+  rarity: Common

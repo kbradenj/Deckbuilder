@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEditor;
+
 [CreateAssetMenu(fileName = "New Enemy", menuName = "Enemy")]
 
 public class EnemyObject : ScriptableObject
@@ -11,10 +12,17 @@ public class EnemyObject : ScriptableObject
 
     public int ID;
     public string enemyName;
+
+    [Range(1,25)]
     public int level;
+    
     public int maxHealth;
     public int health;
-
     public Sprite enemyImage;
+
+    [HideInInspector]
+    public string rarity;
+
+    
 
 }

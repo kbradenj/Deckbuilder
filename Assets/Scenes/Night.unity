@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 995780688}
   - component: {fileID: 995780687}
   - component: {fileID: 995780686}
+  - component: {fileID: 995780689}
   m_Layer: 5
   m_Name: Go To Camp
   m_TagString: Untagged
@@ -276,6 +277,18 @@ MonoBehaviour:
           m_StringArgument: Home
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 995780689}
+        m_TargetAssemblyTypeName: NightManager, Assembly-CSharp
+        m_MethodName: UpdateDayCount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &995780687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +327,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995780684}
   m_CullTransparentMesh: 1
+--- !u!114 &995780689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995780684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b66ce96c9bc45b0af4b28a1fd5fa12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &999039112 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7735966282343864187, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}

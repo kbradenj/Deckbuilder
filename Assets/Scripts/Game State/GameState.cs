@@ -20,7 +20,9 @@ public class GameState : MonoBehaviour
     public CardManager cardManager;
     public EnemyAction[] enemyActionDatabase;
 
+    //Dictionaries
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
+    public Dictionary<string, Dictionary<string, Card>> powerCards;
 
     //Bools
     public bool isBattle = false;
@@ -54,6 +56,9 @@ public class GameState : MonoBehaviour
         //If this scene is a battle, let's battle
         if(SceneManager.GetActiveScene().name == "Battle")
         {
+            powerCards = new Dictionary<string, Dictionary<string, Card>>();
+            CreatePowerCardDictionary();
+          
             playerArea = GameObject.Find("Player Area");
             enemyArea = GameObject.Find("Enemy Area");
             isBattle = true;
@@ -120,12 +125,6 @@ public class GameState : MonoBehaviour
         enemyDatabase = Resources.LoadAll<EnemyObject>("Enemies");
     }
 
-    //Remove Enemies
-    public void RemoveEnemies()
-    {
-
-    }
-
     //Create Player
     public void CreatePlayer()
     {
@@ -137,17 +136,20 @@ public class GameState : MonoBehaviour
     //Create Enemy
     public void CreateEnemy()
     {
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < enemyDatabase.Length; i++)
         {
-        GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
-        enemyNew.transform.SetParent(enemyArea.transform);
-        Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
-        thisEnemy.enemy = enemyDatabase[i];
-        thisEnemy.strength = 0;
-        thisEnemy.weaknessMod = 1f;
-        thisEnemy.NextTurn();
-        enemies.Add(thisEnemy);
-        numOfEnemies += 1;
+            if(enemyDatabase[i].rarity == "Common")
+            {
+                GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
+                enemyNew.transform.SetParent(enemyArea.transform);
+                Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
+                thisEnemy.enemy = enemyDatabase[i];
+                thisEnemy.strength = 0;
+                thisEnemy.weaknessMod = 1f;
+                thisEnemy.NextTurn();
+                enemies.Add(thisEnemy);
+                numOfEnemies += 1;
+            }
         }
         enemiesLoaded = true;
     }
@@ -158,6 +160,7 @@ public class GameState : MonoBehaviour
         CreatePlayer();
         CreateEnemy();
         player = GameObject.FindObjectOfType<Player>();
+        player.StartTurn();
         player.UpdateStats();
         cardManager.LoadPlayerDeck(player);
     }
@@ -166,7 +169,6 @@ public class GameState : MonoBehaviour
     public void EndTurn()
     {
         cardManager.Discard();
-        cardManager.Draw(player.drawSize);
         player.EndTurn();
         for(int i = 0; i < enemies.Count; i++){
             if(enemies[i] == null)
@@ -178,7 +180,7 @@ public class GameState : MonoBehaviour
                 enemies[i].EnemyTurn();
             }
         }
-        
+        player.StartTurn();
     }
 
     public void ResetPlayerStats(){
@@ -186,7 +188,18 @@ public class GameState : MonoBehaviour
         player.block = 0;
         player.vulnerable = 0;
         player.weak = 0;
+        player.poison = 0;
         singleton.dayLeft = singleton.maxDaylight;
+    }
+
+    public void CreatePowerCardDictionary()
+    {
+        Dictionary<string, Card> turnStart = new Dictionary<string, Card>();
+        powerCards.Add("turnStart", turnStart);
+        Dictionary<string, Card> turnEnd = new Dictionary<string, Card>();
+        powerCards.Add("turnEnd", turnEnd);
+        Dictionary<string, Card> battleEnd = new Dictionary<string, Card>();
+        powerCards.Add("battleEnd", battleEnd);
     }
 
 }

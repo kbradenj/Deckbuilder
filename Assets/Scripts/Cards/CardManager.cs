@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -43,8 +44,8 @@ public class CardManager : MonoBehaviour
         
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
-        startingCardIDs.Add(2);
         startingCardIDs.Add(3);
+        startingCardIDs.Add(9);
 
         for(int i = 0; i < startingCardIDs.Count; i++)
         {
@@ -63,7 +64,6 @@ public class CardManager : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "Battle"){
             UpdateDeckSizeText();
             hand = GameObject.Find("Hand");
-            Draw(player.drawSize);
         }
     }
 
@@ -81,30 +81,47 @@ public class CardManager : MonoBehaviour
     //Draw, Discard, Shuffle
     public void Draw(int amount)
     {
+        Discard();
+        GridLayoutGroup gridLayout = hand.GetComponentInChildren<GridLayoutGroup>();
+        RectTransform handRect = hand.GetComponent<RectTransform>();
+        float overlap = (handRect.rect.width - (amount * 300))/amount;
+  
+        gridLayout.spacing = new Vector2 (overlap, 0);
+
         if(deckCards.Count < amount){
            Shuffle();
         }
         for(int i = 0; i < amount; i++)
         {
-            GameObject tempCard = GameObject.Instantiate(cardGameObject, new Vector2(0,0), Quaternion.identity) as GameObject;
-            CardBehavior cardBehavior = tempCard.GetComponent<CardBehavior>();
+            if(deckCards.Count == 0)
+             {
 
-            // Randomize deal
-            int rand = Random.Range(0, deckCards.Count);
-            card = deckCards[rand];
-   
-            // Display card in UI
-            cardBehavior.RenderCard(card);
+                return;
+            }
+            else
+            {
+                GameObject tempCard = GameObject.Instantiate(cardGameObject, new Vector2(0,0), Quaternion.identity) as GameObject;
+                CardBehavior cardBehavior = tempCard.GetComponent<CardBehavior>();
 
-            // Move cards from deck to hand
-            handCards.Add(card);
-            
-            deckCards.Remove(card);
-            UpdateDeckSizeText();
+                // Randomize deal
+                int rand = Random.Range(0, deckCards.Count);
+                card = deckCards[rand];
+    
+                // Display card in UI
+                cardBehavior.RenderCard(card);
 
-            // Tag hand cards for easy destroy on end turn
-            tempCard.tag = "Hand Card";
-            tempCard.transform.SetParent(hand.transform, false); 
+                // Move cards from deck to hand
+                handCards.Add(card);
+                
+                deckCards.Remove(card);
+                UpdateDeckSizeText();
+
+                // Tag hand cards for easy destroy on end turn
+                tempCard.tag = "Hand Card";
+                tempCard.transform.SetParent(hand.transform, false); 
+            }
+           
+               
         }
     }   
 

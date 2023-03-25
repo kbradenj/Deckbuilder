@@ -28,6 +28,7 @@ public class PlayerHome : MonoBehaviour
         singleton.AdjustDaylight();
         UpdatePlayerStats();
         UpdateHealActionText();
+        singleton.UpdateDayCount();
     }
 
     public void UpdatePlayerStats()
