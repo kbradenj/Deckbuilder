@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 0
   cardName: Reed
-  cardType: Standard
+  cardType: equipment
   cardDescription: Gain {0} Block
   cardCost: 1
   cardLevel: 1
@@ -36,4 +36,3 @@ MonoBehaviour:
   quantity: 0
   price: 10
   phase: 
-  power: {fileID: 0}

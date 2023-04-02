@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 8
   cardName: Agility
-  cardType: Standard
+  cardType: ability
   cardDescription: Gain {0} Strength
   cardCost: 1
   cardLevel: 2
@@ -36,4 +36,3 @@ MonoBehaviour:
   quantity: 0
   price: 150
   phase: 
-  power: {fileID: 0}

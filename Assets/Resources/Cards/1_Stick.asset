@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 1
   cardName: Stick
-  cardType: Standard
+  cardType: attack
   cardDescription: Attack for {0} Damage
   cardCost: 1
   cardLevel: 1
@@ -36,4 +36,3 @@ MonoBehaviour:
   quantity: 0
   price: 10
   phase: 
-  power: {fileID: 0}

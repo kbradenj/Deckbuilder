@@ -1,92 +1,52 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using DG.Tweening;
 
 public class Craft : MonoBehaviour
 {
-    //Dictionary
+
     public Dictionary<string, Card> playerDeck = new Dictionary<string, Card>();
-    public Dictionary<string, CraftCard> inventoryCards = new Dictionary<string, CraftCard>();
-    public Dictionary<string, CraftCard> tableCards = new Dictionary<string, CraftCard>();
 
-    //Database
-    public CraftingRecipe[] recipeDatabase;
-
-    //Singular Card
-    public GameObject resultCard = null;
-
-    // Singleton
+    //Singleton
     private Singleton singleton;
 
+    //Lists
+    private List<GameObject> ingredientObjects = new List<GameObject>();
+    private List<GameObject> recipeListItems = new List<GameObject>();
+
+    //Areas
+    private GameObject recipeList;
+    private GameObject resultCardArea;
+    private GameObject ingredientsArea;
+
     //Prefabs
-    public GameObject compactPrefab;
+    public GameObject recipeTextPrefab;
     public GameObject cardVisualPrefab;
-    public GameObject recipeBookPrefab;
-    public GameObject switchKnob;
-    public Vector2 initialKnobPosition;
+    public GameObject ingredientPrefab;
 
-    //States
-    public bool isRecipeView = false;
-    public bool exists;
+    //UI
+    public TMP_Text recipeTitle;
+    public TMP_Text recipeDescription;
+    public TMP_Text costText;
+    public Color disabledTextColor;
+    public Color defaultTextColor;
 
-    // Areas
-    public GameObject resultArea;
-    public GameObject tableArea;
-    public GameObject selectionArea;
-
-    //Color
-    public Color disabledColor;
-
-    private void Awake()
+    //SelectedRecipe
+    public CraftingRecipe currentRecipe = null;
+    public GameObject currentRecipeListItem;
+    public GameObject currentRecipeResultItem;
+    
+     void Start()
     {
-        initialKnobPosition = switchKnob.transform.position;
-        // Get Singleton
+
+        resultCardArea = GameObject.Find("Result Card");
+        recipeList = GameObject.Find("Recipe List");
+        ingredientsArea = GameObject.Find("Ingredients");
         singleton = GameObject.FindObjectOfType<Singleton>();
         singleton.AdjustDaylight();
-
-        // Set Up Parent Areas
-        resultArea = GameObject.Find("Result Area");
-        tableArea = GameObject.Find("Table Area");
-        selectionArea = GameObject.Find("Selection Area");
-    }
-
-    private void Start()
-    {
-        // Load Database
-        recipeDatabase = singleton.recipeDatabase;
-
-        //Create Inventory Dictionary
         LoadPlayerDeckDictionary();
-        LoadInventoryCardObjects();
-        LoadUnlockedRecipesFromPrefs();
-    }
-
-    public void SwitchView()
-    {
-        if(isRecipeView)
-        {
-            isRecipeView = false;
-            switchKnob.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-25f, 0), .25f);
-            ClearAll();
-            LoadPlayerDeckDictionary();
-            LoadInventoryCardObjects();
-        }
-        else
-        {
-            ClearAll();
-            switchKnob.GetComponent<RectTransform>().DOAnchorPos(new Vector2(25f, 0), .25f);
-            LoadPlayerDeckDictionary();
-            isRecipeView = true;
-
-            //Go through recipes
-            foreach(CraftingRecipe recipe in recipeDatabase)
-            {
-                if(CanMakeRecipe(recipe)){
-                      AddToInventory(recipe.resultItem);
-                }
-            }    
-        }
+        LoadRecipes();
     }
 
     public void LoadPlayerDeckDictionary(){
@@ -106,358 +66,166 @@ public class Craft : MonoBehaviour
         }
     }
 
-    public void LoadInventoryCardObjects()
+    public void LoadRecipes()
     {
-        foreach(KeyValuePair<string, Card> kvp in playerDeck)
+        foreach(CraftingRecipe recipe in singleton.recipeDatabase)
         {
-            for(int i = 0; i < kvp.Value.deckQty; i++)
+            GameObject recipeObject = GameObject.Instantiate(recipeTextPrefab, Vector2.zero, Quaternion.identity);
+            TMP_Text recipeText = recipeObject.GetComponent<TMP_Text>();
+            RecipeBookItem recipeSelectionScript = recipeObject.GetComponent<RecipeBookItem>();
+            recipeSelectionScript.recipe = recipe;
+            recipeListItems.Add(recipeObject);
+            if(recipe.isLocked)
             {
-                 AddToInventory(kvp.Value);
+                 recipeText.text = "?????????";
+                 recipeText.color = disabledTextColor;
             }
-        }
-    }
-
-    public void LoadUnlockedRecipesFromPrefs()
-    {
-        Debug.Log("unlocked rec. count " + singleton.unlockedRecipes.Count);
-        string unlockedRecipeNames = PlayerPrefs.GetString("unlockedRecipes");
-        Debug.Log("unlockedRecipes string = " + unlockedRecipeNames);
-        string[] unlockedRecipeNameArray = unlockedRecipeNames.Split(new string[] {"###"}, System.StringSplitOptions.RemoveEmptyEntries);
-        foreach (CraftingRecipe craftingRecipe in singleton.recipeDatabase)
-        {
-            foreach(string recipeName in unlockedRecipeNameArray)
+            else
             {
-                if(recipeName == craftingRecipe.resultItem.cardName)
+                recipeText.text = recipe.resultItem.cardName;
+                if(CanCraft(recipe))
                 {
-                    craftingRecipe.isLocked = false;
-                    Debug.Log(recipeName + " isLocked = " + craftingRecipe.isLocked);
-                    singleton.unlockedRecipes.Add(craftingRecipe);
-                }
-            }
-        }
-    }
-
-    public void RemoveCard(Dictionary<string, CraftCard> area, CraftCard cardScript)
-    {
-            string cardName = cardScript.card.cardName;
-            if(area.ContainsKey(cardName))
-            {
-                if(cardScript.qty > 1)
-                {
-                    cardScript.qty--;
-                    cardScript.Render();
+                    recipeText.color = defaultTextColor;
                 }
                 else
                 {
-                    cardScript.qty--;
-                    cardScript.Render();
-                    Destroy(cardScript.gameObject);
-                    area.Remove(cardName);
+                    recipeText.color = disabledTextColor;
                 }
             }
-        GetAvailableCraftingOptions();
+            recipeObject.transform.SetParent(recipeList.transform);
+        }
     }
 
-//possibly need to break out the instantiation part of this into its own script
-    public void AddToInventory(Card card){
-        string cardName = card.cardName;
-        CraftCard newCraftCard;
-        if(inventoryCards.ContainsKey(cardName))
+    public void StillCraftable()
+    {
+        foreach(GameObject item in recipeListItems)
         {
-            inventoryCards[cardName].qty++;
-            inventoryCards[cardName].Render();
+           RecipeBookItem itemScript = item.GetComponent<RecipeBookItem>();
+           if(CanCraft(itemScript.recipe))
+           {
+            continue;
+           }
+           else
+           {
+            itemScript.GetComponent<TMP_Text>().color = disabledTextColor;
+           }
+        }
+    }
+
+        public void Unlock()
+    {
+        singleton.unlockedRecipes.Add(singleton.recipeDatabase[0]);
+        singleton.recipeDatabase[0].isLocked = false;
+        LoadRecipes();
+    }
+
+    public void ShowRecipe(CraftingRecipe recipe)
+    {
+        int ownedQty;
+        Card materialCard = null;
+
+        if(currentRecipe != null)
+        {
+            ClearRecipe();
+        }
+        currentRecipe = recipe;
+        recipeTitle.text = recipe.resultItem.cardName;
+        recipeDescription.text = recipe.resultItem.FormatString();
+        GameObject resultCard = GameObject.Instantiate(cardVisualPrefab, Vector2.zero, Quaternion.identity);
+        currentRecipeResultItem = resultCard;
+        resultCard.GetComponent<CardBehavior>().RenderCard(recipe.resultItem);
+        resultCard.transform.SetParent(resultCardArea.transform);
+        resultCard.transform.localScale = new Vector2 (.8f, .8f);
+        costText.text = "Cost: " + recipe.timeCost + " min";
+
+        foreach(CraftingMaterial material in recipe.craftingMaterials)
+        {
+            GameObject ingredientItemObj = GameObject.Instantiate(ingredientPrefab, Vector2.zero, Quaternion.identity);
+            IngredientItem ingredientItemScript = ingredientItemObj.GetComponent<IngredientItem>();
+            ingredientObjects.Add(ingredientItemObj);
+            ingredientItemObj.transform.SetParent(ingredientsArea.transform);
+
+            if(playerDeck.ContainsKey(material.key)){
+                ownedQty = playerDeck[material.key].deckQty;
+            }
+            else
+            {
+                ownedQty = 0;
+            }
+
+            foreach(Card card in singleton.cardDatabase)
+            {
+                if(card.cardName == material.key)
+                {
+                    materialCard = card;
+                }
+            }
+            ingredientItemScript.Render(materialCard, material.amount, ownedQty);
+        }
+    }
+
+    public void ClearRecipe()
+    {
+        Destroy(currentRecipeResultItem);
+        currentRecipe = null;
+        foreach(GameObject ingredient in ingredientObjects)
+        {
+            Destroy(ingredient);
+        }
+    }
+
+    public void CraftCard()
+    {
+        if(!CanCraft(currentRecipe) || singleton.dayLeft < currentRecipe.timeCost)
+        {
+            Debug.Log("Oops, Can't Craft");
         }
         else
         {
-            GameObject invCard = GameObject.Instantiate(compactPrefab, Vector2.zero, Quaternion.identity);
-            invCard.transform.SetParent(selectionArea.transform);
-            if(!isRecipeView){
-                newCraftCard = invCard.AddComponent<SelectionCard>();
-                newCraftCard.qty = 1;
-            }
-            else
-            { 
-                newCraftCard = invCard.AddComponent<RecipeCard>();
-                newCraftCard.qty = GetCraftableQty(card.recipe);
-                if(newCraftCard.qty == 0)
-                {
-                    Destroy(newCraftCard.gameObject);
-                    return;
-                }
-            }
-
-            newCraftCard.card = card;
-            newCraftCard.Render();
-            newCraftCard.isInstantiated = true;
-            inventoryCards.Add(cardName, newCraftCard);
-            if(isRecipeView)
-            {
-                if(!CanMakeRecipe(card.recipe) && !newCraftCard.isDisabled)
-                {
-                    newCraftCard.ToggleDisable();
-                }
-                if(CanMakeRecipe(card.recipe) && newCraftCard.isDisabled)
-                {
-                    newCraftCard.ToggleDisable();
-                }
-            }
-            
+            singleton.dayLeft -= currentRecipe.timeCost;
+            singleton.AdjustDaylight();
+            AddCardToDeck(currentRecipe.resultItem.cardName);   
+            RemoveIngredientsFromDeck();
         }
+        StillCraftable();
     }
 
-    public void AddToTable(Card card){
-
-        string cardName = card.cardName;
-        if(tableCards.ContainsKey(cardName))
-        {
-            tableCards[cardName].qty++;
-            tableCards[cardName].Render();
-            GetAvailableCraftingOptions();
-            return;
-        }
-        GameObject tableCard = GameObject.Instantiate(cardVisualPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
-        tableCard.transform.SetParent(tableArea.transform);
-        TableCard tableCardScript = tableCard.AddComponent<TableCard>();
-        tableCardScript.qty = 1;
-        tableCardScript.card = card;
-        tableCardScript.Render();
-        tableCard.transform.localScale *= 0.5f;
-        tableCardScript.isInstantiated = true;
-        tableCards.Add(cardName, tableCardScript);
-
-        GetAvailableCraftingOptions();
-    }
-
-    public void ClearAll()
+    private void AddCardToDeck(string cardName)
     {
-        //Clear Inventory Cards
-        List<string> inventoryCardKeys = new List<string>(inventoryCards.Keys);
-        for(int i = 0; i < inventoryCardKeys.Count; i++)
-        {
-            string cardKey = inventoryCardKeys[i];
-            inventoryCards[cardKey].qty = 0;
-            Destroy(inventoryCards[cardKey].gameObject);
-            inventoryCards.Remove(cardKey);
-        }
-
-        //Clear Table Cards
-        List<string> tableCardKeys = new List<string>(tableCards.Keys);
-        for(int i = 0; i < tableCardKeys.Count; i++)
-        {
-            string cardKey = tableCardKeys[i];
-            tableCards[cardKey].qty = 0;
-            Destroy(tableCards[cardKey].gameObject);
-            tableCards.Remove(cardKey);
-        }
-
-        if(resultCard != null)
-        {
-            Destroy(resultCard.gameObject);
-            resultCard = null;
-        }
+        singleton.playerDeck.Add(singleton.cardLookup[cardName]);
     }
 
-        public void RenderResultCard(CraftingRecipe recipe)
+    public void RemoveIngredientsFromDeck()
     {
-        GameObject resultCardInstance = GameObject.Instantiate(cardVisualPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
-        resultCardInstance.transform.SetParent(resultArea.transform);
-        CardBehavior resultItemScript = resultCardInstance.GetComponent<CardBehavior>();
-        resultItemScript.RenderCard(recipe.resultItem, true);
-        resultItemScript.card.quantity = GetCraftableQty(recipe);
-        resultItemScript.UpdateQuantity(resultItemScript.card.quantity);
-        resultItemScript.AddPrice(resultCardInstance, recipe.timeCost);
-        resultItemScript.priceText = GameObject.Find("Craft Cost Text").GetComponent<TMP_Text>();
-        resultItemScript.priceText.text = "Crafting Time: " + recipe.timeCost.ToString() + " min";
-        resultCard = null;
-        resultCard = resultCardInstance;
-    }
-
-    public void GetAvailableCraftingOptions()
-    {
-        foreach(CraftingRecipe recipe in recipeDatabase) 
+         Debug.Log( singleton.playerDeck.Count);
+        foreach(CraftingMaterial material in currentRecipe.craftingMaterials)
         {
-            if(CanCraft(recipe) && !HasExtraMaterial(recipe))
+            for(int i = 0; i < material.amount; i++)
             {
-                //if there is a card already instantiated
-                if(resultCard != null)
-                {
-                    CardBehavior cardScript = resultCard.GetComponent<CardBehavior>();
-                    if(recipe.resultItem.cardName == cardScript.card.cardName){
-                        cardScript.card.quantity = GetCraftableQty(recipe);
-                        cardScript.UpdatePriceText("Crafting Time: " + (recipe.resultItem.quantity * recipe.timeCost).ToString() + " min");
-                        cardScript.UpdateQuantity(cardScript.card.quantity);
-                        return;
-                    }
-                }
-                else
-                {
-                    RenderResultCard(recipe);
-                    return;
-                }
+                singleton.RemoveCardFromDeck(material.key);
+                playerDeck[material.key].deckQty--;
             }
-            else
-            {
-                if(resultCard != null){
-                    Destroy(resultCard.gameObject);
-                    resultCard = null;
-                }
-                
-            }
+        
         }
+        ShowRecipe(currentRecipe);
     }
 
     public bool CanCraft(CraftingRecipe recipe)
     {
-        bool canCraft = false;
-        foreach(CraftingMaterial material in recipe.craftingMaterials){
-            if(tableCards.ContainsKey(material.key))
-            {  
-                    if(tableCards[material.key].qty < material.amount)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        canCraft = true;
-                    }
-            }
-            else{
-                return false;
-            }
-        } 
-        if(canCraft == false){
-            return false;
-        }
-        return canCraft;
-    }
-
-    public bool HasExtraMaterial(CraftingRecipe recipe){
-        bool matched = false;
-        Dictionary<string, CraftCard> dictionary = tableCards;
-        foreach(KeyValuePair<string, CraftCard> kvp in dictionary){
-            matched = false;
-            foreach(CraftingMaterial material in recipe.craftingMaterials){
-                if(matched == true){
-                    if(kvp.Key == material.key){
-                    matched = true;
-                    }
-                }
-                else{
-                    if(kvp.Key == material.key){
-                        matched = true;
-                        break;
-                    }
-                } 
-            }
-            if(matched == false){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public int GetCraftableQty(CraftingRecipe recipe){
-    int amountToCraft = int.MaxValue;
-    int tempAmount = 0;
-    foreach(CraftingMaterial material in recipe.craftingMaterials){
-            if(isRecipeView){
-                tempAmount = playerDeck[material.key].deckQty/material.amount;
-            }
-            else
-            {
-                tempAmount = tableCards[material.key].qty/material.amount;
-            }
-            if(tempAmount < amountToCraft){
-                amountToCraft = tempAmount;
-            }
-        }
-    if(resultCard != null){
-        CardBehavior resultCardBehavior = resultCard.GetComponent<CardBehavior>();
-        resultCardBehavior.qty = amountToCraft;
-        resultCardBehavior.RenderCard(resultCardBehavior.card, true);
-    }
-    return amountToCraft;    
-    }
-
-    //Let's make this thing
-    public void CraftItem() {
-        Card card = resultCard.GetComponent<CardBehavior>().card;
-        int quantityToMake = card.quantity;
-        for(int i = 0; i < quantityToMake; i++)
-        {
-            if(!isRecipeView)
-            {
-                AddToInventory(card);
-            }
-            
-            UseMaterials();
-            singleton.playerDeck.Add(card);
-        }
-
-        singleton.AdjustDaylight(0);
-        card.quantity = 0;
-        Destroy(resultCard.gameObject);
-        resultCard = null;
-    }
-
-    //Remove the Cards in the player deck that were used to craft
-    public void UseMaterials() {
-        CraftingRecipe recipeMatch = FindRecipeMatch();
-        if (recipeMatch != null) {
-            singleton.AdjustDaylight(recipeMatch.timeCost);
-            foreach (CraftingMaterial material in recipeMatch.craftingMaterials) {
-                for(int i = 0; i < material.amount; i++)
-                {
-                    RemoveMatchingCardsFromDeck(material);
-                }
-                UpdateTableMaterial(material); 
-            }
-    
-        }
-    }
-
-    //Find the matching recipe to the crafted card(s)
-    private CraftingRecipe FindRecipeMatch() {
-            CardBehavior cardBehavior = resultCard.GetComponent<CardBehavior>();
-            foreach (CraftingRecipe recipe in recipeDatabase) {
-                if (recipe.resultItem.cardName == cardBehavior.card.cardName) {
-                    return recipe;
-                }
-            }
-        return null;
-    }
-
-    //Either reduce qty or remove card objects from crafting table
-    private void UpdateTableMaterial(CraftingMaterial material) {
-            CraftCard craftCard = tableCards[material.key];
-            craftCard.qty -= material.amount;
-            int newQty = craftCard.qty;
-
-            if (newQty == 0) {
-                craftCard.qty = 0;
-                craftCard.Render();
-                Destroy(craftCard.gameObject);
-                tableCards.Remove(material.key);
-                return;
-            } 
-            else 
-            {
-                craftCard.qty = newQty;
-                craftCard.Render();
-            }
-     }
-    
-    //Remove the used up cards in the player deck
-    private void RemoveMatchingCardsFromDeck(CraftingMaterial material) {
-            singleton.RemoveCardFromDeck(material.key);
-    }
-    
-    //For Recipe View Only
-    public bool CanMakeRecipe(CraftingRecipe recipe)
-    {
         foreach(CraftingMaterial material in recipe.craftingMaterials)
         {
-            if(!playerDeck.ContainsKey(material.key))
+            if(playerDeck.ContainsKey(material.key))
+            {
+                if(playerDeck[material.key].deckQty >= material.amount)
+                {
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
             {
                 return false;
             }
@@ -465,33 +233,7 @@ public class Craft : MonoBehaviour
         return true;
     }
 
-    public void MakeFromRecipe(CraftCard craftCard)
-    {
-        CraftingRecipe recipe = craftCard.card.recipe;
-        if(CanMakeRecipe(recipe)){
-            foreach(CraftingMaterial material in recipe.craftingMaterials)
-            {
-                //Go through each card in the player deck to match it with a materials
-                for(int i = 0; i < material.amount; i++){
-                    AddToTable(playerDeck[material.key]);
-                }
-            }
-        }
-    }
 
-    public void OpenRecipeBook()
-    {
-        GameObject recipeBook = GameObject.Instantiate(recipeBookPrefab, new Vector2 (Screen.width/2f, Screen.height/2f), Quaternion.identity);
-        recipeBook.transform.SetParent(GameObject.FindObjectOfType<Canvas>().transform);
-    }
+
+
 }
-
-
-
-
-
-
-
-
-
-

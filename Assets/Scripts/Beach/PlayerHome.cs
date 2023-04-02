@@ -14,6 +14,8 @@ public class PlayerHome : MonoBehaviour
     public TMP_Text healCostText;
     public TMP_Text homeDaylightCount;
 
+    public GameObject playerProfilePrefab;
+
     public int healAmount = 50;
     public int healCost = 120;
 
@@ -26,17 +28,8 @@ public class PlayerHome : MonoBehaviour
 
     void Start(){
         singleton.AdjustDaylight();
-        UpdatePlayerStats();
         UpdateHealActionText();
         singleton.UpdateDayCount();
-    }
-
-    public void UpdatePlayerStats()
-    {
-        singleton = GameObject.FindObjectOfType<Singleton>();
-        healthText.text = "Health: " + singleton.player.health + "/" + singleton.player.maxHealth;
-        strengthText.text = "Strength: " + singleton.player.baseStrength;
-        levelText.text = "Level: " + singleton.player.level;
     }
 
     public void HomeHealPlayer()
@@ -50,7 +43,6 @@ public class PlayerHome : MonoBehaviour
             else{
             singleton.HealPlayer(healAmount);
             singleton.AdjustDaylight(healCost);
-            UpdatePlayerStats();
             singleton.AdjustDaylight();
             }
         }
@@ -70,5 +62,11 @@ public class PlayerHome : MonoBehaviour
 
     public void Loiter(){
         singleton.AdjustDaylight(singleton.dayLeft);
+    }
+
+    public void PlayerProfile()
+    {
+        GameObject profile = GameObject.Instantiate(playerProfilePrefab, new Vector2 (Screen.width/2f, Screen.height/2f), Quaternion.identity);
+        profile.transform.SetParent(GameObject.Find("Main Canvas").transform);
     }
 }

@@ -22,6 +22,7 @@ public class GameState : MonoBehaviour
 
     //Dictionaries
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
+    public Dictionary<string, Card> cardLookup;
     public Dictionary<string, Dictionary<string, Card>> powerCards;
 
     //Bools
@@ -89,8 +90,10 @@ public class GameState : MonoBehaviour
             cardDatabase.Add(database[i]);
         }
         CreateCardDatabaseLevels();
+        CreateCardLookup();
         singleton.cardDatabase = cardDatabase;
         singleton.cardDictionary = cardDictionary;
+        singleton.cardLookup = cardLookup;
     }
 
     public void CreateCardDatabaseLevels(){
@@ -116,6 +119,15 @@ public class GameState : MonoBehaviour
                 rarityDictionary.Add(j, cards);
             }
             cardDictionary.Add(i, rarityDictionary);
+        }
+    }
+
+    public void CreateCardLookup()
+    {
+        cardLookup = new Dictionary<string, Card>();
+        foreach(Card card in cardDatabase)
+        {
+            cardLookup.Add(card.cardName, card);
         }
     }
 

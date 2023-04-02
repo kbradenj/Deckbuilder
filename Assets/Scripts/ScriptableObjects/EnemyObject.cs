@@ -18,6 +18,8 @@ public class EnemyObject : ScriptableObject
     
     public int maxHealth;
     public int health;
+    public int groupMin;
+    public int groupMax;
     public Sprite enemyImage;
 
     [HideInInspector]

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1895260205342218079}
   - component: {fileID: 2647584248127311794}
   - component: {fileID: 7978444254806696928}
+  - component: {fileID: -3747578034364941495}
+  - component: {fileID: 2307964508701182322}
   m_Layer: 5
   m_Name: Recipe Name
   m_TagString: Recipe List Item
@@ -135,3 +137,48 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &-3747578034364941495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7811798192836436149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2307964508701182322}
+          m_TargetAssemblyTypeName: RecipeBookItem, Assembly-CSharp
+          m_MethodName: RecipeNameClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &2307964508701182322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7811798192836436149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5098651a5f646319bc04b8ee7999fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipe: {fileID: 11400000, guid: d5ecca0e4f90c48509ee660784e845b0, type: 2}
+  recipeNameText: {fileID: 7978444254806696928}
+  disabledColor: {r: 0.5471698, g: 0.53942686, b: 0.53942686, a: 1}
+  defaultColor: {r: 0, g: 0, b: 0, a: 1}

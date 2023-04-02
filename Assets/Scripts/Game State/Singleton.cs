@@ -21,6 +21,7 @@ public class Singleton : MonoBehaviour
 
     //Dictionaries
     public Dictionary<string, TalentOption> talents = new Dictionary<string, TalentOption>();
+    public Dictionary<string, Card> cardLookup;
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
 
     //Arrays
@@ -44,6 +45,7 @@ public class Singleton : MonoBehaviour
         {
             instance = this;
             dayLeft = maxDaylight;
+            AdjustDaylight();
             player.maxHealth = 100;
             player.level = 1;
             player.baseStrength = 3;
@@ -59,7 +61,7 @@ public class Singleton : MonoBehaviour
     }
 
     public void RemoveCardFromDeck(string cardName){
-            playerDeck.Remove(playerDeck.First(card => card.cardName == cardName));
+        playerDeck.Remove(playerDeck.First(card => card.cardName == cardName));
     }
 
     public void AdjustDaylight(int amount = 0)

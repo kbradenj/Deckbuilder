@@ -37,6 +37,7 @@ public class CardManager : MonoBehaviour
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
         gameState = GameObject.FindObjectOfType<GameState>();
+        hand = GameObject.Find("Hand");
     }
   
     public void CreatePlayerDeck(){
@@ -44,16 +45,21 @@ public class CardManager : MonoBehaviour
         
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
-        startingCardIDs.Add(3);
-        startingCardIDs.Add(9);
+        startingCardIDs.Add(2);
 
-        for(int i = 0; i < startingCardIDs.Count; i++)
+        for(int i = 0; i <= startingCardIDs.Count; i++)
         {
-            Card startingCard = cardDatabase[startingCardIDs[i]];
-            for(int j = 0; j < 5; j++)
+            foreach(int id in startingCardIDs)
             {
-                deckCards.Add(startingCard);
-            }  
+                if(id == cardDatabase[i].cardID)
+                {
+                    Card startingCard = cardDatabase[i];
+                    for(int j = 0; j < 4; j++)
+                    {
+                        deckCards.Add(startingCard);
+                    }  
+                }
+            }   
         }
         singleton.playerDeck = deckCards;
     }
@@ -63,7 +69,7 @@ public class CardManager : MonoBehaviour
         deckCards = new List<Card>(singleton.playerDeck);
         if(SceneManager.GetActiveScene().name == "Battle"){
             UpdateDeckSizeText();
-            hand = GameObject.Find("Hand");
+   
         }
     }
 

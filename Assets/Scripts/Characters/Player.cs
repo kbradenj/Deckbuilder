@@ -29,6 +29,7 @@ public class Player : Character
     bonusDraw = 0;
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
     gameState = GameObject.FindObjectOfType<GameState>();
+    cardManager = GameObject.FindObjectOfType<CardManager>();
   }
 
   public override void StartTurn()

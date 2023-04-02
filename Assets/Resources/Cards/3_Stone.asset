@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardID: 3
   cardName: Stone
-  cardType: Standard
+  cardType: attack
   cardDescription: Attack for {0} Damage, Apply {1} Vulnerable
   cardCost: 1
-  cardLevel: 1
+  cardLevel: 2
   cardRarity: 2
   needsTarget: 1
   recipe: {fileID: 0}
@@ -32,7 +32,7 @@ MonoBehaviour:
   vulnerable: 2
   weak: 0
   strength: 0
-  deckQty: 0
+  deckQty: 5
   gameState: {fileID: 0}
   quantity: 0
   price: 20

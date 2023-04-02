@@ -17,14 +17,12 @@ public class CardBehavior : MonoBehaviour
     public Image image;
     public Image bgImage;
 
-
     //Scripts
     public Player player;
     public Character targetCharacter;
     public Card card;
-    public Actions actions;
+    public ActionManager actions;
     
-
     //Game Objects
     public GameObject Canvas;
     private GameObject startParent;
@@ -36,7 +34,6 @@ public class CardBehavior : MonoBehaviour
     public GameObject pricePrefab;
     public GameObject amountDisplay;
 
-
     //States
     private bool isDragging = false;
     private bool isOverDropZone = false;
@@ -47,7 +44,7 @@ public class CardBehavior : MonoBehaviour
         Canvas = GameObject.Find("Main Canvas");
         dropZone = GameObject.Find("Drop Zone");
         player = FindObjectOfType<Player>();
-        actions = FindObjectOfType<Actions>();
+        actions = FindObjectOfType<ActionManager>();
     }
 
     void Update()

@@ -24,6 +24,7 @@ public class Enemy : Character
     private Player player;
     public EnemyObject[] database;
     public EnemyObject enemy;
+    private ActionManager actionManager;
 
     //Enemy Stats
     public int attack;
@@ -34,6 +35,7 @@ public class Enemy : Character
     void Start()
     {
         player = FindObjectOfType<Player>();
+        actionManager = FindObjectOfType<ActionManager>();
         health = enemy.health;
         maxHealth = enemy.maxHealth;
         healthSlider.value = ((float)health/enemy.maxHealth) * 100;
@@ -66,7 +68,7 @@ public class Enemy : Character
         {
             case "attack":
             int attackAmount = (int)Math.Ceiling(currentAction.baseAmount * weaknessMod) + strength;
-            actions.Attack(player, attackAmount, currentAction.multiAction);
+            actionManager.Attack(player, attackAmount, currentAction.multiAction);
             break;
             case "block":
             actions.Block(this, currentAction.baseAmount);

@@ -8,7 +8,9 @@ public class Character : MonoBehaviour
 {
     public int block;
     public int maxHealth;
+
     public int health; 
+
     public int level = 1;
 
     public TMP_Text statusText;
@@ -29,7 +31,6 @@ public class Character : MonoBehaviour
     public int bonusDraw;
     public int poison;
 
-
     //Game Objects
     public GameObject statusIconsArea;
     public GameObject statusIcon;
@@ -37,7 +38,7 @@ public class Character : MonoBehaviour
     public Image statusImage;
 
     //Scripts
-    public Actions actions;
+    public ActionManager actions;
     public CardManager cardManager;
 
     //Child Class Methods
@@ -47,8 +48,9 @@ public class Character : MonoBehaviour
 
     void Awake(){
 		gameState = GameObject.FindObjectOfType<GameState>();
-		actions = FindObjectOfType<Actions>();
 		cardManager = FindObjectOfType<CardManager>();
+		actions = FindObjectOfType<ActionManager>();
+		health = maxHealth;
     }
 
     public virtual void StartTurn()

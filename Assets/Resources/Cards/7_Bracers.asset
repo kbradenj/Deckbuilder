@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
+  m_Name: 7_Bracers
+  m_EditorClassIdentifier: 
+  cardID: 7
+  cardName: Bracers
+  cardType: equipment
+  cardDescription: Gain {0} Block * X
+  cardCost: 0
+  cardLevel: 2
+  cardRarity: 2
+  needsTarget: 0
+  recipe: {fileID: 11400000, guid: d5ecca0e4f90c48509ee660784e845b0, type: 2}
+  cardImage: {fileID: 21300000, guid: c6e04ed4e7dd940848a1be4809d2213e, type: 3}
+  cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
+  actionList:
+  - xblock
+  block: 5
+  attack: 0
+  multiAction: 1
+  vulnerable: 0
+  weak: 0
+  strength: 0
+  deckQty: 0
+  gameState: {fileID: 0}
+  quantity: 0
+  price: 50
+  phase: 
