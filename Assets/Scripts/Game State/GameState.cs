@@ -1,43 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameState : MonoBehaviour
 {
     //Game Objects
-    public GameObject playerPrefab;
-    public GameObject enemyPrefab;
-    public GameObject playerArea;
-    public GameObject enemyArea;
+
+    public GameObject recipeBookPrefab;
 
     //Singleton
     public Singleton singleton;
 
     //Scripts
-    public Player player;
-    public List<Enemy> enemies;
+
     public CardManager cardManager;
-    public EnemyAction[] enemyActionDatabase;
 
     //Dictionaries
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
     public Dictionary<string, Card> cardLookup;
-    public Dictionary<string, Dictionary<string, Card>> powerCards;
+    public Dictionary<string, Dictionary<string, Card>> powerCards = new Dictionary<string, Dictionary<string, Card>>();
 
     //Bools
     public bool isBattle = false;
-    private bool enemiesLoaded = false;
 
     //Resources
-    public EnemyObject[] enemyDatabase;
     public List<Card> playerDeck;
     public Card[] database;
     public List<Card> cardDatabase = new List<Card>();
-    public List<Card> ultimateCardDatabase = new List<Card>();
-
-    //Counters
-    public int numOfEnemies = 0;
 
     void Awake()
     {
@@ -46,39 +37,7 @@ public class GameState : MonoBehaviour
         if(singleton.cardDatabase.Count <= 0){
             LoadCardDatabase();
         }
-
-        //Set up Card Manager
-        cardManager = FindObjectOfType<CardManager>();
-        if(singleton.playerDeck.Count <= 0)
-        {
-            cardManager.CreatePlayerDeck(); 
-        }
-
-        //If this scene is a battle, let's battle
-        if(SceneManager.GetActiveScene().name == "Battle")
-        {
-            powerCards = new Dictionary<string, Dictionary<string, Card>>();
-            CreatePowerCardDictionary();
-          
-            playerArea = GameObject.Find("Player Area");
-            enemyArea = GameObject.Find("Enemy Area");
-            isBattle = true;
-            LoadEnemies();
-            StartBattle();
-        }
-
-    }
-
-    void Update()
-    {
-        //Is the battle over?
-        if(numOfEnemies == 0 && enemiesLoaded && isBattle){
-            singleton.player.health = player.health;
-            isBattle = false;
-            ResetPlayerStats();
-            SceneManager.LoadScene("WinScreen");
-            return;
-        }
+         CreatePowerCardDictionary();
     }
 
     //Pull in card db
@@ -131,79 +90,6 @@ public class GameState : MonoBehaviour
         }
     }
 
-    //Load Enemies
-    public void LoadEnemies()
-    {
-        enemyDatabase = Resources.LoadAll<EnemyObject>("Enemies");
-    }
-
-    //Create Player
-    public void CreatePlayer()
-    {
-        GameObject playerObject = GameObject.Instantiate(playerPrefab, new Vector2(0,0), Quaternion.identity) as GameObject;
-        playerObject.transform.SetParent(playerArea.transform, false); 
-        player = singleton.player;
-    }
-
-    //Create Enemy
-    public void CreateEnemy()
-    {
-        for(int i = 0; i < enemyDatabase.Length; i++)
-        {
-            if(enemyDatabase[i].rarity == "Common")
-            {
-                GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
-                enemyNew.transform.SetParent(enemyArea.transform);
-                Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
-                thisEnemy.enemy = enemyDatabase[i];
-                thisEnemy.strength = 0;
-                thisEnemy.weaknessMod = 1f;
-                thisEnemy.NextTurn();
-                enemies.Add(thisEnemy);
-                numOfEnemies += 1;
-            }
-        }
-        enemiesLoaded = true;
-    }
-
-    //Battle States
-    public void StartBattle()
-    {
-        CreatePlayer();
-        CreateEnemy();
-        player = GameObject.FindObjectOfType<Player>();
-        player.StartTurn();
-        player.UpdateStats();
-        cardManager.LoadPlayerDeck(player);
-    }
-
-    //End Turn Button
-    public void EndTurn()
-    {
-        cardManager.Discard();
-        player.EndTurn();
-        for(int i = 0; i < enemies.Count; i++){
-            if(enemies[i] == null)
-            {
-                enemies.Remove(enemies[i]);
-            }
-            else
-            {
-                enemies[i].EnemyTurn();
-            }
-        }
-        player.StartTurn();
-    }
-
-    public void ResetPlayerStats(){
-        player.strength = 0;
-        player.block = 0;
-        player.vulnerable = 0;
-        player.weak = 0;
-        player.poison = 0;
-        singleton.dayLeft = singleton.maxDaylight;
-    }
-
     public void CreatePowerCardDictionary()
     {
         Dictionary<string, Card> turnStart = new Dictionary<string, Card>();
@@ -214,6 +100,11 @@ public class GameState : MonoBehaviour
         powerCards.Add("battleEnd", battleEnd);
     }
 
+    public void OpenRecipeBook()
+    {
+        GameObject recipeBook = GameObject.Instantiate(recipeBookPrefab, new Vector2(Screen.width/2f, Screen.height/2f), Quaternion.identity);
+        recipeBook.transform.SetParent(GameObject.Find("Main Canvas").transform);
+    }
 }
 
 

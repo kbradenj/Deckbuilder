@@ -460,7 +460,7 @@ MonoBehaviour:
   inspectCardPrefab: {fileID: 1639937595311336888, guid: e69bce458c1104c2888f01b9f8d7e2e5, type: 3}
   pricePrefab: {fileID: 3065387812838022230, guid: 0f4d47f7461b6470c8162e23f3424619, type: 3}
   amountDisplay: {fileID: 2463340353295502308, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
-  displayAmount: 0
+  qty: 0
 --- !u!114 &3740688299664133413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,7 +556,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -10.140625, y: -8.258606}
+  m_Offset: {x: 0.032928467, y: -0.20095825}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -567,7 +567,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 100.08508, y: 434.30103}
+  m_Size: {x: 1.8165894, y: 450.41632}
   m_EdgeRadius: 0
 --- !u!1 &1639937595715554331
 GameObject:

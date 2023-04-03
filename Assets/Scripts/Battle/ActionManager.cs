@@ -15,7 +15,6 @@ public class ActionManager : MonoBehaviour
         return damageTaken >= target.health;
     }
 
- 
     //Attack
     public void Attack(Character target, int amount, int times = 1)
     {

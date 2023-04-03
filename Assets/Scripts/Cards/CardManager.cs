@@ -19,6 +19,9 @@ public class CardManager : MonoBehaviour
     public List<Card> handCards = new List<Card>();
     public List<Card> discardCards = new List<Card>();
 
+    //Dictionaries
+    public Dictionary<string, Dictionary<string, Card>> powerCards;
+
     //TMP
     public TMP_Text deckSize;
     public TMP_Text discardSize;
@@ -39,7 +42,8 @@ public class CardManager : MonoBehaviour
         gameState = GameObject.FindObjectOfType<GameState>();
         hand = GameObject.Find("Hand");
     }
-  
+    
+    
     public void CreatePlayerDeck(){
         cardDatabase = gameState.cardDatabase;
         
@@ -102,10 +106,12 @@ public class CardManager : MonoBehaviour
             if(deckCards.Count == 0)
              {
 
+                //If deck is still empty after shuffle
                 return;
             }
             else
             {
+                //Instantiate card
                 GameObject tempCard = GameObject.Instantiate(cardGameObject, new Vector2(0,0), Quaternion.identity) as GameObject;
                 CardBehavior cardBehavior = tempCard.GetComponent<CardBehavior>();
 
@@ -119,6 +125,7 @@ public class CardManager : MonoBehaviour
                 // Move cards from deck to hand
                 handCards.Add(card);
                 
+                //Remove Cards from deck
                 deckCards.Remove(card);
                 UpdateDeckSizeText();
 

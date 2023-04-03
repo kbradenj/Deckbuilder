@@ -20,7 +20,10 @@ public class Enemy : Character
     public Color defaultColor;
     public Slider healthSlider;
 
+    public GameObject highlightPS;
+
     //Scripts
+    private Battle battle;
     private Player player;
     public EnemyObject[] database;
     public EnemyObject enemy;
@@ -33,8 +36,10 @@ public class Enemy : Character
     public int turnNumber = 1;
 
     void Start()
-    {
+    {  
+        battle = FindObjectOfType<Battle>();
         player = FindObjectOfType<Player>();
+        highlightPS = this.transform.Find("Particle System").gameObject;
         actionManager = FindObjectOfType<ActionManager>();
         health = enemy.health;
         maxHealth = enemy.maxHealth;
@@ -47,7 +52,7 @@ public class Enemy : Character
 
     public override void Death()
     {
-        gameState.numOfEnemies--;
+        battle.numOfEnemies--;
         Destroy(this.gameObject);
     }
 
@@ -116,11 +121,13 @@ public class Enemy : Character
     public void Highlight()
     {
         image.color = highlightColor;
+        highlightPS.gameObject.SetActive(true);
     }
 
     public void StopHighlight()
     {
         image.color = defaultColor;
+        highlightPS.gameObject.SetActive(false);
     }
 }
 

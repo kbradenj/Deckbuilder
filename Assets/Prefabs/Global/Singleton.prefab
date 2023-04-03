@@ -44,8 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0cfabeca7bc64316a9e53d57fd5211a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDeck: []
   player: {fileID: 7009720307566896322, guid: 10e92aabd904c4544a2391dba26a728e, type: 3}
-  cardDatabase: []
   navigation: {fileID: 1762048016753403710, guid: 52fd0b48df6e64bd9a4d4156ce5fb079, type: 3}
+  storeLevel: 0
+  dayCount: 1
+  maxDaylight: 360
   dayLeft: 0
+  recipeDatabase: []
+  cardDatabase: []
+  playerDeck: []
+  unlockedRecipes: []
+  recipeBookPrefab: {fileID: 7368574149657615513, guid: ba55d9d79fc024d43a88aea847f3bd5b, type: 3}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Craft : MonoBehaviour
@@ -39,6 +40,14 @@ public class Craft : MonoBehaviour
     
      void Start()
     {
+        if(SceneManager.GetActiveScene().name == "Crafting")
+        {
+            GameObject.Find("Close Button").SetActive(false);
+        }
+        else
+        {
+            GameObject.Find("Craft Button").SetActive(false);
+        }
 
         resultCardArea = GameObject.Find("Result Card");
         recipeList = GameObject.Find("Recipe List");
@@ -233,7 +242,10 @@ public class Craft : MonoBehaviour
         return true;
     }
 
-
+    public void Close()
+    {
+        Destroy(gameObject);
+    }
 
 
 }

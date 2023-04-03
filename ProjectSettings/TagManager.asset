@@ -5,12 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hand Card
-  - enemy
   - Close Up
   - Card Reward
   - Card Image
   - Result Card
   - Recipe List Item
+  - Enemy Area
+  - Enemy
+  - Dropzone
   layers:
   - Default
   - TransparentFX

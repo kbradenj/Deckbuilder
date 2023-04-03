@@ -13,6 +13,9 @@ public class CardBehavior : MonoBehaviour
     public TMP_Text priceText;
     public TMP_Text quantity;
 
+    //Game State (TODO: Change to battle when i break it out)
+    private GameState gameState;
+
     //UI
     public Image image;
     public Image bgImage;
@@ -41,6 +44,7 @@ public class CardBehavior : MonoBehaviour
     
     void Start()
     {
+        gameState = FindObjectOfType<GameState>();
         Canvas = GameObject.Find("Main Canvas");
         dropZone = GameObject.Find("Drop Zone");
         player = FindObjectOfType<Player>();
@@ -55,7 +59,7 @@ public class CardBehavior : MonoBehaviour
                 transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 transform.SetParent(Canvas.transform, true);
                 if(!card.needsTarget && card.cardType != "power" && card.actionList[0] == "attackall"){
-                    enemies = GameObject.FindGameObjectsWithTag("enemy");
+                    enemies = GameObject.FindGameObjectsWithTag("Enemy");
                     foreach(GameObject enemy in enemies){
                         enemy.GetComponent<Enemy>().Highlight();
                     }
@@ -126,38 +130,61 @@ public class CardBehavior : MonoBehaviour
     //Card Interaction
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
        isOverDropZone = true;
-       if(card.needsTarget && collision.gameObject.tag == "enemy")
+       if(target != null)
        {
-       target = collision.gameObject;
-       Enemy enemy = target.GetComponent<Enemy>();
-       float vulnerable = 1;
-       enemy.Highlight();
-        foreach(string action in card.actionList)
-            {
-                if(action == "attack")
+          target.GetComponent<Enemy>().StopHighlight();
+       }
+
+       if(card.needsTarget && collision.gameObject.tag == "Enemy")
+       {    
+            target = collision.gameObject;
+            Enemy enemy = target.GetComponent<Enemy>();
+            float vulnerable = 1;
+            enemy.Highlight();
+
+            //Format card to show value based on vulnerable, weak, etc
+            foreach(string action in card.actionList)
                 {
-                    if(enemy.vulnerable > 0)
+                    //for attack type actions (TODO: create for skill items as well);
+                    if(action == "attack")
                     {
-                        vulnerable = player.vulnerableMod;
+                        if(enemy.vulnerable > 0)
+                        {
+                            vulnerable = player.vulnerableMod;
+                        }
+                        int currentDmg = card.attack;
+                        card.attack = (int) Math.Floor(card.attack * player.weaknessMod * vulnerable);
+                        descriptionField.text = card.FormatString();
+                        card.attack = currentDmg;
                     }
-                    int currentDmg = card.attack;
-                    card.attack = (int) Math.Floor(card.attack * player.weaknessMod * vulnerable);
-                    descriptionField.text = card.FormatString();
-                    card.attack = currentDmg;
                 }
             }
-        }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isOverDropZone = false;
-        if(target != null && target.tag == "enemy"){
-         target.GetComponent<Enemy>().StopHighlight();
-         descriptionField.text = card.FormatString();
-         target = null;
+    private void OnCollisionExit2D(Collision2D collision) {
+        //backup to stop highlight on the enemy
+        if(collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.GetComponent<Enemy>().StopHighlight();
         }
+        else
+        {
+            //if needs target and leaves the enemy area
+            if(card.needsTarget && collision.gameObject.tag == "Enemy Area"){
+                target = null;
+            }
+            //if doesn't need target but leaves dropzone
+            else if(collision.gameObject.tag == "DropZone")
+            {
+                isOverDropZone = false;
+                target = null;
+            }
+
+        }
+
+    
     }
 
     public void StartDrag()
@@ -172,8 +199,9 @@ public class CardBehavior : MonoBehaviour
         isDragging = false;
         if(isOverDropZone && IsCardPlayable())
         {
+            //if card needs target and has one or doesn't need target
             if((card.needsTarget && target != null) || !card.needsTarget){
-                
+                //if it's an attack all card
                 if(card.cardType != "power" && card.actionList[0] == "attackall"){
                     foreach(GameObject enemy in enemies){
                         target = enemy;
@@ -182,29 +210,37 @@ public class CardBehavior : MonoBehaviour
                 }
                 else
                 {
-                Play(target);
+                    Play(target);
                 }
                 
+                //reduce AP
                 player.turnAP -= card.cardCost;
+
+                //show reduction in ap/block/health/etc.
                 player.UpdateStats();
+
+                //destroy card
                 Destroy(this.gameObject);
             }
             else
             {
+                //return to hand
                 transform.position = startPosition;
                 transform.SetParent(startParent.transform, false);
             }
         } 
         else
             {
+                //return to hand
                 transform.position = startPosition;
                 transform.SetParent(startParent.transform, false);
             }
+        //remove highlight on all enemies for attack all types of cards
         if(!card.needsTarget && card.cardType != "power" && card.actionList[0] == "attackall"){
                 foreach(GameObject enemy in enemies){
                     enemy.GetComponent<Enemy>().StopHighlight();
-                }
             }
+        }
     }
 
     public void Play(GameObject target)
@@ -244,7 +280,7 @@ public class CardBehavior : MonoBehaviour
                     actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength) * player.weaknessMod), card.multiAction);
                     break;
                     case "block":
-                    if(target != null && target.tag == "enemy")
+                    if(target != null && target.tag == "Enemy")
                     {
                         actions.Block(player, card.block);
                     }
@@ -276,6 +312,7 @@ public class CardBehavior : MonoBehaviour
       
     }
 
+    //Does player have enough ap to play?
     public bool IsCardPlayable()
     {
         if(player.turnAP - card.cardCost >= 0){
