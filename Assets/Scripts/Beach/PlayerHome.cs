@@ -24,6 +24,7 @@ public class PlayerHome : MonoBehaviour
     void Awake()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
+        singleton.isNight = false;
     }
 
     void Start(){

@@ -2570,6 +2570,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Singleton
       objectReference: {fileID: 0}
+    - target: {fileID: 5101929540811962352, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7875473781177124816, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
       propertyPath: m_RootOrder
       value: 4

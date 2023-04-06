@@ -20,7 +20,7 @@ MonoBehaviour:
   enemyName: Poison Frog
   level: 2
   maxHealth: 30
-  health: 30
+  health: 1
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: 34468b4a1e7e74224b05395c6522a2dc, type: 3}

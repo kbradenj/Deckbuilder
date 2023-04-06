@@ -9,6 +9,14 @@ public class NightManager : MonoBehaviour
     void Awake()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
+        if(singleton.nightLeft <= 0)
+        {
+            singleton.navigation.Navigate("Home");
+        }
+        else
+        {
+            singleton.AdjustMoonlight();
+        }
     }
 
     public void UpdateDayCount()

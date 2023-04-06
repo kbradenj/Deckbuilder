@@ -5,9 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class Navigation : MonoBehaviour
 {
+    Singleton singleton;
+
+    void Awake() {
+        singleton = FindObjectOfType<Singleton>();
+    }
 
     public void Night()
     {
+        singleton.isNight = true;
         SceneManager.LoadScene("Night");
     }
 

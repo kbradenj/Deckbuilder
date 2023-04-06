@@ -20,7 +20,7 @@ MonoBehaviour:
   enemyName: Iguana
   level: 1
   maxHealth: 15
-  health: 15
+  health: 1
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: ec99f8811d3384899a69786da5030628, type: 3}

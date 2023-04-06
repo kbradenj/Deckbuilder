@@ -49,21 +49,22 @@ public class Battle : MonoBehaviour
         enemyArea = GameObject.Find("Enemy Area");
         gameState.isBattle = true;
         LoadEnemies();
+        cardManager.LoadPlayerDeck(player);
         StartBattle();
     }
 
     void Update() {
-    
         //Is the battle over?
         if(numOfEnemies == 0 && enemiesLoaded){
             singleton.player.health = player.health;
             gameState.isBattle = false;
             ResetPlayerStats();
-            SceneManager.LoadScene("WinScreen");
-            return;
+            singleton = GameObject.FindObjectOfType<Singleton>();
+            singleton.navigation.Navigate("WinScreen");
         }
     }
     
+   
    //Load Enemies
     public void LoadEnemies()
     {
@@ -74,7 +75,7 @@ public class Battle : MonoBehaviour
     public void StartBattle()
     {
         CreatePlayer();
-        CreateEnemy();
+        CreateEnemy(GetRandomEnemy());
         player = GameObject.FindObjectOfType<Player>();
         player.StartTurn();
         player.UpdateStats();
@@ -89,25 +90,29 @@ public class Battle : MonoBehaviour
         player = singleton.player;
     }
 
+     private EnemyObject GetRandomEnemy()
+    {
+        int randomEnemyIndex = Random.Range(0, enemyDatabase.Length);
+        return enemyDatabase[randomEnemyIndex];
+    }
+
     //Create Enemy
-    public void CreateEnemy()
+    public void CreateEnemy(EnemyObject enemyObject)
     {
         float enemyWidth = SetEnemyGridWidth();
-        for(int i = 0; i < enemyAmount; i++)
+        int randomEnemyAmount = Random.Range(enemyObject.groupMin, enemyObject.groupMax);
+        for(int i = 0; i < randomEnemyAmount; i++)
         {
-            if(enemyDatabase[i].rarity == "Common")
-            {
-                GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
-                enemyNew.transform.SetParent(enemyArea.transform);
-                Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
-                thisEnemy.GetComponent<BoxCollider2D>().size = new Vector2(enemyWidth, 300);
-                thisEnemy.enemy = enemyDatabase[i];
-                thisEnemy.strength = 0;
-                thisEnemy.weaknessMod = 1f;
-                thisEnemy.NextTurn();
-                enemies.Add(thisEnemy);
-                numOfEnemies += 1;
-            }
+            GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
+            enemyNew.transform.SetParent(enemyArea.transform);
+            Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
+            thisEnemy.GetComponent<BoxCollider2D>().size = new Vector2(enemyWidth, 300);
+            thisEnemy.enemy = enemyObject;
+            thisEnemy.strength = 0;
+            thisEnemy.weaknessMod = 1f;
+            thisEnemy.NextTurn();
+            enemies.Add(thisEnemy);
+            numOfEnemies += 1;
         }
         enemiesLoaded = true;
     }

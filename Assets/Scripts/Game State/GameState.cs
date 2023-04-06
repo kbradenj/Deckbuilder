@@ -37,7 +37,7 @@ public class GameState : MonoBehaviour
         if(singleton.cardDatabase.Count <= 0){
             LoadCardDatabase();
         }
-         CreatePowerCardDictionary();
+        CreatePowerCardDictionary();
     }
 
     //Pull in card db

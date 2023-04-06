@@ -28,14 +28,12 @@ public class RewardsManager : MonoBehaviour
     public List<Card> shownCards;
     public List<StatReward> shownStat;
 
-    void Awake()
+    void Start()
     {
         rewardOptionsArea = GameObject.Find("Reward Options List");
         singleton = GameObject.FindObjectOfType<Singleton>();
         CreateRewardOptions();
     }
-
-    //need to instantiate three objects that can be clicked on
 
     void CreateRewardOptions()
     {

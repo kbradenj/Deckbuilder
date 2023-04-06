@@ -45,7 +45,7 @@ public class CardManager : MonoBehaviour
     
     
     public void CreatePlayerDeck(){
-        cardDatabase = gameState.cardDatabase;
+        cardDatabase = singleton.cardDatabase;
         
         startingCardIDs.Add(0);
         startingCardIDs.Add(1);
@@ -71,10 +71,7 @@ public class CardManager : MonoBehaviour
     public void LoadPlayerDeck(Player player)
     {
         deckCards = new List<Card>(singleton.playerDeck);
-        if(SceneManager.GetActiveScene().name == "Battle"){
-            UpdateDeckSizeText();
-   
-        }
+        UpdateDeckSizeText();
     }
 
     //UI Text Updates
@@ -94,8 +91,8 @@ public class CardManager : MonoBehaviour
         Discard();
         GridLayoutGroup gridLayout = hand.GetComponentInChildren<GridLayoutGroup>();
         RectTransform handRect = hand.GetComponent<RectTransform>();
+
         float overlap = (handRect.rect.width - (amount * 300))/amount;
-  
         gridLayout.spacing = new Vector2 (overlap, 0);
 
         if(deckCards.Count < amount){

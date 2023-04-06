@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class HardEnemyPath : PathChoice
+{
+    public override void AssignEvent() 
+    {
+        timeCost = 180;
+        pathChoiceType = "Hard Enemy";
+        base.AssignEvent();
+    }
+
+    public override void Choice()
+    {
+        base.Choice();
+        singleton.navigation.Navigate("Battle");
+    }
+}

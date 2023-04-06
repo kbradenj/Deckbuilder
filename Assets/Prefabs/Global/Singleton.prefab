@@ -49,9 +49,11 @@ MonoBehaviour:
   storeLevel: 0
   dayCount: 1
   maxDaylight: 360
+  maxMoonlight: 240
+  nightLeft: 0
   dayLeft: 0
   recipeDatabase: []
   cardDatabase: []
   playerDeck: []
   unlockedRecipes: []
-  recipeBookPrefab: {fileID: 7368574149657615513, guid: ba55d9d79fc024d43a88aea847f3bd5b, type: 3}
+  isNight: 0

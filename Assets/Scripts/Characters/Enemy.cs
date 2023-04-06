@@ -39,7 +39,6 @@ public class Enemy : Character
     {  
         battle = FindObjectOfType<Battle>();
         player = FindObjectOfType<Player>();
-        highlightPS = this.transform.Find("Particle System").gameObject;
         actionManager = FindObjectOfType<ActionManager>();
         health = enemy.health;
         maxHealth = enemy.maxHealth;
