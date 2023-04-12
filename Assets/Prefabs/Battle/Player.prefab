@@ -353,7 +353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: 145
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -380,8 +380,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -448,7 +448,7 @@ RectTransform:
   m_GameObject: {fileID: 5510086717116281715}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.4520661, z: 0.4520661}
+  m_LocalScale: {x: 0.6636198, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2491275576739174639}
@@ -459,8 +459,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.3, y: 45}
-  m_SizeDelta: {x: 176.8929, y: 43.6118}
+  m_AnchoredPosition: {x: 17.2, y: 254.69}
+  m_SizeDelta: {x: 956.6785, y: 235.8629}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7013073435822939536
 CanvasRenderer:
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: /50
+  m_text: /100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -563,8 +563,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -632,8 +632,8 @@ RectTransform:
   m_GameObject: {fileID: 5900930818856906476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.18281537, y: 0.2754821, z: 0.2754821}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6636198, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6085484720714427060}
   - {fileID: 1834493614190316969}
@@ -642,7 +642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.012878, y: 104.9}
+  m_AnchoredPosition: {x: 28, y: 430}
   m_SizeDelta: {x: 187.6586, y: 210.2802}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8804382254245059364
@@ -720,7 +720,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 8.800129, y: 6.0999365}
-  m_SizeDelta: {x: 160, y: 20}
+  m_SizeDelta: {x: 360, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8571190857532099718
 MonoBehaviour:
@@ -769,7 +769,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -799,7 +799,7 @@ RectTransform:
   m_GameObject: {fileID: 8434949016055220043}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6179159, y: 0.9311294, z: 0.9311294}
+  m_LocalScale: {x: 0.6179159, y: 1, z: 0.9311294}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9166519511729049073}
@@ -807,8 +807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.3, y: 65.2}
-  m_SizeDelta: {x: 14.28801, y: -87.0915}
+  m_AnchoredPosition: {x: 4.299988, y: 194.46}
+  m_SizeDelta: {x: 14.288, y: -345.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6555767332954484076
 MonoBehaviour:
@@ -825,13 +825,13 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 50
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 16, y: 16}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 80, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &8918610989762467212
@@ -963,7 +963,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -0.00024414062, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -997,8 +997,8 @@ RectTransform:
   m_GameObject: {fileID: 9151873286330487886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.47, y: 3.63, z: 3.63}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.506887, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2256110889418808756}
   - {fileID: 4716209096641192788}
@@ -1008,8 +1008,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -744, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -572, y: -99}
+  m_SizeDelta: {x: 461.023, y: 461.023}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &855425816738750446
 CanvasRenderer:
@@ -1063,40 +1063,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   block: 0
   maxHealth: 100
-  health: 100
-  level: 0
-  vulnerable: 0
+  health: 45
+  level: 1
+  statusText: {fileID: 0}
+  statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
+  gameState: {fileID: 0}
+  attackBoost: 0
   weak: 0
+  vulnerable: 0
+  vulnerableMod: 1
   weaknessMod: 1
   strength: 0
   baseStrength: 0
   baseDexterity: 0
-  statusText: {fileID: 0}
-  statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
-  gameState: {fileID: 0}
+  bonusDraw: 0
+  poison: 0
+  shriek: 0
+  fear: 0
   statusIconsArea: {fileID: 0}
   statusIcon: {fileID: 0}
   statuses: []
   statusImage: {fileID: 0}
+  actions: {fileID: 0}
+  cardManager: {fileID: 0}
+  singleton: {fileID: 0}
   defenseText: {fileID: 634548227459821301}
   healthText: {fileID: 2333236594740355960}
   maxHealthText: {fileID: 758617371585505186}
   actionPointsField: {fileID: 0}
   healthSlider: {fileID: 8571190857532099718}
-  startingDeck:
-  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
-  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
-  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
-  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
-  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
-  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
-  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
-  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
-  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
-  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
-  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
-  cardManager: {fileID: 0}
-  actions: {fileID: 0}
+  startingDeck: []
   ap: 4
   drawSize: 5
-  turnAP: 4
+  turnAP: 3

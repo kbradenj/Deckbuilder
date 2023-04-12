@@ -14,8 +14,9 @@ public class EnemyObject : ScriptableObject
     public string enemyName;
 
     [Range(1,25)]
-    public int level;
-    
+    public int minLevel;
+    [Range(1,25)]
+    public int maxLevel;
     public int maxHealth;
     public int health;
     public int groupMin;
@@ -23,7 +24,7 @@ public class EnemyObject : ScriptableObject
     public Sprite enemyImage;
 
     [HideInInspector]
-    public string rarity;
+    public string rarity = "common";
 
     
 

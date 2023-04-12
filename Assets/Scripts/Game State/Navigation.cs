@@ -7,12 +7,9 @@ public class Navigation : MonoBehaviour
 {
     Singleton singleton;
 
-    void Awake() {
-        singleton = FindObjectOfType<Singleton>();
-    }
-
     public void Night()
     {
+        singleton = FindObjectOfType<Singleton>();
         singleton.isNight = true;
         SceneManager.LoadScene("Night");
     }

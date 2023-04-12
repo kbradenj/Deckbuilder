@@ -21,15 +21,18 @@ public class Character : MonoBehaviour
     public List<StatusIcon> statusIcons = new List<StatusIcon>();
 
     //Buffs/Debuffs
-    public int weak = 0;
-    public int vulnerable = 0;
-    public float vulnerableMod = 1.25f;
+	public int attackBoost;
+    public int weak;
+    public int vulnerable;
+    public float vulnerableMod = 1f;
     public float weaknessMod = 1f;
-    public int strength = 0;
+    public int strength;
     public int baseStrength;
     public int baseDexterity;
     public int bonusDraw;
     public int poison;
+	public int shriek;
+	public int fear;
 
     //Game Objects
     public GameObject statusIconsArea;
@@ -40,6 +43,7 @@ public class Character : MonoBehaviour
     //Scripts
     public ActionManager actions;
     public CardManager cardManager;
+	public Singleton singleton;
 
     //Child Class Methods
     public virtual void UpdateStats(){}
@@ -49,6 +53,7 @@ public class Character : MonoBehaviour
     void Awake(){
 		gameState = GameObject.FindObjectOfType<GameState>();
 		cardManager = FindObjectOfType<CardManager>();
+		singleton = FindObjectOfType<Singleton>();
 		actions = FindObjectOfType<ActionManager>();
 		health = maxHealth;
     }
@@ -67,7 +72,7 @@ public class Character : MonoBehaviour
 			health -= poison;
 			UpdateStats();
 		}
-		}
+	}
 
 	public virtual void EndTurn()
 	{
@@ -81,40 +86,32 @@ public class Character : MonoBehaviour
 		} 
 		else
 		{
-			if(vulnerable > 1)
-			{
-				vulnerable --;
-			}
-				else if(vulnerable == 1)
-			{
-				vulnerable --;
-				RemoveStatusIcon("vulnerable");
-			}
-
-			if(weak > 1)
-			{
-				weak --;
-			}
-			else if(weak == 1)
-			{
-				weak --;
-				RemoveStatusIcon("weak");
-				weaknessMod = 1;
-			}
-
-			if(poison > 1)
-			{
-				poison --;
-			}
-			else if(poison == 1)
-			{
-				poison --;
-				RemoveStatusIcon("poison");
-			}
+			ReduceEffect(ref vulnerable, "vulnerable");
+			ReduceEffect(ref weak, "weak");
+			ReduceEffect(ref poison, "poison");
+			ReduceEffect(ref shriek, "shriek");
+			ReduceEffect(ref fear, "fear");
 
 			UpdateStatus();
 		}
     }
+
+	public void ReduceEffect(ref int statusAmt, string status)
+	{
+		if(statusAmt > 1)
+			{
+				statusAmt --;
+			}
+			else if(statusAmt == 1)
+			{
+				statusAmt --;
+				RemoveStatusIcon(status);
+			}
+			else if(statusAmt == 0)
+			{
+				RemoveStatusIcon(status);
+			}
+	}
 
     public virtual void UpdateStatus(){
 		foreach (StatusIcon icon in statusIcons)
@@ -133,13 +130,22 @@ public class Character : MonoBehaviour
 				case "poison":
 				icon.statusTextContainer.text = poison.ToString();
 				break;
+				case "shriek":
+				icon.statusTextContainer.text = shriek.ToString();
+				break;
+				case "fear":
+				icon.statusTextContainer.text = fear.ToString();
+				break;
+				case "attackBoost" :
+				icon.statusTextContainer.text = attackBoost.ToString();
+				break;
 			}
 		}
     }
 
     public void AddStatusIcon(string icon, int amount)
     {
-		statusIconsArea = transform.Find("Status Icons").gameObject;
+		statusIconsArea = GameObject.Find("Status Icons");
 		statusIcon = Instantiate(statusIconPrefab, new Vector2 (0, 0), Quaternion.identity);
 		statusIcon.transform.SetParent(statusIconsArea.transform, false);
 
@@ -154,10 +160,11 @@ public class Character : MonoBehaviour
     }
 
     public virtual void RemoveStatusIcon(string icon){
-		foreach(StatusIcon status in statusIcons)
+		for(int i = 0; i < statusIcons.Count; i++)
 		{
-			if(status.type == icon){
-				
+			if(statusIcons[i].type == icon){
+				Destroy(statusIcons[i].statusIconContainer);
+				statusIcons.Remove(statusIcons[i]);
 			}
 		}
     }

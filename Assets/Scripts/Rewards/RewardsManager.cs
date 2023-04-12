@@ -13,8 +13,9 @@ public class RewardsManager : MonoBehaviour
     public GameObject rewardOptionsArea;
     public GameObject selectedOption;
 
-    //Singleton
+    //Scripts
     private Singleton singleton;
+    private GameState gameState;
     
     //States
     public bool optionsShowing = false;
@@ -31,14 +32,19 @@ public class RewardsManager : MonoBehaviour
     void Start()
     {
         rewardOptionsArea = GameObject.Find("Reward Options List");
-        singleton = GameObject.FindObjectOfType<Singleton>();
+        singleton = FindObjectOfType<Singleton>();
+        gameState = FindObjectOfType<GameState>();
         CreateRewardOptions();
     }
 
     void CreateRewardOptions()
     {
         rewardType.Add("card");
-        rewardType.Add("multiCard");
+        Debug.Log(gameState.unlocks.isCraftingLocked);
+        if(!gameState.unlocks.isCraftingLocked)
+        {
+            rewardType.Add("multiCard");
+        }
         rewardType.Add("playerStat");
         for(int i = 0; i < rewardType.Count; i++){
             GameObject rewardOption;

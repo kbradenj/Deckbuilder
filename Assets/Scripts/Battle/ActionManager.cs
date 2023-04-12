@@ -7,6 +7,14 @@ using System.Reflection;
 public class ActionManager : MonoBehaviour
 {
     Player player;
+    CardManager cardManager;
+
+
+    private void Start() {
+        Singleton singleton = FindObjectOfType<Singleton>();
+        player = singleton.player;
+        cardManager = FindAnyObjectByType<CardManager>();
+    }
 
     //Will Target Die?
     public bool WillTargetDie(Character target, int attack)
@@ -19,7 +27,7 @@ public class ActionManager : MonoBehaviour
     public void Attack(Character target, int amount, int times = 1)
     {
         if(target.vulnerable > 0){
-            amount = (int)Math.Ceiling(amount * 1.25);
+            amount = (int)Math.Ceiling(amount * target.vulnerableMod);
         }
         for(int i = 0; i < times; i++)
         {
@@ -42,45 +50,16 @@ public class ActionManager : MonoBehaviour
         target.UpdateStats();
     }
 
-    //Vulnerable
-    public void Vulnerable(Character target, int amount)
+    public void AddEffect(Character target, int amount, ref int statusInt, string statusType)
     {
-        if(target.vulnerable == 0){
-            target.AddStatusIcon("vulnerable", amount);
-        }
-        target.vulnerable += amount;
-        target.UpdateStatus();
-    }
-
-    //Weak
-    public void Weak(Character target, int amount)
-    {
-        if(target.weak == 0){
-            target.AddStatusIcon("weak", amount);
-        }
-        target.weak += amount;
-        target.weaknessMod = .5f;
-        target.UpdateStatus();
-    }
-
-    //Strength
-    public void Strength(Character target, int amount)
-    {
-        if(target.strength == 0)
+         if(statusInt == 0)
         {
-            target.AddStatusIcon("strength", amount);
+            target.AddStatusIcon(statusType, amount);
         }
-        target.strength += amount;
+        statusInt += amount;
         target.UpdateStatus();
-    }
-
-    //Poison
-    public void Poison(Character target, int amount)
-    {
-        if(amount == 0)
-        {
-            target.AddStatusIcon("poison", amount);
-        }
+        target.UpdateStatus();
+        cardManager.UpdateHandCards();
     }
 
    

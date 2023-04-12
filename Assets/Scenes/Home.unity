@@ -365,6 +365,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167521802}
   m_CullTransparentMesh: 1
+--- !u!114 &657115889 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6842116325254334804, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+  m_PrefabInstance: {fileID: 2084468789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c791a46b4d98b48a690cb6b4db5c43e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &724175951
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +670,7 @@ GameObject:
   - component: {fileID: 933919674}
   - component: {fileID: 933919676}
   - component: {fileID: 933919675}
+  - component: {fileID: 933919677}
   m_Layer: 5
   m_Name: Current Quest
   m_TagString: Untagged
@@ -725,6 +737,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933919673}
   m_CullTransparentMesh: 1
+--- !u!114 &933919677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933919673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 657115889}
+          m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
+          m_MethodName: OpenQuestLog
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1041373488
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,7 +866,10 @@ MonoBehaviour:
   healAmountText: {fileID: 1196469158}
   healCostText: {fileID: 903926991}
   homeDaylightCount: {fileID: 894287640}
+  isPlayerProfileOpen: 0
   playerProfilePrefab: {fileID: 4717197048827646114, guid: f3281d48b6ce44ce4b08cb637246317a, type: 3}
+  profile: {fileID: 0}
+  gameState: {fileID: 0}
   healAmount: 50
   healCost: 120
 --- !u!114 &1068858428
@@ -2345,6 +2389,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game State Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: isCraftingLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: isCraftingUnlocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: isFirstPlaythrough
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
 --- !u!222 &2430065088759515076
@@ -2566,6 +2622,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2818959855699546793, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
+      propertyPath: maxMoonlight
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5101929540811962352, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
       propertyPath: m_Name
       value: Singleton

@@ -20,6 +20,8 @@ public class Player : Character
   //Player Stats
   public int ap = 4;
   public int drawSize = 5;
+
+  public bool isPlayerTurn = true;
   
   //Temp Stats
   public int turnAP;
@@ -27,16 +29,44 @@ public class Player : Character
   void Awake()
   {
     bonusDraw = 0;
+
+  }
+
+  public override void EndTurn()
+  {
+    base.EndTurn();
+    isPlayerTurn = false;
+    attackBoost = 0;
+    RemoveStatusIcon("attackBoost");
+
+  }
+
+  public void SetUpBattle()
+  {
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
     gameState = GameObject.FindObjectOfType<GameState>();
     cardManager = GameObject.FindObjectOfType<CardManager>();
   }
 
+public int GetPlayerTurnAP()
+{
+  return turnAP;
+}
   public override void StartTurn()
   {
+    isPlayerTurn = true;
     turnAP = ap;
+    if(fear > 0)
+    {
+      turnAP--;
+    }
     base.StartTurn();
+    cardManager.Discard();
     cardManager.Draw(drawSize);
+    if(shriek > 0)
+    {
+        cardManager.ShriekCards(shriek);
+    }
     foreach(KeyValuePair<string, Card> kvp in gameState.powerCards["turnStart"])
     {
       gameState.powerCards["turnStart"][kvp.Key].Effect();
@@ -46,6 +76,10 @@ public class Player : Character
   //Update UI Text Fields
   public override void UpdateStats()
   {
+    if(actionPointsField == null)
+    {
+      actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
+    }
     defenseText.text = block.ToString();
     healthText.text = health.ToString();
     maxHealthText.text = "/" + maxHealth.ToString();

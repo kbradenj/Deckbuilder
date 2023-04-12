@@ -82,6 +82,8 @@ public class CardEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("actionList"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("block"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("attack"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("attackBoost"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("draw"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("multiAction"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("vulnerable"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("weak"));

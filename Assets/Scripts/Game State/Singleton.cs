@@ -51,22 +51,41 @@ public class Singleton : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            if(player == null)
+            {
+                player = gameObject.AddComponent<Player>();
+            }
             DontDestroyOnLoad(gameObject);
             dayLeft = maxDaylight;
             nightLeft = maxMoonlight;
             AdjustDaylight();
-            player.maxHealth = 100;
-            player.level = 1;
-            player.baseStrength = 3;
-            player.health = player.maxHealth;
+            InitializePlayerStats();
+            ResetPlayerTempStats();
             PlayerPrefs.SetString("unlockedRecipes", "");
             recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
-            
         }    
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    public void InitializePlayerStats()
+    {
+        player.maxHealth = 100;
+        player.level = 1;
+        player.baseStrength = 3;
+        player.health = player.maxHealth;
+        player.weaknessMod = 1;
+        player.vulnerableMod = 1;
+    }
+
+    public void ResetPlayerTempStats()
+    {
+        player.attackBoost = 0;
+        player.weak = 0;
+        player.fear = 0;
+        player.vulnerable = 0;
     }
 
     public void RemoveCardFromDeck(string cardName){

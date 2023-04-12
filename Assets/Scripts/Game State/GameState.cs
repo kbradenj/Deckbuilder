@@ -14,8 +14,9 @@ public class GameState : MonoBehaviour
     public Singleton singleton;
 
     //Scripts
-
     public CardManager cardManager;
+    public QuestManager questManager;
+    public Unlocks unlocks;
 
     //Dictionaries
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
@@ -30,14 +31,25 @@ public class GameState : MonoBehaviour
     public Card[] database;
     public List<Card> cardDatabase = new List<Card>();
 
+    //Static Amounts
+    public float uncommonChance = 40;
+    public float rareChance = 15;
+    public float legendaryChance = 5;
+    public float mythicChance = 0.1f;
+
+
     void Awake()
     {
         //Get singleton, check to see if the card db is loaded
         singleton = GameObject.FindObjectOfType<Singleton>();
+        singleton.ResetPlayerTempStats();
         if(singleton.cardDatabase.Count <= 0){
             LoadCardDatabase();
         }
         CreatePowerCardDictionary();
+        questManager = FindObjectOfType<QuestManager>();
+        unlocks = GetComponent<Unlocks>();
+        unlocks.CheckUnlocks();
     }
 
     //Pull in card db

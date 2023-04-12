@@ -45,9 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardDatabase: []
-  startingCardIDs: 
+  singleton: {fileID: 0}
+  startingCards:
+  - {fileID: 11400000, guid: bf832e625b1b741edb77f71af6c229f0, type: 2}
+  - {fileID: 11400000, guid: acff5ac6906564dcdb09e18d1c300241, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
   deckCards: []
   handCards: []
+  handCardObjects: []
   discardCards: []
   deckSize: {fileID: 0}
   discardSize: {fileID: 0}
@@ -56,3 +61,4 @@ MonoBehaviour:
   player: {fileID: 0}
   cardGameObject: {fileID: 1639937595311336888, guid: f10343db443d9485db3e8872b61af4b0, type: 3}
   hand: {fileID: 0}
+  gameState: {fileID: 0}

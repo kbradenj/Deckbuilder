@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -37,13 +35,12 @@ public class Enemy : Character
 
     void Start()
     {  
+        player = singleton.player;
         battle = FindObjectOfType<Battle>();
-        player = FindObjectOfType<Player>();
         actionManager = FindObjectOfType<ActionManager>();
         health = enemy.health;
         maxHealth = enemy.maxHealth;
         healthSlider.value = ((float)health/enemy.maxHealth) * 100;
-        level = enemy.level;
         image.sprite = enemy.enemyImage;
         defaultColor = image.color;
         UpdateStats();
@@ -80,12 +77,19 @@ public class Enemy : Character
             case "vulnerable":
             break;
             case "strength":
-            actions.Strength(this, currentAction.baseAmount);
+            actions.AddEffect(player, currentAction.baseAmount, ref strength, "strength");
             break;
             case "poison":
-            actions.Poison(player, player.poison);
-            player.poison += currentAction.baseAmount;
-            player.UpdateStatus();
+            actions.AddEffect(player, currentAction.baseAmount, ref player.poison, "poison");
+            break;
+            case "shriek":
+            actions.AddEffect(player, currentAction.baseAmount, ref player.shriek, "shriek");
+            break;
+            case "fear":
+            actions.AddEffect(player, currentAction.baseAmount, ref player.fear, "fear");
+            break;
+            case "weak":
+            actions.AddEffect(player, currentAction.baseAmount, ref player.weak, "weak");
             break;
         }
 

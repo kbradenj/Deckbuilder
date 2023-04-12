@@ -24,4 +24,4 @@ MonoBehaviour:
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: ec99f8811d3384899a69786da5030628, type: 3}
-  rarity: Common
+  rarity: common

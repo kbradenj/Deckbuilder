@@ -14,16 +14,20 @@ public class PlayerHome : MonoBehaviour
     public TMP_Text healCostText;
     public TMP_Text homeDaylightCount;
 
+    public bool isPlayerProfileOpen = false;
+
     public GameObject playerProfilePrefab;
+    public GameObject profile;
+
+    public GameState gameState;
 
     public int healAmount = 50;
     public int healCost = 120;
 
-  
-
     void Awake()
     {
-        singleton = GameObject.FindObjectOfType<Singleton>();
+        singleton = FindObjectOfType<Singleton>();
+        gameState = FindObjectOfType<GameState>();
         singleton.isNight = false;
     }
 
@@ -31,6 +35,11 @@ public class PlayerHome : MonoBehaviour
         singleton.AdjustDaylight();
         UpdateHealActionText();
         singleton.UpdateDayCount();
+
+        if(gameState.unlocks.isCraftingLocked)
+        {
+            GameObject.Find("Crafting").SetActive(false); 
+        }
     }
 
     public void HomeHealPlayer()
@@ -62,12 +71,14 @@ public class PlayerHome : MonoBehaviour
 
 
     public void Loiter(){
+        Debug.Log("Loiter Clicked");
         singleton.AdjustDaylight(singleton.dayLeft);
     }
 
     public void PlayerProfile()
     {
-        GameObject profile = GameObject.Instantiate(playerProfilePrefab, new Vector2 (Screen.width/2f, Screen.height/2f), Quaternion.identity);
+        isPlayerProfileOpen = true;
+        profile = GameObject.Instantiate(playerProfilePrefab, new Vector2 (Screen.width/2f, Screen.height/2f), Quaternion.identity);
         profile.transform.SetParent(GameObject.Find("Main Canvas").transform);
     }
 }

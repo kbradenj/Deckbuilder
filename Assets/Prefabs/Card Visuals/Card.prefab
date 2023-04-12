@@ -31,7 +31,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1639937595311336889}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 29.871094, y: 0, z: 21.724548, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -170,8 +170,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.5235, y: 26.859108}
-  m_SizeDelta: {x: 265.6873, y: 351.2338}
+  m_AnchoredPosition: {x: 1.1422, y: -4.0706}
+  m_SizeDelta: {x: 263.3024, y: 404.9372}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1639937594815952563
 CanvasRenderer:
@@ -242,12 +242,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1639937595311336889}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21, y: -82}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 4.4526, y: -110.2806}
+  m_SizeDelta: {x: 185.8595, y: 106.5613}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1639937594845874922
 CanvasRenderer:
@@ -383,9 +383,9 @@ RectTransform:
   - {fileID: 6742726098867300374}
   - {fileID: 1639937594815952573}
   - {fileID: 1048555659220678630}
+  - {fileID: 1639937594845874932}
   - {fileID: 1639937595715554328}
   - {fileID: 1639937593871710038}
-  - {fileID: 1639937594845874932}
   - {fileID: 1921160513788864568}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -456,10 +456,12 @@ MonoBehaviour:
   targetCharacter: {fileID: 0}
   card: {fileID: 0}
   actions: {fileID: 0}
+  singleton: {fileID: 0}
   Canvas: {fileID: 0}
   inspectCardPrefab: {fileID: 1639937595311336888, guid: e69bce458c1104c2888f01b9f8d7e2e5, type: 3}
   pricePrefab: {fileID: 3065387812838022230, guid: 0f4d47f7461b6470c8162e23f3424619, type: 3}
   amountDisplay: {fileID: 2463340353295502308, guid: bf97c0647018d4c03820035cfaf01786, type: 3}
+  isDisabled: 0
   qty: 0
 --- !u!114 &3740688299664133413
 MonoBehaviour:
@@ -556,7 +558,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.032928467, y: -0.20095825}
+  m_Offset: {x: 0.03289795, y: -2.9729004}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -567,7 +569,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.8165894, y: 450.41632}
+  m_Size: {x: 10.132568, y: 444.87244}
   m_EdgeRadius: 0
 --- !u!1 &1639937595715554331
 GameObject:
@@ -600,12 +602,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1639937595311336889}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 58.1, y: 157.6}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 35.325, y: 167}
+  m_SizeDelta: {x: 165.3501, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1639937595715554334
 CanvasRenderer:
@@ -670,7 +672,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -739,8 +741,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.5244, y: 29.800919}
-  m_SizeDelta: {x: 277.4537, y: 357.1218}
+  m_AnchoredPosition: {x: 2.5244, y: -2.7218}
+  m_SizeDelta: {x: 277.4537, y: 422.1673}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4350250976543062003
 CanvasRenderer:
@@ -763,7 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.60969925, g: 0, b: 1, a: 1}
+  m_Color: {r: 0.60969925, g: 0, b: 1, a: 0.5176471}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

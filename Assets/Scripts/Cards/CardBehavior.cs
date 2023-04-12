@@ -15,6 +15,7 @@ public class CardBehavior : MonoBehaviour
 
     //Game State (TODO: Change to battle when i break it out)
     private GameState gameState;
+    private CardManager cardManager;
 
     //UI
     public Image image;
@@ -25,6 +26,7 @@ public class CardBehavior : MonoBehaviour
     public Character targetCharacter;
     public Card card;
     public ActionManager actions;
+    public Singleton singleton;
     
     //Game Objects
     public GameObject Canvas;
@@ -40,14 +42,17 @@ public class CardBehavior : MonoBehaviour
     //States
     private bool isDragging = false;
     private bool isOverDropZone = false;
+    public bool isDisabled = false;
     public int qty;
     
-    void Start()
+    void Awake()
     {
         gameState = FindObjectOfType<GameState>();
         Canvas = GameObject.Find("Main Canvas");
         dropZone = GameObject.Find("Drop Zone");
-        player = FindObjectOfType<Player>();
+        singleton = FindObjectOfType<Singleton>();
+        cardManager = FindObjectOfType<CardManager>();
+        player = singleton.player;
         actions = FindObjectOfType<ActionManager>();
     }
 
@@ -88,6 +93,7 @@ public class CardBehavior : MonoBehaviour
     {
         card = c;
         cardNameField.text = c.cardName;
+        card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
         descriptionField.text = c.FormatString();
         if(c.actionList.Count != 0)
         {
@@ -104,8 +110,16 @@ public class CardBehavior : MonoBehaviour
         }
            
         image.sprite = c.cardImage;
-        if(showQty != true){
+        if(showQty != true && !isDisabled){
             GameObject.Find("QuantityDisplay").SetActive(false);
+        }
+        if(isDisabled)
+            {
+                Image[] images = gameObject.GetComponentsInChildren<Image>();
+                foreach(Image image in images)
+                {
+                    image.color = Color.gray;
+                }
         }
     }
 
@@ -136,12 +150,12 @@ public class CardBehavior : MonoBehaviour
        {
           target.GetComponent<Enemy>().StopHighlight();
        }
-
-       if(card.needsTarget && collision.gameObject.tag == "Enemy")
+        if(!isDisabled)
+        {
+            if(card.needsTarget && collision.gameObject.tag == "Enemy")
        {    
             target = collision.gameObject;
             Enemy enemy = target.GetComponent<Enemy>();
-            float vulnerable = 1;
             enemy.Highlight();
 
             //Format card to show value based on vulnerable, weak, etc
@@ -152,21 +166,27 @@ public class CardBehavior : MonoBehaviour
                     {
                         if(enemy.vulnerable > 0)
                         {
-                            vulnerable = player.vulnerableMod;
+                            enemy.vulnerableMod = 1.25f;
                         }
-                        int currentDmg = card.attack;
-                        card.attack = (int) Math.Floor(card.attack * player.weaknessMod * vulnerable);
+                        if(player.weak > 0)
+                        {
+                            player.weaknessMod = .5f;
+                        }
+                        card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod * enemy.vulnerableMod) + player.attackBoost + player.strength + player.baseStrength);
                         descriptionField.text = card.FormatString();
-                        card.attack = currentDmg;
+                        card.modDamage = card.attack;
                     }
                 }
             }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision) {
         //backup to stop highlight on the enemy
         if(collision.gameObject.tag == "Enemy")
         {
+            card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
+            descriptionField.text = card.FormatString();
             collision.gameObject.GetComponent<Enemy>().StopHighlight();
         }
         else
@@ -176,7 +196,7 @@ public class CardBehavior : MonoBehaviour
                 target = null;
             }
             //if doesn't need target but leaves dropzone
-            else if(collision.gameObject.tag == "DropZone")
+            else if(collision.gameObject.tag == "Dropzone")
             {
                 isOverDropZone = false;
                 target = null;
@@ -194,6 +214,7 @@ public class CardBehavior : MonoBehaviour
         startPosition = transform.position;
     }
 
+    //TODO: Clean this up, it's a confusing mess. It should break out if it requires a target after checking if it's playable. Dropzone should only need to worry about nontarget cards
     public void EndDrag()
     {
         isDragging = false;
@@ -201,6 +222,7 @@ public class CardBehavior : MonoBehaviour
         {
             //if card needs target and has one or doesn't need target
             if((card.needsTarget && target != null) || !card.needsTarget){
+                cardManager.handCardObjects.Remove(this.gameObject);
                 //if it's an attack all card
                 if(card.cardType != "power" && card.actionList[0] == "attackall"){
                     foreach(GameObject enemy in enemies){
@@ -220,6 +242,9 @@ public class CardBehavior : MonoBehaviour
                 player.UpdateStats();
 
                 //destroy card
+                cardManager.MoveFromHandToDiscard(card);
+                cardManager.UpdateDeckSizeText();
+                cardManager.handCardObjects.Remove(this.gameObject);
                 Destroy(this.gameObject);
             }
             else
@@ -227,6 +252,7 @@ public class CardBehavior : MonoBehaviour
                 //return to hand
                 transform.position = startPosition;
                 transform.SetParent(startParent.transform, false);
+            
             }
         } 
         else
@@ -253,7 +279,6 @@ public class CardBehavior : MonoBehaviour
         }
         if(card.cardType == "power")
         {
-            Debug.Log(player.drawSize);
             if(card.phase == "oneTime")
             {
                 card.Effect();
@@ -262,7 +287,6 @@ public class CardBehavior : MonoBehaviour
             {
                 GameObject.FindObjectOfType<GameState>().powerCards[card.phase].Add(card.cardName, card);
             }
-            Debug.Log(player.drawSize);
 
         }
             foreach(string type in card.actionList)
@@ -270,24 +294,17 @@ public class CardBehavior : MonoBehaviour
                 switch(type)
                 {
                     case "attack":
-                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength) * player.weaknessMod), card.multiAction);
+                    actions.Attack(targetCharacter, (int)Math.Floor((double)(card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod), card.multiAction);
                     break;
                     case "xattack":
-                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength) * player.weaknessMod), player.turnAP);
+                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod), player.turnAP);
                     player.turnAP = 0;
                     break;
                     case "attackall":
-                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength) * player.weaknessMod), card.multiAction);
+                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod), card.multiAction);
                     break;
                     case "block":
-                    if(target != null && target.tag == "Enemy")
-                    {
-                        actions.Block(player, card.block);
-                    }
-                    else
-                    {
-                        actions.Block(targetCharacter, card.block);
-                    }
+                    actions.Block(player, card.block);
                     break;
                     case "xblock":
                     for(int i = 0; i < player.turnAP; i++){
@@ -296,26 +313,31 @@ public class CardBehavior : MonoBehaviour
                     player.turnAP = 0;
                     break;
                     case "vulnerable":
-                    actions.Vulnerable(targetCharacter, card.vulnerable);
+                    actions.AddEffect(targetCharacter, card.vulnerable, ref targetCharacter.vulnerable, "vulnerable");
                     break;
                     case "weak":
-                    actions.Weak(targetCharacter, card.weak);
+                    actions.AddEffect(targetCharacter, card.weak, ref targetCharacter.weak, "weak");
                     targetCharacter.NextTurn();
                     break;
                     case "strength":
-                    actions.Strength(targetCharacter, card.strength);
+                    actions.AddEffect(player, card.strength, ref player.strength, "strength");
                     targetCharacter.NextTurn();
+                    break;
+                    case "draw":
+                    player.cardManager.Draw(card.draw);
+                    break;
+                    case "attackBoost":
+                    actions.AddEffect(player, card.attackBoost, ref player.attackBoost, "attackBoost");
                     break;
                 }
             }   
-        targetCharacter.UpdateStats();
-      
+        
     }
 
     //Does player have enough ap to play?
     public bool IsCardPlayable()
     {
-        if(player.turnAP - card.cardCost >= 0){
+        if(player.turnAP - card.cardCost >= 0 && !isDisabled){
             bgImage.color = Color.green;
             return true;
         } else

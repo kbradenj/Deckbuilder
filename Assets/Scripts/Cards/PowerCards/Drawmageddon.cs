@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Drawmageddon", menuName = "Card/PowerCard/Drawmageddon")]
 public class Drawmageddon : Card
 {
     public override void Effect()

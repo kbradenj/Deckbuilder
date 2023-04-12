@@ -19,6 +19,8 @@ public class Battle : MonoBehaviour
     public EnemyObject[] enemyDatabase;
     public EnemyAction[] enemyActionDatabase;
 
+    public EnemyObject forcedEnemy;
+
     public Player player;
 
     private bool enemiesLoaded = false;
@@ -33,23 +35,17 @@ public class Battle : MonoBehaviour
     void Start()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
-        player = singleton.player;
         gameState = FindObjectOfType<GameState>();
         powerCards = gameState.powerCards;
         
         //Set up Card Manager
         cardManager = FindObjectOfType<CardManager>();
-        if(singleton.playerDeck.Count <= 0)
-        {
-            cardManager.CreatePlayerDeck(); 
-        }
-
         powerCards = new Dictionary<string, Dictionary<string, Card>>();
         playerArea = GameObject.Find("Player Area");
         enemyArea = GameObject.Find("Enemy Area");
         gameState.isBattle = true;
         LoadEnemies();
-        cardManager.LoadPlayerDeck(player);
+        cardManager.LoadPlayerDeck();
         StartBattle();
     }
 
@@ -63,7 +59,6 @@ public class Battle : MonoBehaviour
             singleton.navigation.Navigate("WinScreen");
         }
     }
-    
    
    //Load Enemies
     public void LoadEnemies()
@@ -71,15 +66,19 @@ public class Battle : MonoBehaviour
         enemyDatabase = Resources.LoadAll<EnemyObject>("Enemies");
     }
 
+    private void LoadRarityDictionary()
+    {
+
+    }
     //Battle States
     public void StartBattle()
     {
         CreatePlayer();
-        CreateEnemy(GetRandomEnemy());
-        player = GameObject.FindObjectOfType<Player>();
+        CreateEnemy(GetRandomEnemy(GetRandomRarity()));
+        player.SetUpBattle();
         player.StartTurn();
         player.UpdateStats();
-        cardManager.LoadPlayerDeck(player);
+        cardManager.LoadPlayerDeck();
     }
 
       //Create Player
@@ -90,16 +89,56 @@ public class Battle : MonoBehaviour
         player = singleton.player;
     }
 
-     private EnemyObject GetRandomEnemy()
+     private EnemyObject GetRandomEnemy(string rarity)
     {
-        int randomEnemyIndex = Random.Range(0, enemyDatabase.Length);
-        return enemyDatabase[randomEnemyIndex];
+        //TODO create enemy dictionary broken out by day
+        List<EnemyObject> possibleEnemies = new List<EnemyObject>();
+
+        foreach(EnemyObject enemy in enemyDatabase)
+        {
+            if (enemy.rarity == rarity)
+            {
+                possibleEnemies.Add(enemy);
+            }
+        }
+
+        if(possibleEnemies.Count > 0)
+        {
+            return possibleEnemies[Random.Range(0,possibleEnemies.Count)];
+        }
+        else
+        {
+            return GetRandomEnemy("common");
+        }
+    }
+
+    private string GetRandomRarity()
+    {
+        float randomNum = Random.Range(0f, 100f);
+
+        switch(randomNum)
+        {
+            case var expression when randomNum < gameState.mythicChance:
+            return "mythic";
+            case var expression when randomNum < gameState.legendaryChance:
+            return "legendary";
+            case var expression when randomNum < gameState.rareChance:
+            return "rare";
+            case var expression when randomNum < gameState.uncommonChance:
+            return "uncommon";
+            default:
+            return "common";
+        }
     }
 
     //Create Enemy
     public void CreateEnemy(EnemyObject enemyObject)
     {
         float enemyWidth = SetEnemyGridWidth();
+        if(forcedEnemy != null)
+        {
+            enemyObject = forcedEnemy;
+        }
         int randomEnemyAmount = Random.Range(enemyObject.groupMin, enemyObject.groupMax);
         for(int i = 0; i < randomEnemyAmount; i++)
         {

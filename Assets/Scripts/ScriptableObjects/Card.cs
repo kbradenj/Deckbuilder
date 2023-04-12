@@ -24,10 +24,14 @@ public class Card : ScriptableObject
     public List<string> actionList = new List<string>();
     public int block;
     public int attack;
+    public int draw;
     public int multiAction = 1;
     public int vulnerable;
     public int weak;
     public int strength;
+
+    public int modDamage;
+    public int attackBoost;
 
     [Header("Container Variables")]
     public int deckQty;
@@ -48,7 +52,11 @@ public class Card : ScriptableObject
                 case "attack":
                 case "xattack":
                 case "attackall":
-                attributes.Add(attack);
+                if(modDamage == 0)
+                {
+                    modDamage = attack + attackBoost;
+                }
+                attributes.Add(modDamage);
                 break;
                 case "block":
                 case "xblock":
