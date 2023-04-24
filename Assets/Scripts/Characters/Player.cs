@@ -44,8 +44,12 @@ public class Player : Character
   public void SetUpBattle()
   {
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
-    gameState = GameObject.FindObjectOfType<GameState>();
-    cardManager = GameObject.FindObjectOfType<CardManager>();
+    gameState = FindObjectOfType<GameState>();
+    cardManager = FindObjectOfType<CardManager>();
+    healthText = GameObject.Find("Player Health Text").GetComponent<TMP_Text>();
+    defenseText = GameObject.Find("Player Defense Amount").GetComponent<TMP_Text>();
+    healthSlider = GameObject.Find("Player Health Slider").GetComponent<Slider>();
+    statusIconsArea = GameObject.Find("Player Status Icons");
   }
 
 public int GetPlayerTurnAP()
@@ -67,10 +71,14 @@ public int GetPlayerTurnAP()
     {
         cardManager.ShriekCards(shriek);
     }
-    foreach(KeyValuePair<string, Card> kvp in gameState.powerCards["turnStart"])
+    if(gameState.powerCards.Count > 0)
     {
-      gameState.powerCards["turnStart"][kvp.Key].Effect();
+      foreach(KeyValuePair<string, Card> kvp in gameState.powerCards["turnStart"])
+      {
+        gameState.powerCards["turnStart"][kvp.Key].Effect();
+      }
     }
+      
   }
 
   //Update UI Text Fields

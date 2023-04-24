@@ -15,21 +15,23 @@ public class GameState : MonoBehaviour
 
     //Scripts
     public CardManager cardManager;
-    public QuestManager questManager;
+    public MilestoneManager milestoneManager;
     public Unlocks unlocks;
 
     //Dictionaries
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
     public Dictionary<string, Card> cardLookup;
     public Dictionary<string, Dictionary<string, Card>> powerCards = new Dictionary<string, Dictionary<string, Card>>();
+    public Dictionary<string, CraftingRecipe> recipeDictionary = new Dictionary<string, CraftingRecipe>();
 
     //Bools
     public bool isBattle = false;
 
     //Resources
     public List<Card> playerDeck;
-    public Card[] database;
-    public List<Card> cardDatabase = new List<Card>();
+    public Card[] cardDatabase;
+    public CraftingRecipe[] recipeDatabase;
+    public List<Card> cardList = new List<Card>();
 
     //Static Amounts
     public float uncommonChance = 40;
@@ -43,11 +45,15 @@ public class GameState : MonoBehaviour
         //Get singleton, check to see if the card db is loaded
         singleton = GameObject.FindObjectOfType<Singleton>();
         singleton.ResetPlayerTempStats();
+        if(singleton.recipeDictionary.Count <= 0)
+        {
+            LoadRecipeDatabase();
+        }
         if(singleton.cardDatabase.Count <= 0){
             LoadCardDatabase();
         }
         CreatePowerCardDictionary();
-        questManager = FindObjectOfType<QuestManager>();
+        milestoneManager = FindObjectOfType<MilestoneManager>();
         unlocks = GetComponent<Unlocks>();
         unlocks.CheckUnlocks();
     }
@@ -55,14 +61,14 @@ public class GameState : MonoBehaviour
     //Pull in card db
     public void LoadCardDatabase()
     {
-        database = Resources.LoadAll<Card>("Cards");
-          for(int i = 0; i < database.Length; i++)
+        cardDatabase = Resources.LoadAll<Card>("Cards");
+          for(int i = 0; i < cardDatabase.Length; i++)
         {
-            cardDatabase.Add(database[i]);
+            cardList.Add(cardDatabase[i]);
         }
         CreateCardDatabaseLevels();
         CreateCardLookup();
-        singleton.cardDatabase = cardDatabase;
+        singleton.cardDatabase = cardList;
         singleton.cardDictionary = cardDictionary;
         singleton.cardLookup = cardLookup;
     }
@@ -93,6 +99,7 @@ public class GameState : MonoBehaviour
         }
     }
 
+
     public void CreateCardLookup()
     {
         cardLookup = new Dictionary<string, Card>();
@@ -112,10 +119,30 @@ public class GameState : MonoBehaviour
         powerCards.Add("battleEnd", battleEnd);
     }
 
+    public void LoadRecipeDatabase()
+    {
+        recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
+        CreateRecipeDictionary();
+    }
+
+    public void CreateRecipeDictionary()
+    {
+        foreach(CraftingRecipe recipe in recipeDatabase)
+        {
+            recipeDictionary.Add(recipe.resultItem.cardName, recipe);
+        }
+        singleton.recipeDictionary = recipeDictionary;
+    }
+
     public void OpenRecipeBook()
     {
         GameObject recipeBook = GameObject.Instantiate(recipeBookPrefab, new Vector2(Screen.width/2f, Screen.height/2f), Quaternion.identity);
         recipeBook.transform.SetParent(GameObject.Find("Main Canvas").transform);
+    }
+
+    public void UnlockRecipe()
+    {
+
     }
 }
 

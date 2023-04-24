@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8259658110122824583
+--- !u!1 &560159505296683217
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1379188151518662607}
-  - component: {fileID: 5510634525206343671}
+  - component: {fileID: 8750129662199562807}
+  - component: {fileID: 8248108054404495029}
   m_Layer: 0
-  m_Name: QuestManager
+  m_Name: MilestoneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1379188151518662607
+--- !u!4 &8750129662199562807
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8259658110122824583}
+  m_GameObject: {fileID: 560159505296683217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1267.938, y: 620.8321, z: -1.141521}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5510634525206343671
+--- !u!114 &8248108054404495029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8259658110122824583}
+  m_GameObject: {fileID: 560159505296683217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c791a46b4d98b48a690cb6b4db5c43e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 23d2f7bb953204c9494fee13fc408c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questLogPrefab: {fileID: 26536804249000610, guid: d39545923804e4756926c89aa7f25d10, type: 3}
+  milestoneLogPrefab: {fileID: 26536804249000610, guid: d39545923804e4756926c89aa7f25d10, type: 3}
+  milestonePrefab: {fileID: 380809457242340236, guid: 65b615d7338b9402c9925a28b5c4f39b, type: 3}
+  milestoneRewardPrefab: {fileID: 1085506941273148197, guid: b882dd42e173b4240ab85d11c54441d5, type: 3}

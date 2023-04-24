@@ -31,7 +31,7 @@ public class Enemy : Character
     public int attack;
 
     //Battle Counters
-    public int turnNumber = 1;
+    private int actionIndex = 0;
 
     void Start()
     {  
@@ -64,7 +64,8 @@ public class Enemy : Character
     {
         StartTurn();
         UpdateStats();
-        EnemyAction currentAction = enemy.actionList[turnNumber-1];
+   
+        EnemyAction currentAction = enemy.actionList[actionIndex-1];
         switch(currentAction.type)
         {
             case "attack":
@@ -93,11 +94,11 @@ public class Enemy : Character
             break;
         }
 
-        if(turnNumber == enemy.actionList.Count){
-            turnNumber = 1;
+        if(actionIndex == enemy.actionList.Count){
+            actionIndex = 1;
         }
         else{
-            turnNumber++;
+            actionIndex++;
         }
         
         NextTurn();
@@ -105,7 +106,12 @@ public class Enemy : Character
     }
 
     public override void NextTurn(){
-        EnemyAction nextAction = enemy.actionList[turnNumber-1];
+        if(actionIndex == 0)
+        {
+            int actionListCount = enemy.actionList.Count;
+            actionIndex = UnityEngine.Random.Range(1, actionListCount);
+        }
+        EnemyAction nextAction = enemy.actionList[actionIndex-1];
         enemyActionTitle.text = nextAction.type;
         int modDamage = nextAction.baseAmount;
         if(nextAction.type == "attack")

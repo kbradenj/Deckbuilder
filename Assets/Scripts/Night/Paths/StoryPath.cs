@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class StoryPath : PathChoice
 {
     public override void AssignEvent()
     {
         timeCost = 60;
-        pathChoiceType = "Story";
+        pathChoiceType = "story";
+        pathChoiceTitle = "Story";
         base.AssignEvent(); 
     }
 

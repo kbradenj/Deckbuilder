@@ -16,6 +16,10 @@ MonoBehaviour:
   cardName: Gather
   cardType: ability
   cardDescription: Draw 2 Cards
+  descriptionParts:
+  - Draw
+  - 0
+  - cards
   cardCost: 1
   cardLevel: 3
   cardRarity: 2
@@ -32,7 +36,9 @@ MonoBehaviour:
   vulnerable: 0
   weak: 0
   strength: 0
+  evade: 0
   modDamage: 6
+  modBlock: 0
   attackBoost: 0
   deckQty: 4
   gameState: {fileID: 0}

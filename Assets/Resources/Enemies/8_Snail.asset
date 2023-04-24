@@ -15,14 +15,15 @@ MonoBehaviour:
   actionList:
   - {fileID: 11400000, guid: 1f8ee5cc5c3a94098bd60428d937ee6e, type: 2}
   - {fileID: 11400000, guid: 1f8ee5cc5c3a94098bd60428d937ee6e, type: 2}
-  - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
+  - {fileID: 11400000, guid: 390bdeb05399f4bd381e72bf14618c6b, type: 2}
   ID: 8
   enemyName: Snail
-  minLevel: 1
-  maxLevel: 5
-  maxHealth: 16
-  health: 1
+  minDay: 1
+  maxDay: 5
+  maxHealth: 40
+  health: 40
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: 0ba53f4aaa666402d91698d0c46dd3ce, type: 3}
   rarity: common
+  difficulty: easy

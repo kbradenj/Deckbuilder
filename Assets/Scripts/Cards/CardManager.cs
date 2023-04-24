@@ -44,7 +44,10 @@ public class CardManager : MonoBehaviour
         player = singleton.player;
         gameState = GameObject.FindObjectOfType<GameState>();
         hand = GameObject.Find("Hand");
-        CreatePlayerDeck();
+        if(singleton.playerDeck.Count <= 0)
+        {
+            CreatePlayerDeck();
+        }
     }
     
     

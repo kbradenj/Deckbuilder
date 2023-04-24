@@ -16,6 +16,12 @@ MonoBehaviour:
   cardName: Disorient
   cardType: ability
   cardDescription: Apply {0} Weak, {1} Vulnerable
+  descriptionParts:
+  - Apply
+  - 0
+  - Weak and
+  - 1
+  - Vulnerable
   cardCost: 2
   cardLevel: 4
   cardRarity: 2
@@ -33,7 +39,9 @@ MonoBehaviour:
   vulnerable: 2
   weak: 2
   strength: 0
-  modDamage: 6
+  evade: 0
+  modDamage: 0
+  modBlock: 0
   attackBoost: 0
   deckQty: 4
   gameState: {fileID: 0}

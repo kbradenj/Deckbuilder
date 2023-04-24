@@ -16,6 +16,10 @@ MonoBehaviour:
   cardName: Earth
   cardType: ability
   cardDescription: Gain {0} Strength
+  descriptionParts:
+  - Gain
+  - 0
+  - Strength
   cardCost: 1
   cardLevel: 1
   cardRarity: 1
@@ -32,7 +36,9 @@ MonoBehaviour:
   vulnerable: 0
   weak: 0
   strength: 2
-  modDamage: 39
+  evade: 0
+  modDamage: 0
+  modBlock: 0
   attackBoost: 0
   deckQty: 0
   gameState: {fileID: 0}

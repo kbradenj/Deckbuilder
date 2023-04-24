@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class MediumEnemyPath : PathChoice
+
+public class NormalEnemyPath : PathChoice
 {
     public override void AssignEvent() 
     {
         timeCost = 120;
-        pathChoiceType = "Medium Enemy";
+        pathChoiceType = "enemy";
+        pathChoiceTitle = "Normal Enemy";
+        difficulty = "normal";
         base.AssignEvent();
     }
 

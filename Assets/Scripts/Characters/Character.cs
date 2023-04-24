@@ -28,11 +28,13 @@ public class Character : MonoBehaviour
     public float weaknessMod = 1f;
     public int strength;
     public int baseStrength;
+	public int dexterity;
     public int baseDexterity;
     public int bonusDraw;
     public int poison;
 	public int shriek;
 	public int fear;
+	public int evade;
 
     //Game Objects
     public GameObject statusIconsArea;
@@ -99,18 +101,23 @@ public class Character : MonoBehaviour
 	public void ReduceEffect(ref int statusAmt, string status)
 	{
 		if(statusAmt > 1)
+		{
+			statusAmt --;
+		}
+		else if(statusAmt <= 1)
+		{
+			statusAmt = 0;
+			if(status == "weak")
 			{
-				statusAmt --;
+				weaknessMod = 1;
 			}
-			else if(statusAmt == 1)
+			else if(status == "vulnerable")
 			{
-				statusAmt --;
-				RemoveStatusIcon(status);
+				vulnerableMod = 1;
 			}
-			else if(statusAmt == 0)
-			{
-				RemoveStatusIcon(status);
-			}
+			RemoveStatusIcon(status);
+			NextTurn();
+		}
 	}
 
     public virtual void UpdateStatus(){
@@ -139,13 +146,15 @@ public class Character : MonoBehaviour
 				case "attackBoost" :
 				icon.statusTextContainer.text = attackBoost.ToString();
 				break;
+				case "evade" :
+				icon.statusTextContainer.text = evade.ToString();
+				break;
 			}
 		}
     }
 
     public void AddStatusIcon(string icon, int amount)
     {
-		statusIconsArea = GameObject.Find("Status Icons");
 		statusIcon = Instantiate(statusIconPrefab, new Vector2 (0, 0), Quaternion.identity);
 		statusIcon.transform.SetParent(statusIconsArea.transform, false);
 

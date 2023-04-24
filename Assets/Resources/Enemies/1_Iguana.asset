@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: 1_Iguana
   m_EditorClassIdentifier: 
   actionList:
-  - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
+  - {fileID: 11400000, guid: 770435aa523c4485fb787a6643beb9b9, type: 2}
   - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
   - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
   ID: 1
   enemyName: Iguana
-  level: 1
-  maxHealth: 15
-  health: 1
+  minDay: 1
+  maxDay: 3
+  maxHealth: 35
+  health: 35
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: ec99f8811d3384899a69786da5030628, type: 3}
   rarity: common
+  difficulty: easy

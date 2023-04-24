@@ -16,6 +16,12 @@ MonoBehaviour:
   cardName: Feather
   cardType: equipment
   cardDescription: Block for {0} damage, apply {1} weak
+  descriptionParts:
+  - Gain
+  - 0
+  - Block, apply
+  - 1
+  - Weak
   cardCost: 2
   cardLevel: 2
   cardRarity: 2
@@ -33,7 +39,9 @@ MonoBehaviour:
   vulnerable: 0
   weak: 2
   strength: 0
+  evade: 0
   modDamage: 22
+  modBlock: 0
   attackBoost: 0
   deckQty: 0
   gameState: {fileID: 0}

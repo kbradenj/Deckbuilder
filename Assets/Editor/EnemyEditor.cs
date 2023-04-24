@@ -11,7 +11,13 @@ public class EnemyEditor : Editor
         Common, Uncommon, Rare, Legendary, Mythic
     }
 
+    public enum Difficulty
+    {
+        Easy, Normal, Hard, Elite, Insane
+    }
+
     public Rarity thisRarity;
+    public Difficulty thisDifficulty;
 
 
     public override void OnInspectorGUI()
@@ -57,6 +63,50 @@ public class EnemyEditor : Editor
             break;
             case Rarity.Mythic:
             rarity.stringValue = "mythic";
+            break;
+        }
+
+        //Difficulty
+        SerializedProperty difficulty = serializedObject.FindProperty("difficulty");
+
+        switch(serializedObject.FindProperty("difficulty").stringValue)
+        {
+            case "easy":
+            thisDifficulty = Difficulty.Easy;
+            break;
+            case "normal":
+            thisDifficulty = Difficulty.Normal;
+            break;
+            case "hard":
+            thisDifficulty = Difficulty.Hard;
+            break;
+            case "elite":
+            thisDifficulty = Difficulty.Elite;
+            break;
+            case "insane":
+            thisDifficulty = Difficulty.Insane;
+            break;
+        }
+
+        thisDifficulty = (Difficulty) EditorGUILayout.EnumPopup("Difficulty", thisDifficulty);
+        EditorGUILayout.Space();
+
+        switch(thisDifficulty)
+        {
+            case Difficulty.Easy:
+            difficulty.stringValue = "easy";
+            break;
+            case Difficulty.Normal:
+            difficulty.stringValue = "normal";
+            break;
+            case Difficulty.Hard:
+            difficulty.stringValue = "hard";
+            break;
+            case Difficulty.Elite:
+            difficulty.stringValue = "elite";
+            break;
+            case Difficulty.Insane:
+            difficulty.stringValue = "insane";
             break;
         }
         

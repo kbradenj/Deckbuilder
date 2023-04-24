@@ -10,6 +10,8 @@ public class Unlocks : MonoBehaviour
     public int craftAreaUnlockDay = 3;
     public bool isCraftingLocked = true;
     public bool isFirstPlaythrough = true;
+    public bool isHealLocked = true;
+    public bool isScavengeLocked = true;
 
     public void CheckUnlocks(){
 
@@ -23,7 +25,6 @@ public class Unlocks : MonoBehaviour
 
     private bool CanUnlockCrafting()
     {
-        Debug.Log("Checking first playthrough bool " + isFirstPlaythrough);
         if(!isFirstPlaythrough)
         {
             return false;

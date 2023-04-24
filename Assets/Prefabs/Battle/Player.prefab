@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 8978863206847538057}
   - component: {fileID: 634548227459821301}
   m_Layer: 5
-  m_Name: Defense Amount
+  m_Name: Player Defense Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,7 +314,7 @@ RectTransform:
   m_GameObject: {fileID: 2365328826822089539}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4716209096641192788}
@@ -322,7 +322,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -96.6, y: 5.000037}
+  m_AnchoredPosition: {x: -96.59997, y: 5.000061}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2367482538736044360
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 145
+  m_text: 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 2491275576739174639}
   - component: {fileID: 8571190857532099718}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Player Health Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 1821875259580422313}
   - component: {fileID: 6555767332954484076}
   m_Layer: 5
-  m_Name: Status Icons
+  m_Name: Player Status Icons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   block: 0
   maxHealth: 100
-  health: 45
+  health: 75
   level: 1
   statusText: {fileID: 0}
   statusIconPrefab: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
@@ -1075,24 +1075,27 @@ MonoBehaviour:
   weaknessMod: 1
   strength: 0
   baseStrength: 0
+  dexterity: 0
   baseDexterity: 0
   bonusDraw: 0
   poison: 0
   shriek: 0
   fear: 0
-  statusIconsArea: {fileID: 0}
-  statusIcon: {fileID: 0}
+  evade: 0
+  statusIconsArea: {fileID: 8434949016055220043}
+  statusIcon: {fileID: 898880785223196039, guid: d843b75f4bac34020a0674cab52cb95f, type: 3}
   statuses: []
   statusImage: {fileID: 0}
   actions: {fileID: 0}
   cardManager: {fileID: 0}
   singleton: {fileID: 0}
   defenseText: {fileID: 634548227459821301}
-  healthText: {fileID: 2333236594740355960}
+  healthText: {fileID: 0}
   maxHealthText: {fileID: 758617371585505186}
   actionPointsField: {fileID: 0}
-  healthSlider: {fileID: 8571190857532099718}
+  healthSlider: {fileID: 0}
   startingDeck: []
   ap: 4
   drawSize: 5
-  turnAP: 3
+  isPlayerTurn: 1
+  turnAP: 2

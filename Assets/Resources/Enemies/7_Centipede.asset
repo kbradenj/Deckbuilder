@@ -12,14 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf17b10b9c584bb59551b7c31ebc948, type: 3}
   m_Name: 7_Centipede
   m_EditorClassIdentifier: 
-  actionList: []
+  actionList:
+  - {fileID: 11400000, guid: 0387df75c543642329d05f599ba7e5e0, type: 2}
+  - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
+  - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
   ID: 7
   enemyName: Centipede
-  minLevel: 3
-  maxLevel: 5
+  minDay: 1
+  maxDay: 5
   maxHealth: 60
-  health: 1
+  health: 60
   groupMin: 1
   groupMax: 2
   enemyImage: {fileID: 0}
   rarity: common
+  difficulty: hard

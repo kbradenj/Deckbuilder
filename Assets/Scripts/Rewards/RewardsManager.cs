@@ -40,7 +40,6 @@ public class RewardsManager : MonoBehaviour
     void CreateRewardOptions()
     {
         rewardType.Add("card");
-        Debug.Log(gameState.unlocks.isCraftingLocked);
         if(!gameState.unlocks.isCraftingLocked)
         {
             rewardType.Add("multiCard");
@@ -83,6 +82,7 @@ public class RewardsManager : MonoBehaviour
             }
                 GameObject reward;
                 reward = GameObject.Instantiate(prefab, new Vector2(0,0), Quaternion.identity);
+                //For card rewards, card is chosen on AWAKE on CardReward or MultiCardReward
                 rewardArea = GameObject.Find("Reward Area");
                 reward.transform.SetParent(rewardArea.transform);
                 rewardObjects.Add(reward);
@@ -91,7 +91,6 @@ public class RewardsManager : MonoBehaviour
             rewardOptionsArea = GameObject.Find("Reward Options List");
             shownCards.Clear();
             HideRewardOptions();
-        
     }
 
     

@@ -16,8 +16,9 @@ public class CardEditor : Editor
     public override void OnInspectorGUI()
     {
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardID"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("isLocked"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardName"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("cardDescription"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("descriptionParts"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardCost"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardLevel"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardRarity"));
@@ -88,6 +89,7 @@ public class CardEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("vulnerable"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("weak"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("strength"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("evade"));
     }
 
     void PowerCard()

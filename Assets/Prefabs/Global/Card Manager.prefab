@@ -46,10 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardDatabase: []
   singleton: {fileID: 0}
-  startingCards:
-  - {fileID: 11400000, guid: bf832e625b1b741edb77f71af6c229f0, type: 2}
-  - {fileID: 11400000, guid: acff5ac6906564dcdb09e18d1c300241, type: 2}
-  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  startingCards: []
   deckCards: []
   handCards: []
   handCardObjects: []

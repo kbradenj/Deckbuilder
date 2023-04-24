@@ -13,27 +13,33 @@ MonoBehaviour:
   m_Name: 403_Heavy_Club
   m_EditorClassIdentifier: 
   cardID: 304
-  cardName: Refine
-  cardType: ability
-  cardDescription: Attack cards deal {0} more damage this turn
-  cardCost: 0
-  cardLevel: 3
+  cardName: Heavy Club
+  cardType: attack
+  cardDescription: Deal {0} Damage
+  descriptionParts:
+  - Deal
+  - 0
+  - Damage
+  cardCost: 2
+  cardLevel: 4
   cardRarity: 2
-  needsTarget: 0
+  needsTarget: 1
   recipe: {fileID: 0}
   cardImage: {fileID: 21300000, guid: 4ac78ef4eaddd48b28a24c351eaf4149, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
   actionList:
-  - attackBoost
+  - attack
   block: 0
-  attack: 0
+  attack: 20
   draw: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
   strength: 0
-  modDamage: 6
-  attackBoost: 3
+  evade: 0
+  modDamage: 20
+  modBlock: 0
+  attackBoost: 0
   deckQty: 4
   gameState: {fileID: 0}
   quantity: 0

@@ -85,7 +85,7 @@ public class PathManager : MonoBehaviour
             case "easyEnemy":
             return pathObject.AddComponent<EasyEnemyPath>();
             case "mediumEnemy":
-            return pathObject.AddComponent<MediumEnemyPath>();
+            return pathObject.AddComponent<NormalEnemyPath>();
             case "hardEnemy":
             return pathObject.AddComponent<HardEnemyPath>();
             case "story":

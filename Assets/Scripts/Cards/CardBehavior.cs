@@ -94,6 +94,7 @@ public class CardBehavior : MonoBehaviour
         card = c;
         cardNameField.text = c.cardName;
         card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
+        card.modBlock = card.block + player.dexterity + player.baseDexterity; 
         descriptionField.text = c.FormatString();
         if(c.actionList.Count != 0)
         {
@@ -291,43 +292,61 @@ public class CardBehavior : MonoBehaviour
         }
             foreach(string type in card.actionList)
             {
+                int attackOut = 0;
+                if(type == "attack" || type == "xattack" || type == "attackAll")
+                {
+                    attackOut = (int)Math.Floor((card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod);
+                }
+
                 switch(type)
                 {
                     case "attack":
-                    actions.Attack(targetCharacter, (int)Math.Floor((double)(card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod), card.multiAction);
+                        actions.Attack(targetCharacter, attackOut, card.multiAction);
                     break;
                     case "xattack":
-                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod), player.turnAP);
-                    player.turnAP = 0;
+                        actions.Attack(targetCharacter, attackOut, player.turnAP);
+                        player.turnAP = 0;
                     break;
-                    case "attackall":
-                    actions.Attack(targetCharacter, (int)Math.Floor((card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod), card.multiAction);
+                    case "attackAll":
+                        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                        foreach(GameObject enemy in enemies)
+                        {
+                            targetCharacter = enemy.GetComponent<Enemy>();
+                            if(card.cardName == "Advantage")
+                            {
+                                attackOut = targetCharacter.weak;
+                            }
+                            actions.Attack(targetCharacter, attackOut , card.multiAction);
+                        }
                     break;
                     case "block":
-                    actions.Block(player, card.block);
+                        actions.Block(player, card.block + player.baseDexterity + player.dexterity);
                     break;
                     case "xblock":
-                    for(int i = 0; i < player.turnAP; i++){
-                        actions.Block(player, card.block);
-                    }
-                    player.turnAP = 0;
+                        for(int i = 0; i < player.turnAP; i++){
+                            actions.Block(player, card.block);
+                        }
+                        player.turnAP = 0;
                     break;
                     case "vulnerable":
-                    actions.AddEffect(targetCharacter, card.vulnerable, ref targetCharacter.vulnerable, "vulnerable");
+                        actions.AddEffect(targetCharacter, card.vulnerable, ref targetCharacter.vulnerable, "vulnerable");
                     break;
                     case "weak":
-                    actions.AddEffect(targetCharacter, card.weak, ref targetCharacter.weak, "weak");
-                    targetCharacter.NextTurn();
+                        actions.AddEffect(targetCharacter, card.weak, ref targetCharacter.weak, "weak");
+                        targetCharacter.NextTurn();
                     break;
                     case "strength":
-                    actions.AddEffect(player, card.strength, ref player.strength, "strength");
-                    targetCharacter.NextTurn();
+                        actions.AddEffect(player, card.strength, ref player.strength, "strength");
+                        targetCharacter.NextTurn();
                     break;
                     case "draw":
-                    player.cardManager.Draw(card.draw);
+                        player.cardManager.Draw(card.draw);
                     break;
                     case "attackBoost":
-                    actions.AddEffect(player, card.attackBoost, ref player.attackBoost, "attackBoost");
+                        actions.AddEffect(player, card.attackBoost, ref player.attackBoost, "attackBoost");
+                    break;
+                    case "evade":
+                        actions.AddEffect(player, card.evade, ref player.evade, "evade");
                     break;
                 }
             }   

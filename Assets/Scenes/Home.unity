@@ -365,17 +365,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167521802}
   m_CullTransparentMesh: 1
---- !u!114 &657115889 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6842116325254334804, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
-  m_PrefabInstance: {fileID: 2084468789}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c791a46b4d98b48a690cb6b4db5c43e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &724175951
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +661,7 @@ GameObject:
   - component: {fileID: 933919675}
   - component: {fileID: 933919677}
   m_Layer: 5
-  m_Name: Current Quest
+  m_Name: Current Milestone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -754,9 +743,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 657115889}
-          m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
-          m_MethodName: OpenQuestLog
+        - m_Target: {fileID: 1225095783}
+          m_TargetAssemblyTypeName: MilestoneManager, Assembly-CSharp
+          m_MethodName: OpenMilestoneBook
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1329,6 +1318,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196469156}
   m_CullTransparentMesh: 1
+--- !u!114 &1225095783 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3338042415440052927, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+  m_PrefabInstance: {fileID: 2084468789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23d2f7bb953204c9494fee13fc408c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1349858758
 GameObject:
   m_ObjectHideFlags: 0
@@ -2337,6 +2337,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6620897752105141467, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930357195750602020, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: m_Name
+      value: MilestoneManager
+      objectReference: {fileID: 0}
     - target: {fileID: 7044237333005379862, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: homeDaylightCount
       value: 
@@ -2390,8 +2398,20 @@ PrefabInstance:
       value: Game State Manager
       objectReference: {fileID: 0}
     - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: isHealLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: isCraftingLocked
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: isScavengeLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: craftAreaUnlockDay
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: isCraftingUnlocked
@@ -2401,7 +2421,25 @@ PrefabInstance:
       propertyPath: isFirstPlaythrough
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: startingCards.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: startingCards.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+    - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: startingCards.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+    - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: startingCards.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: d7b9ace4313cc406cb0dd34d0c0a2062, type: 2}
+    m_RemovedComponents:
+    - {fileID: 6842116325254334804, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+    - {fileID: 2934730843804648942, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
 --- !u!222 &2430065088759515076
 CanvasRenderer:
@@ -2622,17 +2660,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2818959855699546793, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
-      propertyPath: maxMoonlight
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 5101929540811962352, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
       propertyPath: m_Name
       value: Singleton
-      objectReference: {fileID: 0}
-    - target: {fileID: 5101929540811962352, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7875473781177124816, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
       propertyPath: m_RootOrder

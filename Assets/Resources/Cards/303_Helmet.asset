@@ -16,6 +16,12 @@ MonoBehaviour:
   cardName: New Card
   cardType: ability
   cardDescription: Gain {0} Block, Draw {1} Card
+  descriptionParts:
+  - Gain
+  - 0
+  - Block, Draw
+  - 1
+  - card
   cardCost: 2
   cardLevel: 3
   cardRarity: 2
@@ -28,12 +34,15 @@ MonoBehaviour:
   - draw
   block: 12
   attack: 0
-  attackBoost: 0
   draw: 1
   multiAction: 1
   vulnerable: 0
   weak: 0
   strength: 0
+  evade: 0
+  modDamage: 0
+  modBlock: 0
+  attackBoost: 0
   deckQty: 0
   gameState: {fileID: 0}
   quantity: 0

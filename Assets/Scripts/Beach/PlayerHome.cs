@@ -7,12 +7,16 @@ public class PlayerHome : MonoBehaviour
 {
 
     public Singleton singleton;
+
     public TMP_Text healthText;
     public TMP_Text strengthText;
     public TMP_Text levelText;
     public TMP_Text healAmountText;
     public TMP_Text healCostText;
     public TMP_Text homeDaylightCount;
+
+    //Milestone Manager
+    private MilestoneManager milestoneManager;
 
     public bool isPlayerProfileOpen = false;
 
@@ -28,6 +32,7 @@ public class PlayerHome : MonoBehaviour
     {
         singleton = FindObjectOfType<Singleton>();
         gameState = FindObjectOfType<GameState>();
+        milestoneManager = FindObjectOfType<MilestoneManager>();
         singleton.isNight = false;
     }
 
@@ -35,13 +40,37 @@ public class PlayerHome : MonoBehaviour
         singleton.AdjustDaylight();
         UpdateHealActionText();
         singleton.UpdateDayCount();
+        milestoneManager.IsMilestoneReached();
+        CheckHomeFeatureUnlocks();
+    }
 
+    private void CheckHomeFeatureUnlocks()
+    {
         if(gameState.unlocks.isCraftingLocked)
         {
             GameObject.Find("Crafting").SetActive(false); 
         }
+        else
+        {
+            GameObject.Find("Crafting").SetActive(true); 
+        }
+        if(gameState.unlocks.isHealLocked)
+        {
+            GameObject.Find("Heal").SetActive(false);
+        }
+        else
+        {
+            GameObject.Find("Heal").SetActive(true); 
+        }
+        if(gameState.unlocks.isScavengeLocked)
+        {
+            GameObject.Find("Scavenge").SetActive(false);
+        }
+        else
+        {
+            GameObject.Find("Scavenge").SetActive(true); 
+        }
     }
-
     public void HomeHealPlayer()
     {
         

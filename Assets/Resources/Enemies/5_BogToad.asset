@@ -16,10 +16,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 390bdeb05399f4bd381e72bf14618c6b, type: 2}
   ID: 5
   enemyName: Bog Toad
-  level: 4
+  minDay: 1
+  maxDay: 5
   maxHealth: 40
-  health: 1
+  health: 40
   groupMin: 2
   groupMax: 2
   enemyImage: {fileID: 21300000, guid: 22c70992721074cb5950ad827f62510c, type: 3}
   rarity: rare
+  difficulty: hard

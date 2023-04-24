@@ -16,6 +16,10 @@ MonoBehaviour:
   cardName: Refine
   cardType: ability
   cardDescription: Attack cards deal {0} more damage this turn
+  descriptionParts:
+  - Attack cards deal
+  - 0
+  - more Damage this turn
   cardCost: 0
   cardLevel: 3
   cardRarity: 2
@@ -32,7 +36,9 @@ MonoBehaviour:
   vulnerable: 0
   weak: 0
   strength: 0
+  evade: 0
   modDamage: 6
+  modBlock: 0
   attackBoost: 3
   deckQty: 4
   gameState: {fileID: 0}

@@ -18,10 +18,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
   ID: 0
   enemyName: Basic Spider
-  level: 1
+  minDay: 1
+  maxDay: 5
   maxHealth: 20
-  health: 1
+  health: 20
   groupMin: 3
   groupMax: 5
   enemyImage: {fileID: 21300000, guid: 3b435906ce0f64e9198140fe90e2e0e7, type: 3}
   rarity: common
+  difficulty: easy

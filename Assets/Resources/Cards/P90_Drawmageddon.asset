@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: P90_Drawmageddon
   m_EditorClassIdentifier: 
   cardID: 90
+  isLocked: 1
   cardName: Drawmageddon
   cardType: power
-  cardDescription: Draw +2 each turn
+  descriptionParts:
+  - Draw +2 each turn
   cardCost: 2
   cardLevel: 2
   cardRarity: 2
@@ -26,10 +28,15 @@ MonoBehaviour:
   actionList: []
   block: 0
   attack: 0
+  draw: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
   strength: 0
+  evade: 0
+  modDamage: 0
+  modBlock: 0
+  attackBoost: 0
   deckQty: 0
   gameState: {fileID: 0}
   quantity: 0

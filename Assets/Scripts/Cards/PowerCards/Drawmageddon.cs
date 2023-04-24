@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Drawmageddon : Card
 {
+
+    private Singleton singleton;
+
     public override void Effect()
     {
-        Player player = GameObject.FindObjectOfType<Player>();
+        singleton = FindObjectOfType<Singleton>();
+        Player player = singleton.player;
         player.drawSize += 2;
         player.bonusDraw += 2;
         if(player.bonusDraw == 2)

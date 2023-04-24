@@ -19,4 +19,4 @@ MonoBehaviour:
   - key: Stick
     amount: 2
   resultItem: {fileID: 11400000, guid: 73ba07c2a67af490d9615c9c23723a86, type: 2}
-  isLocked: 0
+  isLocked: 1

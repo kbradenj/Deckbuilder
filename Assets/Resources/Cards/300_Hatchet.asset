@@ -16,6 +16,10 @@ MonoBehaviour:
   cardName: Hatchet
   cardType: attack
   cardDescription: Attack for {0} Damage * X
+  descriptionParts:
+  - Deal
+  - 0
+  - Damage * X
   cardCost: 0
   cardLevel: 3
   cardRarity: 1
@@ -27,10 +31,15 @@ MonoBehaviour:
   - xattack
   block: 0
   attack: 5
+  draw: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
   strength: 0
+  evade: 0
+  modDamage: 0
+  modBlock: 0
+  attackBoost: 0
   deckQty: 2
   gameState: {fileID: 0}
   quantity: 0

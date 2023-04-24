@@ -12,6 +12,9 @@ public class Singleton : MonoBehaviour
     //Navigation
     public Navigation navigation;
 
+    //Unlocks
+    public Unlocks unlocks;
+
     //Containers
     public int storeLevel;
     public int dayCount = 1;
@@ -19,15 +22,19 @@ public class Singleton : MonoBehaviour
     public int maxMoonlight = 240;
     public int nightLeft;
     public int dayLeft;
+    public PathChoice currentPathChoice;
 
     //Dictionaries
     public Dictionary<string, TalentOption> talents = new Dictionary<string, TalentOption>();
     public Dictionary<string, Card> cardLookup;
     public Dictionary<int, Dictionary<int, Dictionary<int, Card>>> cardDictionary;
     public Dictionary<int, PathChoice> pathChoices = new Dictionary<int, PathChoice>();
+    public Dictionary<int, Dictionary<string, List<EnemyObject>>> enemyCatalog = new Dictionary<int, Dictionary<string, List<EnemyObject>>>();
+    public Dictionary<int, List<Milestone>> milestoneCatalog = new Dictionary<int, List<Milestone>>();
+    public Dictionary<string, CraftingRecipe> recipeDictionary = new Dictionary<string, CraftingRecipe>();
 
     //Arrays
-    public CraftingRecipe[] recipeDatabase;
+    public EnemyObject[] enemyDatabase;
 
     //Lists
     public List<Card> cardDatabase;
@@ -60,8 +67,8 @@ public class Singleton : MonoBehaviour
             AdjustDaylight();
             InitializePlayerStats();
             ResetPlayerTempStats();
+            unlocks = FindAnyObjectByType<Unlocks>();
             PlayerPrefs.SetString("unlockedRecipes", "");
-            recipeDatabase = Resources.LoadAll<CraftingRecipe>("Craft Recipes");
         }    
         else
         {
@@ -73,10 +80,13 @@ public class Singleton : MonoBehaviour
     {
         player.maxHealth = 100;
         player.level = 1;
-        player.baseStrength = 3;
         player.health = player.maxHealth;
         player.weaknessMod = 1;
         player.vulnerableMod = 1;
+        player.baseStrength = 0;
+        player.baseDexterity = 0;
+        player.drawSize = 5;
+
     }
 
     public void ResetPlayerTempStats()
@@ -85,6 +95,9 @@ public class Singleton : MonoBehaviour
         player.weak = 0;
         player.fear = 0;
         player.vulnerable = 0;
+        player.bonusDraw = 0;
+        player.strength = 0;
+        player.dexterity = 0;
     }
 
     public void RemoveCardFromDeck(string cardName){

@@ -17,11 +17,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0387df75c543642329d05f599ba7e5e0, type: 2}
   - {fileID: 11400000, guid: 770435aa523c4485fb787a6643beb9b9, type: 2}
   ID: 3
-  enemyName: Viper
-  level: 1
+  enemyName: Sloth
+  minDay: 1
+  maxDay: 5
   maxHealth: 35
-  health: 1
+  health: 35
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: 5e8c513ee0eac4a91af7d8a78134a4d1, type: 3}
   rarity: uncommon
+  difficulty: hard

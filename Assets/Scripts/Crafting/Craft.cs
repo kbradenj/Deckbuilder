@@ -77,22 +77,22 @@ public class Craft : MonoBehaviour
 
     public void LoadRecipes()
     {
-        foreach(CraftingRecipe recipe in singleton.recipeDatabase)
+        foreach(KeyValuePair<string, CraftingRecipe> kvp in singleton.recipeDictionary)
         {
             GameObject recipeObject = GameObject.Instantiate(recipeTextPrefab, Vector2.zero, Quaternion.identity);
             TMP_Text recipeText = recipeObject.GetComponent<TMP_Text>();
             RecipeBookItem recipeSelectionScript = recipeObject.GetComponent<RecipeBookItem>();
-            recipeSelectionScript.recipe = recipe;
+            recipeSelectionScript.recipe = kvp.Value;
             recipeListItems.Add(recipeObject);
-            if(recipe.isLocked)
+            if(kvp.Value.isLocked)
             {
                  recipeText.text = "?????????";
                  recipeText.color = disabledTextColor;
             }
             else
             {
-                recipeText.text = recipe.resultItem.cardName;
-                if(CanCraft(recipe))
+                recipeText.text = kvp.Value.resultItem.cardName;
+                if(CanCraft(kvp.Value))
                 {
                     recipeText.color = defaultTextColor;
                 }
@@ -119,13 +119,6 @@ public class Craft : MonoBehaviour
             itemScript.GetComponent<TMP_Text>().color = disabledTextColor;
            }
         }
-    }
-
-        public void Unlock()
-    {
-        singleton.unlockedRecipes.Add(singleton.recipeDatabase[0]);
-        singleton.recipeDatabase[0].isLocked = false;
-        LoadRecipes();
     }
 
     public void ShowRecipe(CraftingRecipe recipe)
@@ -206,7 +199,6 @@ public class Craft : MonoBehaviour
 
     public void RemoveIngredientsFromDeck()
     {
-         Debug.Log( singleton.playerDeck.Count);
         foreach(CraftingMaterial material in currentRecipe.craftingMaterials)
         {
             for(int i = 0; i < material.amount; i++)

@@ -15,7 +15,13 @@ MonoBehaviour:
   cardID: 201
   cardName: Stone
   cardType: attack
-  cardDescription: Attack for {0} Damage, Apply {1} Vulnerable
+  cardDescription: Apply {0} Vulnerable, then Deal {1} Damage
+  descriptionParts:
+  - Apply
+  - 0
+  - Vulnerable, then deal
+  - 1
+  - Damage
   cardCost: 1
   cardLevel: 2
   cardRarity: 2
@@ -24,14 +30,19 @@ MonoBehaviour:
   cardImage: {fileID: 21300000, guid: f7827dd49db254af0b110397c8924ce3, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
   actionList:
-  - attack
   - vulnerable
+  - attack
   block: 0
   attack: 10
+  draw: 0
   multiAction: 1
   vulnerable: 2
   weak: 0
   strength: 0
+  evade: 0
+  modDamage: 0
+  modBlock: 0
+  attackBoost: 0
   deckQty: 5
   gameState: {fileID: 0}
   quantity: 0

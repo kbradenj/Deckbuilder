@@ -7,6 +7,8 @@ public class PathChoice : MonoBehaviour, IPointerClickHandler
     public TMP_Text pathText;
     public TMP_Text timeCostText;
     public string pathChoiceType;
+    public string pathChoiceTitle;
+    public string difficulty;
     public int timeCost;
     public Singleton singleton;
 
@@ -30,7 +32,7 @@ public class PathChoice : MonoBehaviour, IPointerClickHandler
             }
         }
 
-        pathText.text = pathChoiceType;
+        pathText.text = pathChoiceTitle;
         timeCostText.text = timeCost + " min";
     }
 
@@ -41,6 +43,7 @@ public class PathChoice : MonoBehaviour, IPointerClickHandler
 
     public virtual void Choice()
     { 
+        singleton.currentPathChoice = this;
         singleton.AdjustMoonlight(timeCost);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Battle : MonoBehaviour
 {
@@ -35,14 +34,14 @@ public class Battle : MonoBehaviour
         singleton = GameObject.FindObjectOfType<Singleton>();
         gameState = FindObjectOfType<GameState>();
         powerCards = gameState.powerCards;
-        
+
         //Set up Card Manager
         cardManager = FindObjectOfType<CardManager>();
         powerCards = new Dictionary<string, Dictionary<string, Card>>();
         playerArea = GameObject.Find("Player Area");
         enemyArea = GameObject.Find("Enemy Area");
         gameState.isBattle = true;
-        LoadEnemies();
+        LoadEnemyDatabase();
         cardManager.LoadPlayerDeck();
         StartBattle();
     }
@@ -59,20 +58,44 @@ public class Battle : MonoBehaviour
     }
    
    //Load Enemies
-    public void LoadEnemies()
+    public void LoadEnemyDatabase()
     {
-        enemyDatabase = Resources.LoadAll<EnemyObject>("Enemies");
+        if(singleton.enemyDatabase.Length <= 0)
+        {
+            enemyDatabase = Resources.LoadAll<EnemyObject>("Enemies");
+            singleton.enemyDatabase = enemyDatabase;
+            LoadEnemyCatalog();
+        }
     }
 
-    private void LoadRarityDictionary()
+    public void LoadEnemyCatalog()
     {
-
+        string[] difficulty = {"easy", "normal", "hard", "elite", "insane"};
+        for(int i = 1; i <= 25; i++)
+        {
+            Dictionary<string, List<EnemyObject>> newDictionary = new Dictionary<string, List<EnemyObject>>();
+            foreach(string thisDifficulty in difficulty)
+            {
+                List<EnemyObject> newList = new List<EnemyObject>();
+                newDictionary.Add(thisDifficulty, newList);
+            }
+            singleton.enemyCatalog.Add(i, newDictionary);
+        }
+         foreach(EnemyObject enemy in singleton.enemyDatabase)
+            {
+                for(int i = enemy.minDay; i < enemy.maxDay; i++)
+                {
+                    singleton.enemyCatalog[i][enemy.difficulty].Add(enemy);
+                }
+            }
     }
-    //Battle States
+
+
+    //Battle Starts
     public void StartBattle()
     {
         CreatePlayer();
-        CreateEnemy(GetRandomEnemy(GetRandomRarity()));
+        CreateEnemy(GetRandomEnemy(GetRandomRarity(), singleton.currentPathChoice.difficulty));
         player.SetUpBattle();
         player.StartTurn();
         player.UpdateStats();
@@ -87,27 +110,37 @@ public class Battle : MonoBehaviour
         player = singleton.player;
     }
 
-     private EnemyObject GetRandomEnemy(string rarity)
+     private EnemyObject GetRandomEnemy(string rarity, string difficulty)
     {
-        //TODO create enemy dictionary broken out by day
+        //if first attempt to get enemy fails, we check for a common rarity match, if fails again, we check for a common, easy enemy
+        bool checkedForCommon = false;
         List<EnemyObject> possibleEnemies = new List<EnemyObject>();
 
-        foreach(EnemyObject enemy in enemyDatabase)
+        foreach(EnemyObject enemy in singleton.enemyCatalog[singleton.dayCount][difficulty])
         {
             if (enemy.rarity == rarity)
             {
                 possibleEnemies.Add(enemy);
             }
         }
-
         if(possibleEnemies.Count > 0)
         {
             return possibleEnemies[Random.Range(0,possibleEnemies.Count)];
         }
         else
         {
-            return GetRandomEnemy("common");
+            if(checkedForCommon)
+            {
+                return GetRandomEnemy("common", "easy");
+            }
+            else
+            {
+                checkedForCommon = true;
+                return GetRandomEnemy("common", difficulty);
+            }
+
         }
+
     }
 
     private string GetRandomRarity()
@@ -117,14 +150,19 @@ public class Battle : MonoBehaviour
         switch(randomNum)
         {
             case var expression when randomNum < gameState.mythicChance:
+            Debug.Log("mythic");
             return "mythic";
             case var expression when randomNum < gameState.legendaryChance:
+            Debug.Log("legendary");
             return "legendary";
             case var expression when randomNum < gameState.rareChance:
+            Debug.Log("rare");
             return "rare";
             case var expression when randomNum < gameState.uncommonChance:
+            Debug.Log("uncommon");
             return "uncommon";
             default:
+            Debug.Log("common");
             return "common";
         }
     }
@@ -132,7 +170,7 @@ public class Battle : MonoBehaviour
     //Create Enemy
     public void CreateEnemy(EnemyObject enemyObject)
     {
-        float enemyWidth = SetEnemyGridWidth();
+
         if(forcedEnemy != null)
         {
             enemyObject = forcedEnemy;
@@ -140,13 +178,18 @@ public class Battle : MonoBehaviour
         int randomEnemyAmount = Random.Range(enemyObject.groupMin, enemyObject.groupMax);
         for(int i = 0; i < randomEnemyAmount; i++)
         {
-            GameObject enemyNew = GameObject.Instantiate(enemyPrefab, enemyArea.transform.position, Quaternion.identity) as GameObject;
+            Vector2 enemyAreaPosition = enemyArea.transform.position;
+            float enemyAreaWidth = enemyArea.GetComponent<RectTransform>().sizeDelta.x;
+            float startPosition = Screen.width - 200;
+            float enemySpace = Mathf.Clamp(enemyAreaWidth/randomEnemyAmount, 100, 300);
+            GameObject enemyNew = GameObject.Instantiate(enemyPrefab, new Vector2(startPosition - (i * enemySpace), enemyArea.transform.position.y), Quaternion.identity) as GameObject;
             enemyNew.transform.SetParent(enemyArea.transform);
             Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
-            thisEnemy.GetComponent<BoxCollider2D>().size = new Vector2(enemyWidth, 300);
             thisEnemy.enemy = enemyObject;
-            thisEnemy.strength = 0;
+            thisEnemy.strength = singleton.dayCount - 1;
             thisEnemy.weaknessMod = 1f;
+            BoxCollider2D collider2D = enemyNew.GetComponent<BoxCollider2D>();
+            collider2D.size = new Vector2(enemySpace, 200);
             thisEnemy.NextTurn();
             enemies.Add(thisEnemy);
             numOfEnemies += 1;
@@ -154,15 +197,6 @@ public class Battle : MonoBehaviour
         enemiesLoaded = true;
     }
 
-    //Set card dropzones on enemies
-    public float SetEnemyGridWidth()
-    {
-        GridLayoutGroup gridLayout = enemyArea.GetComponentInChildren<GridLayoutGroup>();
-        RectTransform enemyAreaRect = enemyArea.GetComponent<RectTransform>();
-        float enemyCellWidth = enemyAreaRect.sizeDelta.x / enemyAmount;
-        gridLayout.cellSize = new Vector2 (enemyCellWidth, 300);
-        return enemyCellWidth;
-    }
 
     //End Turn Button
     public void EndTurn()
@@ -189,5 +223,30 @@ public class Battle : MonoBehaviour
         player.weak = 0;
         player.poison = 0;
         singleton.dayLeft = singleton.maxDaylight;
+    }
+
+
+
+
+
+
+    //DEBUG
+
+     public void ShowEnemyCatalogInConsole()
+    {
+           foreach(KeyValuePair<int, Dictionary<string, List<EnemyObject>>> kvp in singleton.enemyCatalog)
+            {
+                Debug.Log("day: " + kvp.Key);
+                foreach(KeyValuePair<string, List<EnemyObject>> kvp2 in kvp.Value)
+                {
+                    Debug.Log("difficulty: " + kvp2.Key);
+                    foreach(EnemyObject enemy in kvp2.Value)
+                    {
+                        Debug.Log(enemy.enemyName);
+                    }
+                    
+                }
+                    
+            }
     }
 }

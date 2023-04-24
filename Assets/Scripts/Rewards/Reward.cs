@@ -47,7 +47,7 @@ public class Reward : MonoBehaviour
         {
             int randomCardIndex = Random.Range(0, cardCount);
             chosenReward = levelDictionary[randomRarity][randomCardIndex];
-            if (!IsDuplicate(chosenReward))
+            if (!IsDuplicate(chosenReward) && !chosenReward.isLocked)
             {
                 cardFound = true;
                 if (!allowDuplicates)

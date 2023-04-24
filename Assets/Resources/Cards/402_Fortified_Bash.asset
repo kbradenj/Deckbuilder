@@ -12,28 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
   m_Name: 402_Fortified_Bash
   m_EditorClassIdentifier: 
-  cardID: 304
-  cardName: Refine
-  cardType: ability
-  cardDescription: Attack cards deal {0} more damage this turn
-  cardCost: 0
-  cardLevel: 3
-  cardRarity: 2
-  needsTarget: 0
+  cardID: 402
+  cardName: Fortified Bash
+  cardType: attack
+  cardDescription: Gain {0} Strength, then Deal {1} Damage
+  descriptionParts:
+  - Gain
+  - 0
+  - Strength, then deal
+  - 1
+  - Damage
+  cardCost: 3
+  cardLevel: 4
+  cardRarity: 3
+  needsTarget: 1
   recipe: {fileID: 0}
   cardImage: {fileID: 21300000, guid: b3c98900414754db49c5e4faccce387c, type: 3}
   cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
   actionList:
-  - attackBoost
+  - strength
+  - attack
   block: 0
-  attack: 0
+  attack: 5
   draw: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
-  strength: 0
-  modDamage: 6
-  attackBoost: 3
+  strength: 2
+  evade: 0
+  modDamage: 5
+  modBlock: 0
+  attackBoost: 0
   deckQty: 4
   gameState: {fileID: 0}
   quantity: 0

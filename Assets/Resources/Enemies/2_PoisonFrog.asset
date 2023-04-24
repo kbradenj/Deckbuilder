@@ -18,10 +18,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 152b8a83598e94b13bab5c75dd77489a, type: 2}
   ID: 2
   enemyName: Poison Frog
-  level: 2
+  minDay: 2
+  maxDay: 4
   maxHealth: 30
-  health: 1
+  health: 30
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: 34468b4a1e7e74224b05395c6522a2dc, type: 3}
   rarity: uncommon
+  difficulty: normal

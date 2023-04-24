@@ -26,19 +26,29 @@ public class ActionManager : MonoBehaviour
     //Attack
     public void Attack(Character target, int amount, int times = 1)
     {
+      
         if(target.vulnerable > 0){
             amount = (int)Math.Ceiling(amount * target.vulnerableMod);
         }
         for(int i = 0; i < times; i++)
         {
-            if(WillTargetDie(target, amount))
+            if(target.evade < 1)
             {
-                target.Death();
-                break;
+                if(WillTargetDie(target, amount))
+                {
+                    target.health = 0;
+                    target.UpdateStats();
+                    target.Death();
+                    break;
+                }
+                int unblockedDamage = target.block - amount;
+                target.block = (unblockedDamage <=0) ? 0 : unblockedDamage;
+                target.health += (unblockedDamage <= 0) ? unblockedDamage : 0;
             }
-            int unblockedDamage = target.block - amount;
-            target.block = (unblockedDamage <=0) ? 0 : unblockedDamage;
-            target.health += (unblockedDamage <= 0) ? unblockedDamage : 0;
+            else
+            {
+                target.ReduceEffect(ref target.evade, "evade");
+            }
         }
         target.UpdateStats();
     }
@@ -55,6 +65,14 @@ public class ActionManager : MonoBehaviour
          if(statusInt == 0)
         {
             target.AddStatusIcon(statusType, amount);
+        }
+        if(statusType == "weak")
+        {
+            target.weaknessMod = .75f;
+        }
+        else if(statusType == "vulnerable")
+        {
+            target.vulnerableMod = 1.25f;
         }
         statusInt += amount;
         target.UpdateStatus();

@@ -13,10 +13,8 @@ public class EnemyObject : ScriptableObject
     public int ID;
     public string enemyName;
 
-    [Range(1,25)]
-    public int minLevel;
-    [Range(1,25)]
-    public int maxLevel;
+    public int minDay;
+    public int maxDay;
     public int maxHealth;
     public int health;
     public int groupMin;
@@ -25,6 +23,8 @@ public class EnemyObject : ScriptableObject
 
     [HideInInspector]
     public string rarity = "common";
+    [HideInInspector]
+    public string difficulty = "easy";
 
     
 

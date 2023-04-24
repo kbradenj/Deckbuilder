@@ -16,6 +16,8 @@ MonoBehaviour:
   cardName: Advantage
   cardType: attack
   cardDescription: Deal damage to all enemies equal to their stack of weak
+  descriptionParts:
+  - Deal damage to all enemies equal to their stack of weak
   cardCost: 1
   cardLevel: 3
   cardRarity: 2
@@ -27,10 +29,15 @@ MonoBehaviour:
   - attackAll
   block: 0
   attack: 1
+  draw: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
   strength: 0
+  evade: 0
+  modDamage: 0
+  modBlock: 0
+  attackBoost: 0
   deckQty: 0
   gameState: {fileID: 0}
   quantity: 0

@@ -18,11 +18,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 770435aa523c4485fb787a6643beb9b9, type: 2}
   ID: 9
   enemyName: Interdimensional Wisps
-  minLevel: 4
-  maxLevel: 5
+  minDay: 1
+  maxDay: 5
   maxHealth: 60
   health: 60
   groupMin: 2
   groupMax: 3
   enemyImage: {fileID: 21300000, guid: 2417dd0eff3ee41a0a25caec962a8d57, type: 3}
   rarity: mythic
+  difficulty: hard
