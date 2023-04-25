@@ -19,6 +19,7 @@ public class PlayerStatReward : Reward
 
     protected override void Awake()
     {
+        base.Awake();
         statRewardDatabase = Resources.LoadAll<StatReward>("Stat Rewards");
         player = GameObject.FindObjectOfType<Singleton>().player;
         singleton = GameObject.FindObjectOfType<Singleton>();
@@ -102,6 +103,20 @@ public class PlayerStatReward : Reward
             default:
             break;
         }
+    }
+
+    public override void Highlight()
+    {
+        base.Highlight();
+        defaultBGColor = image.color;
+        image.color = highlightColor;
+
+    }
+
+    public override void StopHighlight()
+    {
+        base.StopHighlight();
+        image.color = defaultBGColor;
     }
 }
 

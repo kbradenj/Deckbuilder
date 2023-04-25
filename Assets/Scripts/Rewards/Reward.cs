@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Reward : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class Reward : MonoBehaviour
     public int rarity;
     public int cardCount;
     public int randomRarity;
-
+    public Color defaultBGColor;
+    public Color highlightColor;
     public Card chosenReward;
 
 
@@ -18,10 +20,6 @@ public class Reward : MonoBehaviour
     protected virtual void Awake()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
-    }
-
-    void Start()
-    {
         rewardsManager = FindObjectOfType<RewardsManager>();
     }
 
@@ -31,13 +29,25 @@ public class Reward : MonoBehaviour
 
     public virtual void SelectReward()
     {
+        if(rewardsManager.selectedReward != null)
+        {
+            rewardsManager.selectedReward.StopHighlight();
+        }
+     
         rewardsManager.confirmButton.interactable = true;
         rewardsManager.selectedReward = this;
+        Highlight();
+   
     }
 
-    public virtual void Render()
+    public virtual void Highlight()
     {
         
+    }
+
+    public virtual void StopHighlight()
+    {
+
     }
 
     public virtual Card GetRandomCard(int levelMin, int levelMax, bool allowDuplicates)

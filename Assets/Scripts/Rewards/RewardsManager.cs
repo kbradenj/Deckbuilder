@@ -97,8 +97,7 @@ public class RewardsManager : MonoBehaviour
                 prefab = cardRewardPrefab;
                 break;
             }
-                GameObject reward;
-                reward = GameObject.Instantiate(prefab, new Vector2(0,0), Quaternion.identity);
+                GameObject reward = GameObject.Instantiate(prefab, new Vector2(0,0), Quaternion.identity);
 
                 //For card rewards, card is chosen on AWAKE on CardReward or MultiCardReward
                 rewardArea = GameObject.Find("Reward Area");
@@ -142,7 +141,12 @@ public class RewardsManager : MonoBehaviour
     {
         selectedReward.ConfirmReward();
         Destroy(selectedOption.gameObject);
+        rewardType.Remove(selectedOption.GetComponent<RewardOption>().rewardType);
         selectedOption = null;
         RemoveRewards();
+        if(rewardType.Count <= 0)
+        {
+            singleton.navigation.Night();
+        }
     }
 }

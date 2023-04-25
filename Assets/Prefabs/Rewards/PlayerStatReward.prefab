@@ -122,11 +122,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   singleton: {fileID: 0}
-  rewardsManager: {fileID: 2544829772922312738, guid: bbf042313dc5b4e9baaf6dbbd0ed02a8, type: 3}
+  rewardsManager: {fileID: 0}
   rewardType: playerStat
   rarity: 0
   cardCount: 0
   randomRarity: 0
+  defaultBGColor: {r: 0, g: 0, b: 0, a: 0}
+  highlightColor: {r: 0, g: 1, b: 0, a: 1}
   chosenReward: {fileID: 0}
   statRewardOptions: []
   statRewardDatabase: []

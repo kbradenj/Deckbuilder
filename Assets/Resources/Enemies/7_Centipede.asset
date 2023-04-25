@@ -24,6 +24,6 @@ MonoBehaviour:
   health: 60
   groupMin: 1
   groupMax: 2
-  enemyImage: {fileID: 0}
+  enemyImage: {fileID: 21300000, guid: b0cb96a4554d74e658acadd87e0a1802, type: 3}
   rarity: common
   difficulty: hard

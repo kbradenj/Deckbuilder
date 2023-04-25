@@ -91,14 +91,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   singleton: {fileID: 0}
-  rewardsManager: {fileID: 2544829772922312738, guid: bbf042313dc5b4e9baaf6dbbd0ed02a8, type: 3}
+  rewardsManager: {fileID: 0}
   rewardType: card
   rarity: 0
   cardCount: 0
   randomRarity: 0
+  defaultBGColor: {r: 0, g: 0, b: 0, a: 0}
+  highlightColor: {r: 0, g: 1, b: 0, a: 1}
   chosenReward: {fileID: 0}
   card: {fileID: 0}
   cardPrefab: {fileID: 1639937595311336888, guid: 1519c79c58543440c9db7c1cfcfe37f0, type: 3}
+  newCard: {fileID: 0}
 --- !u!114 &7297242446985704741
 MonoBehaviour:
   m_ObjectHideFlags: 0
