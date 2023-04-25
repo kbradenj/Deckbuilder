@@ -3,12 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class RewardOption : MonoBehaviour
+public class RewardOption : MonoBehaviour, IPointerClickHandler
 {
     public string rewardType;
     public TMP_Text optionText;
     public Image optionImage;
+    public RewardsManager rewardsManager;
+
+    private void Awake() {
+        rewardsManager = FindObjectOfType<RewardsManager>();
+    }
+
+      public void OnPointerClick(PointerEventData eventData)
+    {
+        rewardsManager.selectedOption = this.gameObject;
+        rewardsManager.SelectReward(this.gameObject);
+    }
 
     public void UpdateText(string optionName)
     {

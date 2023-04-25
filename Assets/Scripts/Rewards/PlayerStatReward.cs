@@ -31,10 +31,10 @@ public class PlayerStatReward : Reward
         DisplayStatRewardInfo();
     }
 
-    public override void PickReward()
+    public override void ConfirmReward()
     {
         BaseStatIncrease();
-        base.PickReward();
+        base.ConfirmReward();
     }
 
     public void DisplayStatRewardInfo()

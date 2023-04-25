@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dceb915d389e4e5187b55009d845d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfRewards: 3
   cardRewardPrefab: {fileID: 1639937595311336888, guid: c4dfb8c04e491415e80bbe746d5044df, type: 3}
   multiCardRewardPrefab: {fileID: 1639937595311336888, guid: 136c4fda8d26a4c70bf296744744f776, type: 3}
   playerStatPrefab: {fileID: 1639937595311336888, guid: 2f9b68a8dffe04a72b27efb14e2e41ce, type: 3}
@@ -52,9 +51,15 @@ MonoBehaviour:
   rewardArea: {fileID: 0}
   rewardOptionsArea: {fileID: 0}
   selectedOption: {fileID: 0}
-  rewardObjects: []
+  confirmButton: {fileID: 0}
   optionsShowing: 0
+  numOfRewards: 3
+  selectedReward: {fileID: 0}
+  playerStatRewardRarity: 0
   rewardType:
   - 
   - 
   - 
+  rewardObjects: []
+  shownCards: []
+  shownStat: []

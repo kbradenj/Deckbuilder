@@ -12,6 +12,7 @@ public class RewardsManager : MonoBehaviour
     public GameObject rewardArea;
     public GameObject rewardOptionsArea;
     public GameObject selectedOption;
+    public Button confirmButton;
 
     //Scripts
     private Singleton singleton;
@@ -23,12 +24,23 @@ public class RewardsManager : MonoBehaviour
     //Temp Ints
     public int numOfRewards = 3;
 
+    //Selections
+    public Reward selectedReward = null;
+
+    //Rarity Values
+    public double playerStatRewardRarity = 0f;
+
     //Lists
     public List<string> rewardType = new List<string>();
     public List<GameObject> rewardObjects;
     public List<Card> shownCards;
     public List<StatReward> shownStat;
 
+    void Awake()
+    {
+        confirmButton = GameObject.Find("Confirm").GetComponent<Button>();
+        confirmButton.interactable = false;
+    }
     void Start()
     {
         rewardOptionsArea = GameObject.Find("Reward Options List");
@@ -45,6 +57,11 @@ public class RewardsManager : MonoBehaviour
             rewardType.Add("multiCard");
         }
         rewardType.Add("playerStat");
+        if(Random.Range(0,1) > playerStatRewardRarity)
+        {
+            
+        }
+
         for(int i = 0; i < rewardType.Count; i++){
             GameObject rewardOption;
             rewardOption = GameObject.Instantiate(rewardOptionPrefab, new Vector2(0,0), Quaternion.identity);
@@ -58,8 +75,8 @@ public class RewardsManager : MonoBehaviour
 
 
     public void SelectReward(GameObject optionObject){
-        rewardObjects = new List<GameObject>();
         shownCards = new List<Card>();
+        rewardObjects = new List<GameObject>();
         selectedOption = optionObject;
         for(int i = 0; i < 3; i++){
             GameObject prefab;
@@ -82,15 +99,15 @@ public class RewardsManager : MonoBehaviour
             }
                 GameObject reward;
                 reward = GameObject.Instantiate(prefab, new Vector2(0,0), Quaternion.identity);
+
                 //For card rewards, card is chosen on AWAKE on CardReward or MultiCardReward
                 rewardArea = GameObject.Find("Reward Area");
                 reward.transform.SetParent(rewardArea.transform);
                 rewardObjects.Add(reward);
-                reward.GetComponent<Reward>().rewardsManager = this;
-            }
-            rewardOptionsArea = GameObject.Find("Reward Options List");
-            shownCards.Clear();
-            HideRewardOptions();
+        }
+        rewardOptionsArea = GameObject.Find("Reward Options List");
+        shownCards.Clear();
+        HideRewardOptions();
     }
 
     
@@ -119,5 +136,13 @@ public class RewardsManager : MonoBehaviour
     {
         rewardOptionsArea.SetActive(true);
         optionsShowing = true;
+    }
+
+    public void ConfirmReward()
+    {
+        selectedReward.ConfirmReward();
+        Destroy(selectedOption.gameObject);
+        selectedOption = null;
+        RemoveRewards();
     }
 }

@@ -98,6 +98,7 @@ public class Singleton : MonoBehaviour
         player.bonusDraw = 0;
         player.strength = 0;
         player.dexterity = 0;
+        player.shriek = 0;
     }
 
     public void RemoveCardFromDeck(string cardName){

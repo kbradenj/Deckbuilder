@@ -138,14 +138,15 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void ShriekCards(int amount)
+    public void ShriekCards()
     {
         int disabledCount = 0;
-         for (int i = 0; i < amount; i++)
+        int shriekAmount = Mathf.Clamp(player.shriek, 0, handCardObjects.Count);
+         for (int i = 0; i < shriekAmount; i++)
             {
 
                 int counter = 0;
-                while(counter < 100 && disabledCount < 2)
+                while(counter < 100 && disabledCount < shriekAmount)
                 {
                     counter++;
                     int randomNum = UnityEngine.Random.Range(0,handCardObjects.Count);
@@ -166,12 +167,18 @@ public class CardManager : MonoBehaviour
         cardBehavior.RenderCard(cardBehavior.card, false);
     }
 
+    public void EnableCard(CardBehavior cardBehavior)
+    {
+        cardBehavior.isDisabled = false;
+    }
+
     public void Discard()
     {
         // Destroy hand game objects
         GameObject[] cards = GameObject.FindGameObjectsWithTag("Hand Card");
         foreach(GameObject card in cards)
         {
+            EnableCard(card.GetComponent<CardBehavior>());
             Destroy(card);
         }
         handCardObjects.Clear();

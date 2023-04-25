@@ -22,9 +22,9 @@ public class MultiCardReward : Reward
             newCard.GetComponent<CardBehavior>().RenderCard(card);
         }
     }
-    public override void PickReward()
+    public override void ConfirmReward()
     {
-        base.PickReward();
+        base.ConfirmReward();
         foreach(Card card in multiRewards){
             singleton.playerDeck.Add(card);
        }

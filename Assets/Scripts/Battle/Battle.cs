@@ -83,7 +83,7 @@ public class Battle : MonoBehaviour
         }
          foreach(EnemyObject enemy in singleton.enemyDatabase)
             {
-                for(int i = enemy.minDay; i < enemy.maxDay; i++)
+                for(int i = enemy.minDay; i <= enemy.maxDay; i++)
                 {
                     singleton.enemyCatalog[i][enemy.difficulty].Add(enemy);
                 }
@@ -95,7 +95,7 @@ public class Battle : MonoBehaviour
     public void StartBattle()
     {
         CreatePlayer();
-        CreateEnemy(GetRandomEnemy(GetRandomRarity(), singleton.currentPathChoice.difficulty));
+        CreateEnemy(GetRandomEnemy(GetRandomRarity()));
         player.SetUpBattle();
         player.StartTurn();
         player.UpdateStats();
@@ -110,10 +110,14 @@ public class Battle : MonoBehaviour
         player = singleton.player;
     }
 
-     private EnemyObject GetRandomEnemy(string rarity, string difficulty)
+     private EnemyObject GetRandomEnemy(string rarity, string difficulty = "easy")
     {
         //if first attempt to get enemy fails, we check for a common rarity match, if fails again, we check for a common, easy enemy
         bool checkedForCommon = false;
+        if(singleton.currentPathChoice != null)
+        {
+            difficulty = singleton.currentPathChoice.difficulty;
+        }
         List<EnemyObject> possibleEnemies = new List<EnemyObject>();
 
         foreach(EnemyObject enemy in singleton.enemyCatalog[singleton.dayCount][difficulty])

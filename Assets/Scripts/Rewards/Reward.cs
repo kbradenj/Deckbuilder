@@ -20,10 +20,19 @@ public class Reward : MonoBehaviour
         singleton = GameObject.FindObjectOfType<Singleton>();
     }
 
-    public virtual void PickReward(){
-        rewardsManager.RemoveRewards();
+    void Start()
+    {
+        rewardsManager = FindObjectOfType<RewardsManager>();
+    }
+
+    public virtual void ConfirmReward(){
         rewardsManager.ShowRewardOptions();
-        Destroy(rewardsManager.selectedOption);
+    }
+
+    public virtual void SelectReward()
+    {
+        rewardsManager.confirmButton.interactable = true;
+        rewardsManager.selectedReward = this;
     }
 
     public virtual void Render()

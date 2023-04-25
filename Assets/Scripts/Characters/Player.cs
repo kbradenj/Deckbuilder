@@ -69,7 +69,7 @@ public int GetPlayerTurnAP()
     cardManager.Draw(drawSize);
     if(shriek > 0)
     {
-        cardManager.ShriekCards(shriek);
+        cardManager.ShriekCards();
     }
     if(gameState.powerCards.Count > 0)
     {

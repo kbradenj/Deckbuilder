@@ -92,10 +92,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   singleton: {fileID: 0}
   rewardsManager: {fileID: 2544829772922312738, guid: bbf042313dc5b4e9baaf6dbbd0ed02a8, type: 3}
-  rewardType: 
+  rewardType: card
   rarity: 0
   cardCount: 0
   randomRarity: 0
+  chosenReward: {fileID: 0}
   card: {fileID: 0}
   cardPrefab: {fileID: 1639937595311336888, guid: 1519c79c58543440c9db7c1cfcfe37f0, type: 3}
 --- !u!114 &7297242446985704741
@@ -116,8 +117,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 6413282034203921495}
-          m_TargetAssemblyTypeName: CardReward, Assembly-CSharp
-          m_MethodName: PickReward
+          m_TargetAssemblyTypeName: Reward, Assembly-CSharp
+          m_MethodName: SelectReward
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

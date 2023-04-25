@@ -17,10 +17,11 @@ public class CardReward : Reward
         GameObject newCard = GameObject.Instantiate(cardPrefab, new Vector2(0,0), Quaternion.identity);
         newCard.transform.SetParent(gameObject.transform);
         newCard.GetComponent<CardBehavior>().RenderCard(card);
+         
     }
-    public override void PickReward()
+    public override void ConfirmReward()
     {
-        base.PickReward();
+        base.ConfirmReward();
         singleton.playerDeck.Add(card);
     }
 

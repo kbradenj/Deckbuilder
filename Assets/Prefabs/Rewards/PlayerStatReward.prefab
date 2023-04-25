@@ -98,8 +98,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: -7030147442623904185}
-          m_TargetAssemblyTypeName: MaxHealthReward, Assembly-CSharp
-          m_MethodName: PickReward
+          m_TargetAssemblyTypeName: Reward, Assembly-CSharp
+          m_MethodName: SelectReward
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
