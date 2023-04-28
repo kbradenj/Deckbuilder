@@ -201,6 +201,10 @@ public class CardBehavior : MonoBehaviour
             card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
             descriptionField.text = card.FormatString();
             collision.gameObject.GetComponent<Enemy>().StopHighlight();
+            if(card.needsTarget)
+            {
+                target = null;
+            }
         }
         else
         {

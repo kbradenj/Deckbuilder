@@ -15,18 +15,26 @@ public class StoryManager : MonoBehaviour
 
     //Game Objects
     public GameObject storyOptionPrefab;
+    public GameObject cardVisualPrefab;
     public GameObject optionsArea;
     public Singleton singleton;
 
     //UI
     public TMP_Text storyText;
+    public TMP_Text rewardText;
+    public GameObject rewardImageArea;
+    public GameObject rewardView;
+    public GameObject storyView;
     public Image image;
+
+    //bools
+    private bool isStoryView = true;
 
     void Start()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
-       LoadStories();
-       ChooseStory();
+        LoadStories();
+        ChooseStory();
     }
 
     public void LoadStories()
@@ -61,6 +69,7 @@ public class StoryManager : MonoBehaviour
 
     public void Choice(StoryOption option)
     {
+    GameObject.Find("Story").SetActive(false);
     foreach(OptionEffect effect in option.effects)
         {
             switch(effect.effectKey)
@@ -74,13 +83,22 @@ public class StoryManager : MonoBehaviour
                 break;
 
                 case "randomCard":
-                int randomIndex = Random.Range(0, singleton.cardDatabase.Count -1);
-                AddCardToDeck(singleton.cardDatabase[randomIndex], effect.amount);
+                Card selectedCard = singleton.GetRandomAvailableCard();
+                AddCardToDeck(selectedCard, effect.amount);
+                ToggleView();
+                ShowCardVisual(selectedCard);
                 break;
-
             }
         }
-        GameObject.FindObjectOfType<Navigation>().Night();
+        // GameObject.FindObjectOfType<Navigation>().Night();
+    }
+
+    void ShowCardVisual(Card card)
+    {
+        GameObject cardVisual = Instantiate(cardVisualPrefab, Vector2.zero, Quaternion.identity);
+        cardVisual.transform.SetParent(rewardImageArea.transform);
+        cardVisual.GetComponent<CardBehavior>().RenderCard(card);
+        rewardText.text = card.cardName + " has been added to your deck!";
     }
 
     void AddStrength(int amount)
@@ -106,7 +124,26 @@ public class StoryManager : MonoBehaviour
         {
                singleton.playerDeck.Add(card);
         }
-     
+    }
+
+    private void ToggleView()
+    {
+        if(isStoryView)
+        {
+            isStoryView = false;
+            rewardView.SetActive(true);
+            storyView.SetActive(false);
+        }
+        else
+        {
+            isStoryView = true;
+            rewardView.SetActive(false);
+            storyView.SetActive(true);
+        }
+    }
+    public void ContinueNight()
+    {
+        singleton.navigation.Night();
     }
 
 

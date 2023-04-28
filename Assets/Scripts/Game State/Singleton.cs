@@ -167,4 +167,18 @@ public class Singleton : MonoBehaviour
             return false;
         }
     }
+
+    public Card GetRandomAvailableCard()
+    {
+        List<Card> availableCards = new List<Card>();
+        foreach(Card card in cardDatabase)
+        {
+            if(card.isLocked == false)
+            {
+                availableCards.Add(card);
+            }
+        }
+        int randomIndex = Random.Range(0, availableCards.Count);
+        return availableCards[randomIndex];
+    }
 }

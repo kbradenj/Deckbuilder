@@ -15,7 +15,7 @@ public class MilestoneManager : MonoBehaviour
     private Milestone[] milestoneDatabase;
     public Dictionary<int, List<Milestone>> milestoneCatalog = new Dictionary<int, List<Milestone>>();
 
-    void Awake()
+    void Start()
     {
 
         singleton = FindObjectOfType<Singleton>();

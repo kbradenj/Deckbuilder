@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
   m_Name: 403_Heavy_Club
   m_EditorClassIdentifier: 
-  cardID: 304
+  cardID: 403
+  isLocked: 0
   cardName: Heavy Club
   cardType: attack
-  cardDescription: Deal {0} Damage
   descriptionParts:
   - Deal
   - 0

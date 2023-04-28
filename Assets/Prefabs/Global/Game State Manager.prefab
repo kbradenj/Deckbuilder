@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeBookPrefab: {fileID: 0}
   singleton: {fileID: 0}
+  singletonPrefab: {fileID: 5101929540811962352, guid: 79f7f1bc7fcfc43aca7be8e34f983f7e, type: 3}
   cardManager: {fileID: 0}
   milestoneManager: {fileID: 0}
   unlocks: {fileID: 0}

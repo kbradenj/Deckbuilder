@@ -38,7 +38,7 @@ public class CardManager : MonoBehaviour
     public GameObject hand;
     public GameState gameState;
 
-    void Awake()
+    void Start()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
         player = singleton.player;

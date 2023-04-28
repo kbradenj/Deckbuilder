@@ -12,6 +12,7 @@ public class GameState : MonoBehaviour
 
     //Singleton
     public Singleton singleton;
+    public GameObject singletonPrefab;
 
     //Scripts
     public CardManager cardManager;
@@ -42,8 +43,16 @@ public class GameState : MonoBehaviour
 
     void Awake()
     {
-        //Get singleton, check to see if the card db is loaded
-        singleton = GameObject.FindObjectOfType<Singleton>();
+        //Get singleton or make one, check to see if the card db is loaded
+        if(GameObject.FindObjectOfType<Singleton>() != null)
+        {
+            singleton = GameObject.FindObjectOfType<Singleton>();
+        }
+        else
+        {
+            CreateSingleton();
+        }
+
         singleton.ResetPlayerTempStats();
         if(singleton.recipeDictionary.Count <= 0)
         {
@@ -58,7 +67,13 @@ public class GameState : MonoBehaviour
         unlocks.CheckUnlocks();
     }
 
-    //Pull in card db
+    public void CreateSingleton()
+    {
+        GameObject singletonObject = GameObject.Instantiate(singletonPrefab, Vector2.zero, Quaternion.identity);
+        singleton = singletonObject.GetComponent<Singleton>();  
+    }
+
+    //Pulls in all created cards in the database
     public void LoadCardDatabase()
     {
         cardDatabase = Resources.LoadAll<Card>("Cards");
@@ -73,8 +88,8 @@ public class GameState : MonoBehaviour
         singleton.cardLookup = cardLookup;
     }
 
+    //Creates a nested dictionary broken out by rarity and then by level within each rarity
     public void CreateCardDatabaseLevels(){
-        // Create a dictionary to represent the card levels
         cardDictionary = new Dictionary<int, Dictionary<int, Dictionary<int, Card>>>();
 
         // Loop through each card level and create a dictionary for each level
@@ -99,7 +114,7 @@ public class GameState : MonoBehaviour
         }
     }
 
-
+    //Creates an easy to use dictionary to look up using card name
     public void CreateCardLookup()
     {
         cardLookup = new Dictionary<string, Card>();

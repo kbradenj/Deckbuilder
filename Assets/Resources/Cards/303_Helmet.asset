@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
   m_Name: 303_Helmet
   m_EditorClassIdentifier: 
-  cardID: 0
-  cardName: New Card
+  cardID: 303
+  isLocked: 0
+  cardName: Helmet
   cardType: ability
-  cardDescription: Gain {0} Block, Draw {1} Card
   descriptionParts:
   - Gain
   - 0
