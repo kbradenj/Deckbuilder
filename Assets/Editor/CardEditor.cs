@@ -27,6 +27,7 @@ public class CardEditor : Editor
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardImage"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardOverlay"));
+        
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("price"));
 

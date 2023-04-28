@@ -17,6 +17,9 @@ public class Battle : MonoBehaviour
     public EnemyAction[] enemyActionDatabase;
 
     public EnemyObject forcedEnemy;
+    public int forcedDay = 0;
+    public string forcedRarity = null;
+    public string forcedDifficulty = null;
 
     public Player player;
 
@@ -44,6 +47,7 @@ public class Battle : MonoBehaviour
         LoadEnemyDatabase();
         cardManager.LoadPlayerDeck();
         StartBattle();
+        ShowEnemyCatalogInConsole();
     }
 
     void Update() {
@@ -53,6 +57,7 @@ public class Battle : MonoBehaviour
             gameState.isBattle = false;
             ResetPlayerStats();
             singleton = GameObject.FindObjectOfType<Singleton>();
+            singleton.isBattle = false;
             singleton.navigation.Navigate("WinScreen");
         }
     }
@@ -94,6 +99,7 @@ public class Battle : MonoBehaviour
     //Battle Starts
     public void StartBattle()
     {
+        singleton.isBattle = true;
         CreatePlayer();
         CreateEnemy(GetRandomEnemy(GetRandomRarity()));
         player.SetUpBattle();
@@ -110,8 +116,13 @@ public class Battle : MonoBehaviour
         player = singleton.player;
     }
 
+    //Determine Enemy
      private EnemyObject GetRandomEnemy(string rarity, string difficulty = "easy")
     {
+        if(forcedEnemy != null)
+        {
+            return forcedEnemy;
+        }
         //if first attempt to get enemy fails, we check for a common rarity match, if fails again, we check for a common, easy enemy
         bool checkedForCommon = false;
         if(singleton.currentPathChoice != null)
@@ -120,6 +131,23 @@ public class Battle : MonoBehaviour
         }
         List<EnemyObject> possibleEnemies = new List<EnemyObject>();
 
+        if(forcedDay != 0)
+        {
+            singleton.dayCount = forcedDay;
+        }
+        if(forcedRarity != null)
+        {
+            rarity = forcedRarity;
+        }
+        if(forcedDifficulty != null)
+        {
+            difficulty = forcedDifficulty;
+            if(singleton.enemyCatalog[singleton.dayCount][difficulty] == null)
+            {
+                Debug.Log("Forced difficulty not found in dictionary");
+                return null;
+            }
+        }
         foreach(EnemyObject enemy in singleton.enemyCatalog[singleton.dayCount][difficulty])
         {
             if (enemy.rarity == rarity)
@@ -174,11 +202,6 @@ public class Battle : MonoBehaviour
     //Create Enemy
     public void CreateEnemy(EnemyObject enemyObject)
     {
-
-        if(forcedEnemy != null)
-        {
-            enemyObject = forcedEnemy;
-        }
         int randomEnemyAmount = Random.Range(enemyObject.groupMin, enemyObject.groupMax);
         for(int i = 0; i < randomEnemyAmount; i++)
         {
@@ -246,7 +269,7 @@ public class Battle : MonoBehaviour
                     Debug.Log("difficulty: " + kvp2.Key);
                     foreach(EnemyObject enemy in kvp2.Value)
                     {
-                        Debug.Log(enemy.enemyName);
+                        Debug.Log(enemy.enemyName + " : Rarity: " + enemy.rarity);
                     }
                     
                 }

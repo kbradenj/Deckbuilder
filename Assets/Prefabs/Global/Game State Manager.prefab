@@ -57,8 +57,9 @@ MonoBehaviour:
   unlocks: {fileID: 0}
   isBattle: 1
   playerDeck: []
-  database: []
   cardDatabase: []
+  recipeDatabase: []
+  cardList: []
   uncommonChance: 40
   rareChance: 15
   legendaryChance: 5
@@ -91,6 +92,8 @@ MonoBehaviour:
   craftAreaUnlockDay: 3
   isCraftingLocked: 1
   isFirstPlaythrough: 1
+  isHealLocked: 1
+  isScavengeLocked: 1
 --- !u!1001 &1078177023847936066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -215,26 +218,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8750129662199562807, guid: 7a609c3f60a0743319d73da20a462515, type: 3}
   m_PrefabInstance: {fileID: 6639486138269348874}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6620897752105141467 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 560159505296683217, guid: 7a609c3f60a0743319d73da20a462515, type: 3}
-  m_PrefabInstance: {fileID: 6639486138269348874}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2934730843804648942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6620897752105141467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23d2f7bb953204c9494fee13fc408c6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  milestoneLogPrefab: {fileID: 0}
-  milestonePrefab: {fileID: 380809457242340236, guid: 65b615d7338b9402c9925a28b5c4f39b, type: 3}
-  milestoneRewardPrefab: {fileID: 1085506941273148197, guid: b882dd42e173b4240ab85d11c54441d5, type: 3}
 --- !u!1001 &7779553022885166678
 PrefabInstance:
   m_ObjectHideFlags: 0

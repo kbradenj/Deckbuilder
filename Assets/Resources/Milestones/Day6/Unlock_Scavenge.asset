@@ -16,4 +16,6 @@ MonoBehaviour:
   type: feature
   identifier: scavenge
   amount: 0
+  image: {fileID: 21300000, guid: 518ded92e5dbf494e8f76a74d752272e, type: 3}
+  description: Gain the ability to scavenge for crafting material cards at camp.
   isLocked: 1

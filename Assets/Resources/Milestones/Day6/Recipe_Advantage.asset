@@ -16,4 +16,6 @@ MonoBehaviour:
   type: recipe
   identifier: Advantage
   amount: 0
-  isLocked: 1
+  image: {fileID: 21300000, guid: 9103f742c9fba461cb8bb068102580ae, type: 3}
+  description: Unlock Crafting Recipe for "Advantage"
+  isLocked: 0

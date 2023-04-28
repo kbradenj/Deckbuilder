@@ -134,4 +134,9 @@ public class Card : ScriptableObject
     {
 
     }
+
+    public void Highlight()
+    {
+
+    }
 }

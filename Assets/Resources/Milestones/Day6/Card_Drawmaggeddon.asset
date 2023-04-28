@@ -16,4 +16,7 @@ MonoBehaviour:
   type: card
   identifier: Drawmageddon
   amount: 0
+  image: {fileID: 21300000, guid: f0f3ea588f95f4355a7880007c500a4c, type: 3}
+  description: Allows Drawmageddon to potentially appear in rewards
+  card: {fileID: 11400000, guid: ab314105c8047424dbacd6d5b15e120b, type: 2}
   isLocked: 1

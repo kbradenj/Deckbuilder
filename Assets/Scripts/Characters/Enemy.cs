@@ -78,7 +78,7 @@ public class Enemy : Character
             case "vulnerable":
             break;
             case "strength":
-            actions.AddEffect(player, currentAction.baseAmount, ref strength, "strength");
+            actions.AddEffect(this, currentAction.baseAmount, ref strength, "strength");
             break;
             case "poison":
             actions.AddEffect(player, currentAction.baseAmount, ref player.poison, "poison");
@@ -113,16 +113,20 @@ public class Enemy : Character
         }
         EnemyAction nextAction = enemy.actionList[actionIndex-1];
         enemyActionTitle.text = nextAction.type;
-        int modDamage = nextAction.baseAmount;
+        int actionAmount = nextAction.baseAmount;
         if(nextAction.type == "attack")
         {
-            modDamage = (int)Math.Ceiling(nextAction.baseAmount * weaknessMod) + strength;
+            actionAmount = (int)Math.Ceiling(nextAction.baseAmount * weaknessMod) + strength;
         }
         if(nextAction.multiAction > 1){
-            enemyActionField.text = modDamage + " * " + nextAction.multiAction;
+            enemyActionField.text = actionAmount + " * " + nextAction.multiAction;
         }
         else{
-            enemyActionField.text = modDamage.ToString();
+            enemyActionField.text = actionAmount.ToString();
+        }
+        if(nextAction.type == "wait")
+        {
+            enemyActionField.text = "";
         }
         UpdateStats();
     }

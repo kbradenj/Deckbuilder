@@ -16,4 +16,6 @@ MonoBehaviour:
   type: feature
   identifier: heal
   amount: 0
-  isLocked: 1
+  image: {fileID: 21300000, guid: 7ffc8f310c89c47679285e29d8583529, type: 3}
+  description: Build Campfire at camp. Allows you to heal during the day.
+  isLocked: 0

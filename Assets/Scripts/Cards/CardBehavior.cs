@@ -30,6 +30,7 @@ public class CardBehavior : MonoBehaviour
     
     //Game Objects
     public GameObject Canvas;
+    public GameObject highlightScreen;
     private GameObject startParent;
     private Vector2 startPosition;
     private GameObject dropZone;
@@ -88,13 +89,24 @@ public class CardBehavior : MonoBehaviour
         }
     }
 
+
+
     //Populate Card Data to UI
     public void RenderCard(Card c, bool showQty = false)
     {
         card = c;
         cardNameField.text = c.cardName;
-        card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
-        card.modBlock = card.block + player.dexterity + player.baseDexterity; 
+        if(singleton.isBattle)
+        {
+            card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
+            card.modBlock = card.block + player.dexterity + player.baseDexterity;        
+        }
+        else
+        {
+            card.modDamage = card.attack;
+            card.modBlock = card.block;
+        }
+
         descriptionField.text = c.FormatString();
         if(c.actionList.Count != 0)
         {
@@ -365,4 +377,15 @@ public class CardBehavior : MonoBehaviour
             return false;
         }
     }
+
+        //Card Highlight
+        public void HighlightSelection()
+        {
+            highlightScreen.SetActive(true);
+        }
+
+        public void StopHighlightSelection()
+        {
+            highlightScreen.SetActive(false);
+        }
 }

@@ -16,4 +16,6 @@ MonoBehaviour:
   type: recipe
   identifier: Hatchet
   amount: 0
-  isLocked: 1
+  image: {fileID: 21300000, guid: accaa80f855994bf9a2fde467d2e1978, type: 3}
+  description: Unlock Crafting Recipe for "Hatchet"
+  isLocked: 0

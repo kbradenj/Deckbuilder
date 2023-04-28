@@ -44,6 +44,7 @@ public class Singleton : MonoBehaviour
 
     //Bools
     public bool isNight = false;
+    public bool isBattle = false;
 
     //Singleton Pattern
     private static Singleton instance;

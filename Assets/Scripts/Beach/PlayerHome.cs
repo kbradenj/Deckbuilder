@@ -32,7 +32,6 @@ public class PlayerHome : MonoBehaviour
     {
         singleton = FindObjectOfType<Singleton>();
         gameState = FindObjectOfType<GameState>();
-        milestoneManager = FindObjectOfType<MilestoneManager>();
         singleton.isNight = false;
     }
 
@@ -40,7 +39,6 @@ public class PlayerHome : MonoBehaviour
         singleton.AdjustDaylight();
         UpdateHealActionText();
         singleton.UpdateDayCount();
-        milestoneManager.IsMilestoneReached();
         CheckHomeFeatureUnlocks();
     }
 

@@ -16,4 +16,6 @@ MonoBehaviour:
   type: recipe
   identifier: Gather
   amount: 0
-  isLocked: 1
+  image: {fileID: 21300000, guid: 48c982ee611574e10afba54b07110074, type: 3}
+  description: Unlock Crafting Recipe for "Gather"
+  isLocked: 0
