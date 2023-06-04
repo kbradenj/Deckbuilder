@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using TMPro;
+using UnityEditor;
 
 public class GameState : MonoBehaviour
 {
@@ -39,7 +37,6 @@ public class GameState : MonoBehaviour
     public float rareChance = 15;
     public float legendaryChance = 5;
     public float mythicChance = 0.1f;
-
 
     void Awake()
     {
@@ -88,12 +85,12 @@ public class GameState : MonoBehaviour
         singleton.cardLookup = cardLookup;
     }
 
-    //Creates a nested dictionary broken out by rarity and then by level within each rarity
+    //Creates a nested dictionary first broken out by card level(1-25) then within each card level broken out by rarity (1-4)
     public void CreateCardDatabaseLevels(){
         cardDictionary = new Dictionary<int, Dictionary<int, Dictionary<int, Card>>>();
 
         // Loop through each card level and create a dictionary for each level
-        for (int i = 1; i <= 10; i++)
+        for (int i = 1; i <= 25; i++)
         {
             Dictionary<int, Dictionary<int, Card>> rarityDictionary = new Dictionary<int, Dictionary<int, Card>>();
 
@@ -155,9 +152,18 @@ public class GameState : MonoBehaviour
         recipeBook.transform.SetParent(GameObject.Find("Main Canvas").transform);
     }
 
-    public void UnlockRecipe()
-    {
+    public bool MouseIsOnScreen(){
+        if (Input.mousePosition.x == 0 || Input.mousePosition.y == 0 || Input.mousePosition.x >= Handles.GetMainGameViewSize().x - 1 || Input.mousePosition.y >= Handles.GetMainGameViewSize().y - 1){
+        return false;
+        }
 
+        if (Input.mousePosition.x == 0 || Input.mousePosition.y == 0 || Input.mousePosition.x >= Screen.width - 1 || Input.mousePosition.y >= Screen.height - 1) {
+        return false;
+        }
+
+        else {
+            return true;
+        }
     }
 }
 

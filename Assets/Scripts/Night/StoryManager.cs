@@ -39,15 +39,11 @@ public class StoryManager : MonoBehaviour
 
     public void LoadStories()
     {
-        stories = new Dictionary<int, Story>();
         storyDatabase = Resources.LoadAll<Story>("Stories");
-        for(int i = 0; i < storyDatabase.Length; i++)
-        {
-            stories.Add(i, storyDatabase[i]);
-        }
+
     }
     public void ChooseStory(){
-        chosenStory = stories[0];
+        chosenStory = storyDatabase[0];
         DisplayStory();
     }
 
@@ -76,29 +72,36 @@ public class StoryManager : MonoBehaviour
             {
                 case "strength":
                 AddStrength(effect.amount);
+                RewardSelectionText($"You have gained {effect.amount} {effect.effectKey} permanently!");
                 break;
 
                 case "heal":
                 Heal(effect.amount);
+                RewardSelectionText($"You have been healed for {effect.amount}!");
                 break;
 
                 case "randomCard":
                 Card selectedCard = singleton.GetRandomAvailableCard();
                 AddCardToDeck(selectedCard, effect.amount);
-                ToggleView();
                 ShowCardVisual(selectedCard);
+                RewardSelectionText($"{selectedCard.cardName} has been added to your deck!");
                 break;
             }
+            ToggleView();
         }
-        // GameObject.FindObjectOfType<Navigation>().Night();
     }
 
     void ShowCardVisual(Card card)
     {
         GameObject cardVisual = Instantiate(cardVisualPrefab, Vector2.zero, Quaternion.identity);
         cardVisual.transform.SetParent(rewardImageArea.transform);
+
         cardVisual.GetComponent<CardBehavior>().RenderCard(card);
-        rewardText.text = card.cardName + " has been added to your deck!";
+    }
+
+    void RewardSelectionText(string message)
+    {
+        rewardText.text = message;
     }
 
     void AddStrength(int amount)

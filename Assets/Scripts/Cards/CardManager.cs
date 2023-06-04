@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class CardManager : MonoBehaviour
 {
@@ -38,12 +37,20 @@ public class CardManager : MonoBehaviour
     public GameObject hand;
     public GameState gameState;
 
+    //Reference Data
+    public float cardWidth = 0;
+    public Vector2 cardScale = new Vector2(.75f, .75f);
+
+    //States
+    public bool isDraggingGlobal = false;
+
     void Start()
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
         player = singleton.player;
         gameState = GameObject.FindObjectOfType<GameState>();
         hand = GameObject.Find("Hand");
+        cardWidth = cardGameObject.GetComponent<RectTransform>().sizeDelta.x * cardScale.x;
         if(singleton.playerDeck.Count <= 0)
         {
             CreatePlayerDeck();
@@ -54,23 +61,21 @@ public class CardManager : MonoBehaviour
     public void CreatePlayerDeck(){
             foreach(Card card in startingCards)
             {
-                for(int j = 0; j < 4; j++)
-                {
-                    deckCards.Add(card);
-                }  
+                deckCards.Add(card);
             }   
         singleton.playerDeck = deckCards;
     }
 
     public void LoadPlayerDeck()
     {
+        Debug.Log("Player Deck Loaded");
         deckCards = new List<Card>(singleton.playerDeck);
         UpdateDeckSizeText();
     }
 
     //UI Text Updates
     public void UpdateDeckSizeText()
-    {   if(gameState.isBattle)
+    {   if(singleton.isBattle)
         {  
             deckSize = GameObject.Find("Deck Size").GetComponent<TMP_Text>();
             deckSize.text = deckCards.Count.ToString();
@@ -80,28 +85,21 @@ public class CardManager : MonoBehaviour
     }
 
     //Draw, Discard, Shuffle
-    public void Draw(int amount)
+    public void Draw(int amount, bool isStartTurn = false)
     {
-        GridLayoutGroup gridLayout = hand.GetComponentInChildren<GridLayoutGroup>();
-        RectTransform handRect = hand.GetComponent<RectTransform>();
-        float overlap = (handRect.rect.width - ((amount + handCardObjects.Count) * 300))/(amount + handCardObjects.Count);
-        gridLayout.spacing = new Vector2 (overlap, 0);
-
-        if(deckCards.Count < amount){
+        if(deckCards.Count < amount && isStartTurn){
            Shuffle();
         }
         for(int i = 0; i < amount; i++)
         {
             if(deckCards.Count == 0)
              {
-
-                //If deck is still empty after shuffle
-                return;
+                break;
             }
             else
             {
                 //Instantiate card
-                GameObject tempCard = GameObject.Instantiate(cardGameObject, new Vector2(0,0), Quaternion.identity) as GameObject;
+                GameObject tempCard = GameObject.Instantiate(cardGameObject, new Vector2(-800 - (cardWidth * i),0), Quaternion.identity) as GameObject;
                 CardBehavior cardBehavior = tempCard.GetComponent<CardBehavior>();
 
                 // Randomize deal
@@ -123,8 +121,15 @@ public class CardManager : MonoBehaviour
                 // Tag hand cards for easy destroy on end turn
                 tempCard.tag = "Hand Card";
                 tempCard.transform.SetParent(hand.transform, false); 
+                tempCard.transform.localScale = cardScale;
             }   
         }
+
+        RotateCards();
+        PositionCards();
+                    //    Debug.Log("Deck Card Size after draw " + deckCards.Count);
+                    //    Debug.Log("Hand Card Size after draw " + handCards.Count);
+                    //    Debug.Log("Discard Card Size after draw " + discardCards.Count);
     }   
 
     public void UpdateHandCards()
@@ -135,6 +140,86 @@ public class CardManager : MonoBehaviour
             Card handCard = cardBehavior.card;
             handCard.modDamage = (int) Math.Floor((handCard.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
             cardBehavior.descriptionField.text = handCard.FormatString();
+        }
+    }
+
+    public void RotateCards()
+    {
+     
+        int counter = -20;
+        foreach(GameObject card in handCardObjects)
+        {
+            if(handCardObjects.Count < 6)
+            {
+                card.transform.eulerAngles = new Vector3(0, 0, 0);
+            }
+            else
+            {
+                card.transform.eulerAngles = new Vector3(0, 0, counter);
+                counter += 40 / handCardObjects.Count;
+            }
+        }
+    }
+
+    public void PositionCards(bool fast = false){
+        float animationSpeed = .75f;
+        if(fast)
+        {
+            animationSpeed = .3f;
+        }
+
+        RectTransform handRect = hand.GetComponent<RectTransform>();
+
+        int numOfHandCards = handCardObjects.Count;
+        float widthOfHandArea = handRect.rect.width;
+        float widthOfHandCards = numOfHandCards * cardWidth;
+        float overlap = (widthOfHandArea + (numOfHandCards * cardWidth))/numOfHandCards;
+
+        float arcHeight = Math.Clamp(10 * numOfHandCards, 0, 100);
+        float arcRadius = 8000 / numOfHandCards;
+        float angleStep = 180f / (numOfHandCards - 1);
+
+        int middleIndex = numOfHandCards / 2;
+        
+        for (int i = 0; i < numOfHandCards; i++)
+        {
+            float angle;
+             if (numOfHandCards % 2 == 0)
+            {
+                angle = angleStep * (i - middleIndex + 0.5f); 
+            }
+            else
+            {
+                angle = angleStep * (i - middleIndex);
+            }
+
+            float spacing;
+            if (numOfHandCards % 2 == 0)
+            {
+                spacing = i - middleIndex + 0.5f; 
+            }
+            else
+            {
+                spacing = i - middleIndex;
+            }
+
+            float y = Mathf.Cos(angle * Mathf.Deg2Rad) * arcHeight - 100f;
+            
+            if(numOfHandCards < 6)
+            {
+                y = -50f;
+                overlap = cardWidth * 2;
+            }
+       
+            Vector2 newCardPosition = new Vector2(spacing * (cardWidth - overlap), y);
+            Vector2 worldPos = (Vector2)newCardPosition + (Vector2)hand.transform.position;
+
+            CardBehavior cardBehavior = handCardObjects[i].GetComponent<CardBehavior>();
+            handCardObjects[i].transform.DOMove(new Vector3(worldPos.x, worldPos.y, 0f), animationSpeed);
+         
+
+            cardBehavior.startPosition = worldPos;
+            cardBehavior.startSiblingIndex = handCardObjects[i].transform.GetSiblingIndex();
         }
     }
 
@@ -196,6 +281,7 @@ public class CardManager : MonoBehaviour
     {
         discardCards.Add(card);
         handCards.Remove(card);
+     
     }
    
     public void Shuffle(){
@@ -204,6 +290,8 @@ public class CardManager : MonoBehaviour
             int randIndex = UnityEngine.Random.Range(0, discardCards.Count);
             deckCards.Add(discardCards[randIndex]);
             discardCards.Remove(discardCards[randIndex]);
+ 
+
         }
     }
 }

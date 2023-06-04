@@ -19,4 +19,4 @@ MonoBehaviour:
   - key: Earth
     amount: 1
   resultItem: {fileID: 11400000, guid: d0e90583973524395bf57af86836bc2d, type: 2}
-  isLocked: 1
+  isLocked: 0

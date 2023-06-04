@@ -17,8 +17,12 @@ public class EnemyObject : ScriptableObject
     public int maxDay;
     public int maxHealth;
     public int health;
+    public int baseAttack;
+    public int baseDefense;
     public int groupMin;
     public int groupMax;
+
+    public bool setAttackOrder;
     public Sprite enemyImage;
 
     [HideInInspector]

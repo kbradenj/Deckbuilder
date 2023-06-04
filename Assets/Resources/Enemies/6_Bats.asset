@@ -15,15 +15,18 @@ MonoBehaviour:
   actionList:
   - {fileID: 11400000, guid: ff69cb04383be45d7a013de24a4b8b2c, type: 2}
   - {fileID: 11400000, guid: 8b0c4595693f64dfeb1f167916cfdd9d, type: 2}
-  - {fileID: 11400000, guid: c37e96be6811e44c58c0f3fd17f83bc3, type: 2}
+  - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
   ID: 6
   enemyName: Bats
   minDay: 1
   maxDay: 5
   maxHealth: 15
   health: 15
+  baseAttack: 6
+  baseDefense: 8
   groupMin: 2
   groupMax: 3
+  setAttackOrder: 0
   enemyImage: {fileID: 21300000, guid: 0dd96dabdd0de475eb2b52a4fabe1001, type: 3}
   rarity: common
   difficulty: normal

@@ -20,8 +20,11 @@ MonoBehaviour:
   maxDay: 5
   maxHealth: 20
   health: 20
+  baseAttack: 5
+  baseDefense: 5
   groupMin: 3
   groupMax: 3
+  setAttackOrder: 0
   enemyImage: {fileID: 21300000, guid: 60f1e97c490ad4b12b88f7fe826b1996, type: 3}
   rarity: common
   difficulty: normal

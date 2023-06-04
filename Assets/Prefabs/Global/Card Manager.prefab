@@ -46,7 +46,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardDatabase: []
   singleton: {fileID: 0}
-  startingCards: []
+  startingCards:
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+  - {fileID: 11400000, guid: 52654840ef224459f82a24d52e73ae40, type: 2}
+  - {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
   deckCards: []
   handCards: []
   handCardObjects: []
@@ -59,3 +69,6 @@ MonoBehaviour:
   cardGameObject: {fileID: 1639937595311336888, guid: f10343db443d9485db3e8872b61af4b0, type: 3}
   hand: {fileID: 0}
   gameState: {fileID: 0}
+  cardWidth: 0
+  cardScale: {x: 0.75, y: 0.75}
+  isDraggingGlobal: 0

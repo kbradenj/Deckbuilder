@@ -52,6 +52,9 @@ MonoBehaviour:
   enemyDatabase: []
   enemyActionDatabase: []
   forcedEnemy: {fileID: 0}
+  forcedDay: 0
+  forcedRarity: 
+  forcedDifficulty: 
   player: {fileID: 0}
   numOfEnemies: 0
-  enemyAmount: 2
+  enemyAmount: 0

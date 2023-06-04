@@ -19,7 +19,7 @@ public class Player : Character
 
   //Player Stats
   public int ap = 4;
-  public int drawSize = 5;
+  public int drawSize = 0;
 
   public bool isPlayerTurn = true;
   
@@ -66,7 +66,7 @@ public int GetPlayerTurnAP()
     }
     base.StartTurn();
     cardManager.Discard();
-    cardManager.Draw(drawSize);
+    cardManager.Draw(drawSize, true);
     if(shriek > 0)
     {
         cardManager.ShriekCards();

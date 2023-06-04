@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+
 
 public class CardBehavior : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class CardBehavior : MonoBehaviour
     //UI
     public Image image;
     public Image bgImage;
+    public Image handAreaImage;
 
     //Scripts
     public Player player;
@@ -32,7 +35,6 @@ public class CardBehavior : MonoBehaviour
     public GameObject Canvas;
     public GameObject highlightScreen;
     private GameObject startParent;
-    private Vector2 startPosition;
     private GameObject dropZone;
     private GameObject target;
     private GameObject[] enemies;
@@ -44,17 +46,26 @@ public class CardBehavior : MonoBehaviour
     private bool isDragging = false;
     private bool isOverDropZone = false;
     public bool isDisabled = false;
+    public bool isHovering = false;
     public int qty;
+    public Vector2 startPosition;
+    public int startSiblingIndex;
+    public Vector2 startScale;
+    public Quaternion startRotation;
+    public Vector2 hoverScale = new Vector2 (1.1f, 1.1f);
+    public float hoverHeight = 200;
+
     
     void Awake()
     {
-        gameState = FindObjectOfType<GameState>();
         Canvas = GameObject.Find("Main Canvas");
         dropZone = GameObject.Find("Drop Zone");
+        gameState = FindObjectOfType<GameState>();
         singleton = FindObjectOfType<Singleton>();
         cardManager = FindObjectOfType<CardManager>();
-        player = singleton.player;
         actions = FindObjectOfType<ActionManager>();
+        player = singleton.player;
+        startParent = GameObject.Find("Hand");
     }
 
     void Update()
@@ -62,7 +73,7 @@ public class CardBehavior : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "Battle"){
             if(isDragging)
             {
-                transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                transform.position = new Vector2(Math.Clamp(Input.mousePosition.x, 0, Screen.width), Math.Clamp(Input.mousePosition.y, 0 , Screen.height));
                 transform.SetParent(Canvas.transform, true);
                 if(!card.needsTarget && card.cardType != "power" && card.actionList[0] == "attackall"){
                     enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -76,10 +87,10 @@ public class CardBehavior : MonoBehaviour
     }
 
     //Card Close-up
-    public void CloseUp(){
-       
-            GameObject cardToDestroy = GameObject.FindGameObjectWithTag("Close Up");
-            Destroy(cardToDestroy);
+    public void CloseUp()
+    {
+        GameObject cardToDestroy = GameObject.FindGameObjectWithTag("Close Up");
+        Destroy(cardToDestroy);
         if(!isDragging){
             GameObject closeUpCard = GameObject.Instantiate(inspectCardPrefab, new Vector2(Screen.width/2f,Screen.height/2f), Quaternion.identity) as GameObject;
             InspectCard inspectCard = closeUpCard.GetComponent<InspectCard>();
@@ -89,7 +100,42 @@ public class CardBehavior : MonoBehaviour
         }
     }
 
+    public void Hover()
+    {
+        if(!isDragging && !cardManager.isDraggingGlobal)
+        {
+            startRotation = transform.localRotation;
+            startScale = transform.localScale;
+            transform.DOMove(new Vector2(startPosition.x, startPosition.y + hoverHeight), .3f);
+            transform.localRotation = new Quaternion (0, 0, 0, 0);
+            transform.localScale = hoverScale;
+            transform.SetSiblingIndex(Int32.MaxValue);
+        }
 
+    }
+
+    public void StopHover()
+    {  
+        if(!isDragging && !cardManager.isDraggingGlobal)
+        {
+            transform.SetParent(startParent.transform);
+            transform.SetSiblingIndex(startSiblingIndex);
+            transform.rotation = startRotation;
+            transform.localScale = startScale;
+            transform.DOMove(startPosition, .3f);
+        }
+    }
+
+    public void ReturnToHand()
+    {
+        isOverDropZone = false;
+        isDragging = false;
+        transform.SetParent(startParent.transform);
+        transform.SetSiblingIndex(startSiblingIndex);
+        transform.DOMove(startPosition, .3f);
+        transform.rotation = startRotation;
+        transform.localScale = startScale;
+    }
 
     //Populate Card Data to UI
     public void RenderCard(Card c, bool showQty = false)
@@ -124,7 +170,7 @@ public class CardBehavior : MonoBehaviour
            
         image.sprite = c.cardImage;
         if(showQty != true && !isDisabled){
-            GameObject.Find("QuantityDisplay").SetActive(false);
+            amountDisplay.SetActive(false);
         }
         if(isDisabled)
             {
@@ -141,7 +187,7 @@ public class CardBehavior : MonoBehaviour
         GameObject craftCostObject = GameObject.Instantiate(pricePrefab, new Vector2(0,250), Quaternion.identity);
         craftCostObject.transform.SetParent(card.transform);
         priceText = craftCostObject.GetComponentInChildren<TMP_Text>();
-        priceText.text = "Crafting Time: " + craftCost.ToString() + " min";
+        priceText.text = $"Crafting Time: {craftCost.ToString()} min";
     }
 
     public void UpdatePriceText(string textToUpdate){
@@ -227,14 +273,14 @@ public class CardBehavior : MonoBehaviour
     public void StartDrag()
     {
         isDragging = true;
-        startParent = transform.parent.gameObject;
-        startPosition = transform.position;
+        cardManager.isDraggingGlobal = true;
     }
 
     //TODO: Clean this up, it's a confusing mess. It should break out if it requires a target after checking if it's playable. Dropzone should only need to worry about nontarget cards
     public void EndDrag()
     {
         isDragging = false;
+        cardManager.isDraggingGlobal = false;
         if(isOverDropZone && IsCardPlayable())
         {
             //if card needs target and has one or doesn't need target
@@ -266,17 +312,12 @@ public class CardBehavior : MonoBehaviour
             }
             else
             {
-                //return to hand
-                transform.position = startPosition;
-                transform.SetParent(startParent.transform, false);
-            
+                ReturnToHand();
             }
         } 
         else
             {
-                //return to hand
-                transform.position = startPosition;
-                transform.SetParent(startParent.transform, false);
+                ReturnToHand();
             }
         //remove highlight on all enemies for attack all types of cards
         if(!card.needsTarget && card.cardType != "power" && card.actionList[0] == "attackall"){
@@ -284,6 +325,13 @@ public class CardBehavior : MonoBehaviour
                     enemy.GetComponent<Enemy>().StopHighlight();
             }
         }
+
+        if(!card.actionList.Contains("draw"))
+        {
+            cardManager.RotateCards();
+            cardManager.PositionCards(true);
+        }
+    
     }
 
     public void Play(GameObject target)
@@ -366,7 +414,6 @@ public class CardBehavior : MonoBehaviour
                     break;
                 }
             }   
-        
     }
 
     //Does player have enough ap to play?

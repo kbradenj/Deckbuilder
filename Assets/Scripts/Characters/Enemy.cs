@@ -69,13 +69,14 @@ public class Enemy : Character
         switch(currentAction.type)
         {
             case "attack":
-            int attackAmount = (int)Math.Ceiling(currentAction.baseAmount * weaknessMod) + strength;
+            int attackAmount = (int)Math.Ceiling(enemy.baseAttack * weaknessMod) + strength;
             actionManager.Attack(player, attackAmount, currentAction.multiAction);
             break;
             case "block":
-            actions.Block(this, currentAction.baseAmount);
+            actions.Block(this, enemy.baseDefense);
             break;
             case "vulnerable":
+            actions.AddEffect(player, currentAction.baseAmount, ref player.vulnerable, "vulnerable");
             break;
             case "strength":
             actions.AddEffect(this, currentAction.baseAmount, ref strength, "strength");
@@ -108,8 +109,16 @@ public class Enemy : Character
     public override void NextTurn(){
         if(actionIndex == 0)
         {
-            int actionListCount = enemy.actionList.Count;
-            actionIndex = UnityEngine.Random.Range(1, actionListCount);
+            if(enemy.setAttackOrder)
+            {
+                actionIndex = 1;
+            }
+            else
+            {
+                 int actionListCount = enemy.actionList.Count;
+                actionIndex = UnityEngine.Random.Range(1, actionListCount);
+            }
+           
         }
         EnemyAction nextAction = enemy.actionList[actionIndex-1];
         enemyActionTitle.text = nextAction.type;

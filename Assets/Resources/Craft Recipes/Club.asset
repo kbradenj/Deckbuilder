@@ -19,4 +19,4 @@ MonoBehaviour:
   - key: Reed
     amount: 1
   resultItem: {fileID: 11400000, guid: 82905c939ddd8439b99a9081d986707b, type: 2}
-  isLocked: 1
+  isLocked: 0

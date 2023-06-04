@@ -13,15 +13,18 @@ MonoBehaviour:
   m_Name: 5_BogToad
   m_EditorClassIdentifier: 
   actionList:
-  - {fileID: 11400000, guid: 390bdeb05399f4bd381e72bf14618c6b, type: 2}
+  - {fileID: 11400000, guid: 24ab8eadeb7734592be23a2411836fab, type: 2}
   ID: 5
   enemyName: Bog Toad
   minDay: 1
   maxDay: 5
   maxHealth: 40
   health: 40
+  baseAttack: 15
+  baseDefense: 10
   groupMin: 2
   groupMax: 2
+  setAttackOrder: 0
   enemyImage: {fileID: 21300000, guid: 22c70992721074cb5950ad827f62510c, type: 3}
   rarity: rare
   difficulty: hard
