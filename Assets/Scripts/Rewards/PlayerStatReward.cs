@@ -91,7 +91,7 @@ public class PlayerStatReward : Reward
             player.baseStrength += amount;
             break;
             case "dexterity":
-            player.baseDexterity += amount;
+            player.baseDefense += amount;
             break;
             case "maxHealth":
             player.maxHealth += amount;
@@ -99,8 +99,6 @@ public class PlayerStatReward : Reward
             break;
             case "health":
             singleton.HealPlayer(amount);
-            break;
-            default:
             break;
         }
     }

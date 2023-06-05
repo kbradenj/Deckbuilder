@@ -145,7 +145,7 @@ public class CardBehavior : MonoBehaviour
         if(singleton.isBattle)
         {
             card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod) + player.attackBoost + player.strength + player.baseStrength);
-            card.modBlock = card.block + player.dexterity + player.baseDexterity;        
+            card.modBlock = card.block + player.defense;        
         }
         else
         {
@@ -384,7 +384,7 @@ public class CardBehavior : MonoBehaviour
                         }
                     break;
                     case "block":
-                        actions.Block(player, card.block + player.baseDexterity + player.dexterity);
+                        actions.Block(player, card.block + player.defense);
                     break;
                     case "xblock":
                         for(int i = 0; i < player.turnAP; i++){

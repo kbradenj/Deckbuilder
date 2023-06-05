@@ -40,6 +40,7 @@ public class Singleton : MonoBehaviour
     public List<Card> cardDatabase;
     public List<Card> playerDeck;
     public List<CraftingRecipe> unlockedRecipes;
+    public List<Artifact> activeArtifacts;
     
 
     //Bools
@@ -85,7 +86,7 @@ public class Singleton : MonoBehaviour
         player.weaknessMod = 1;
         player.vulnerableMod = 1;
         player.baseStrength = 0;
-        player.baseDexterity = 0;
+        player.baseDefense = 0;
         player.drawSize = 5;
 
     }
@@ -97,9 +98,11 @@ public class Singleton : MonoBehaviour
         player.fear = 0;
         player.vulnerable = 0;
         player.bonusDraw = 0;
-        player.strength = 0;
-        player.dexterity = 0;
+        player.strength = player.baseStrength;
+        player.defense = player.baseDefense;
         player.shriek = 0;
+        player.evade = 0;
+        player.damageReduction = 0;
     }
 
     public void RemoveCardFromDeck(string cardName){

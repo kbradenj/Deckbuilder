@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public class GameState : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class GameState : MonoBehaviour
     public List<Card> playerDeck;
     public Card[] cardDatabase;
     public CraftingRecipe[] recipeDatabase;
+    public Artifact[] artifactDatabase;
     public List<Card> cardList = new List<Card>();
 
     //Static Amounts
@@ -51,14 +53,23 @@ public class GameState : MonoBehaviour
         }
 
         singleton.ResetPlayerTempStats();
+
         if(singleton.recipeDictionary.Count <= 0)
         {
             LoadRecipeDatabase();
         }
+
         if(singleton.cardDatabase.Count <= 0){
             LoadCardDatabase();
         }
+
+        if(artifactDatabase.Length == 0)
+        {
+            CreateArtifactDatabase();
+        }
+
         CreatePowerCardDictionary();
+        LoadActiveArtifacts();
         milestoneManager = FindObjectOfType<MilestoneManager>();
         unlocks = GetComponent<Unlocks>();
         unlocks.CheckUnlocks();
@@ -129,6 +140,23 @@ public class GameState : MonoBehaviour
         powerCards.Add("turnEnd", turnEnd);
         Dictionary<string, Card> battleEnd = new Dictionary<string, Card>();
         powerCards.Add("battleEnd", battleEnd);
+    }
+
+    public void CreateArtifactDatabase()
+    {
+        artifactDatabase = Resources.LoadAll<Artifact>("Artifacts");
+    }
+
+    public void LoadActiveArtifacts()
+    {
+        foreach(Artifact artifact in artifactDatabase)
+        {
+            singleton.activeArtifacts = artifactDatabase
+            .Where(a => a.isActive)
+            .ToList();
+            Debug.Log(artifact);
+        }
+        
     }
 
     public void LoadRecipeDatabase()

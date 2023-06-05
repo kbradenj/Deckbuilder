@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class Battle : MonoBehaviour
@@ -8,10 +9,15 @@ public class Battle : MonoBehaviour
     private GameState gameState;
     private CardManager cardManager;
 
+    //Prefabs
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+    public GameObject artifactPrefab;
+
+    //Areas
     public GameObject playerArea;
     public GameObject enemyArea;
+    public GameObject artifactArea;
 
     public List<Enemy> enemies;
     public EnemyObject[] enemyDatabase;
@@ -44,6 +50,7 @@ public class Battle : MonoBehaviour
         powerCards = new Dictionary<string, Dictionary<string, Card>>();
         playerArea = GameObject.Find("Player Area");
         enemyArea = GameObject.Find("Enemy Area");
+        artifactArea = GameObject.Find("Artifact Area");
         gameState.isBattle = true;
         LoadEnemyDatabase();
         StartBattle();
@@ -62,6 +69,21 @@ public class Battle : MonoBehaviour
         }
     }
    
+
+   public void LoadArtifacts()
+   {
+    if(singleton.activeArtifacts.Count > 0)
+    {
+        foreach(Artifact artifact in singleton.activeArtifacts)
+        {
+            GameObject artifactIcon = GameObject.Instantiate(artifactPrefab, Vector2.zero, Quaternion.identity);
+            artifactIcon.GetComponentInChildren<Image>().sprite = artifact.artifactImage;
+            artifactIcon.GetComponentInChildren<ArtifactHover>().thisArtifact = artifact;
+            artifactIcon.transform.SetParent(artifactArea.transform);
+            artifact.Effect();
+        }
+    }
+   }
    //Load Enemies
     public void LoadEnemyDatabase()
     {
@@ -106,6 +128,7 @@ public class Battle : MonoBehaviour
         player.StartTurn();
         player.UpdateStats();
         cardManager.LoadPlayerDeck();
+        LoadArtifacts();
     }
 
       //Create Player
@@ -250,6 +273,7 @@ public class Battle : MonoBehaviour
         player.vulnerable = 0;
         player.weak = 0;
         player.poison = 0;
+        player.damageReduction = 0;
         singleton.dayLeft = singleton.maxDaylight;
     }
 

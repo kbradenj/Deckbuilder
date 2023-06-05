@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Drawmageddon", menuName = "Card/Drawmageddon")]
 public class Drawmageddon : Card
 {
 

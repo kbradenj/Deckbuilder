@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using DG.Tweening;
 
 public class Player : Character
 {
@@ -25,6 +25,7 @@ public class Player : Character
   
   //Temp Stats
   public int turnAP;
+
 
   void Awake()
   {
@@ -58,6 +59,7 @@ public int GetPlayerTurnAP()
 }
   public override void StartTurn()
   {
+    block = halfBlock ? block/=2 : 0;
     isPlayerTurn = true;
     turnAP = ap;
     if(fear > 0)
@@ -78,7 +80,6 @@ public int GetPlayerTurnAP()
         gameState.powerCards["turnStart"][kvp.Key].Effect();
       }
     }
-      
   }
 
   //Update UI Text Fields

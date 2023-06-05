@@ -13,6 +13,7 @@ public class Enemy : Character
     public TMP_Text enemyActionTitle;
     public TMP_Text enemyBlockField;
    
+    //UI
     public Image image;
     public Color highlightColor;
     public Color defaultColor;
@@ -28,19 +29,25 @@ public class Enemy : Character
     private ActionManager actionManager;
 
     //Enemy Stats
-    public int attack;
+    public int baseAttack;
+    public float dayMod = .25f;
+    public float levelMod = 1;
 
     //Battle Counters
     private int actionIndex = 0;
 
     void Start()
     {  
+        levelMod *= singleton.dayCount > 1 ? 1 + (singleton.dayCount * dayMod) : 1;
         player = singleton.player;
         battle = FindObjectOfType<Battle>();
         actionManager = FindObjectOfType<ActionManager>();
-        health = enemy.health;
-        maxHealth = enemy.maxHealth;
-        healthSlider.value = ((float)health/enemy.maxHealth) * 100;
+        maxHealth = (int)Math.Round(enemy.maxHealth * levelMod);
+        health = maxHealth;
+        defense = (int)Math.Round(enemy.baseDefense * levelMod);
+        baseAttack = (int)Math.Round(enemy.baseAttack * levelMod);
+        healthSlider.value = (health/maxHealth) * 100;
+    
         image.sprite = enemy.enemyImage;
         defaultColor = image.color;
         UpdateStats();
@@ -63,13 +70,14 @@ public class Enemy : Character
     public void EnemyTurn()
     {
         StartTurn();
+        block = 0;
         UpdateStats();
    
         EnemyAction currentAction = enemy.actionList[actionIndex-1];
         switch(currentAction.type)
         {
             case "attack":
-            int attackAmount = (int)Math.Ceiling(enemy.baseAttack * weaknessMod) + strength;
+            int attackAmount = (int)Math.Ceiling(baseAttack * weaknessMod) + strength;
             actionManager.Attack(player, attackAmount, currentAction.multiAction);
             break;
             case "block":
@@ -123,10 +131,10 @@ public class Enemy : Character
         EnemyAction nextAction = enemy.actionList[actionIndex-1];
         enemyActionTitle.text = nextAction.type;
         int actionAmount = nextAction.baseAmount;
-        if(nextAction.type == "attack")
-        {
-            actionAmount = (int)Math.Ceiling(nextAction.baseAmount * weaknessMod) + strength;
-        }
+
+        actionAmount = nextAction.type == "attack" ? (int)Math.Ceiling(enemy.baseAttack * weaknessMod) + strength : actionAmount;
+
+        actionAmount = nextAction.type == "block" ? enemy.baseDefense : actionAmount;
         if(nextAction.multiAction > 1){
             enemyActionField.text = actionAmount + " * " + nextAction.multiAction;
         }
@@ -138,6 +146,7 @@ public class Enemy : Character
             enemyActionField.text = "";
         }
         UpdateStats();
+            
     }
 
     public void Highlight()

@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Reflection;
 
 public class ActionManager : MonoBehaviour
 {
@@ -26,16 +23,17 @@ public class ActionManager : MonoBehaviour
     //Attack
     public void Attack(Character target, int amount, int times = 1)
     {
-      
         if(target.vulnerable > 0){
             amount = (int)Math.Ceiling(amount * target.vulnerableMod);
         }
+        amount -= target.damageReduction;
         for(int i = 0; i < times; i++)
         {
             if(target.evade < 1)
             {
                 if(WillTargetDie(target, amount))
                 {
+                    
                     target.health = 0;
                     target.UpdateStats();
                     target.Death();
@@ -57,6 +55,7 @@ public class ActionManager : MonoBehaviour
     public void Block(Character target, int amount)
     {
         target.block += amount;
+        Debug.Log(amount);
         target.UpdateStats();
     }
 

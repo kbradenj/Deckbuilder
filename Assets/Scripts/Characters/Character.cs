@@ -2,20 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using TMPro;
 
 public class Character : MonoBehaviour
 {
     public int block;
     public int maxHealth;
-
     public int health; 
-
     public int level = 1;
 
     public TMP_Text statusText;
 
-    public GameObject statusIconPrefab;
     public GameState gameState;
 
     public List<StatusIcon> statusIcons = new List<StatusIcon>();
@@ -28,17 +26,22 @@ public class Character : MonoBehaviour
     public float weaknessMod = 1f;
     public int strength;
     public int baseStrength;
-	public int dexterity;
-    public int baseDexterity;
+	public int defense;
+    public int baseDefense;
     public int bonusDraw;
     public int poison;
 	public int shriek;
 	public int fear;
 	public int evade;
+	public int damageReduction;
+
+	//Artifact Specific
+	public bool halfBlock = false;
 
     //Game Objects
     public GameObject statusIconsArea;
     public GameObject statusIcon;
+	public GameObject statusIconPrefab;
     public GameObject[] statuses;
     public Image statusImage;
 
@@ -62,7 +65,6 @@ public class Character : MonoBehaviour
 
     public virtual void StartTurn()
     {
-		block=0;
 
 		if(health - poison <= 0)
 		{
@@ -78,6 +80,7 @@ public class Character : MonoBehaviour
 
 	public virtual void EndTurn()
 	{
+		DOTween.KillAll();
 		AdjustStatus();
 		UpdateStatus();
 	}
@@ -149,11 +152,14 @@ public class Character : MonoBehaviour
 				case "evade" :
 				icon.statusTextContainer.text = evade.ToString();
 				break;
+				case "damageReduction" :
+				icon.statusTextContainer.text = damageReduction.ToString();
+				break;
 			}
 		}
     }
 
-    public void AddStatusIcon(string icon, int amount)
+    public void AddStatusIcon(string icon, int amount = 0)
     {
 		statusIcon = Instantiate(statusIconPrefab, new Vector2 (0, 0), Quaternion.identity);
 		statusIcon.transform.SetParent(statusIconsArea.transform, false);
@@ -161,8 +167,16 @@ public class Character : MonoBehaviour
 		statusImage = statusIcon.GetComponent<Image>();
 		statusImage.sprite = Resources.Load<Sprite>("StatusIcons/" + icon);
 
-		statusText = statusIcon.GetComponentInChildren<TMP_Text>();
-		statusText.text = amount.ToString();
+		if(amount > 0)
+		{
+			statusText = statusIcon.GetComponentInChildren<TMP_Text>();
+			statusText.text = amount.ToString();
+		}
+		else
+		{
+			Destroy(GameObject.Find("Number Circle"));
+		}
+		
 
 		StatusIcon statusIconItem = new StatusIcon {type = icon, statusAmount = amount, statusIconContainer = statusIcon, statusTextContainer = statusText};
 		statusIcons.Insert(0, statusIconItem);
