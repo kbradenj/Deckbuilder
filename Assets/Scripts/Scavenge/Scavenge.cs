@@ -1,15 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Scavenge : MonoBehaviour
 {
+
+    public GameState gameState;
     public TMP_Text totalPriceText;
 
     public GameObject cardPrefab;
+    public GameObject artifactPrefab;
     private GameObject scavengeCardArea;
-
+    private GameObject artifactArea;
     private Singleton singleton;
 
     private List<GameObject> scavengeCardObjects = new List<GameObject>();
@@ -21,7 +25,9 @@ public class Scavenge : MonoBehaviour
     void Start()
     {
         singleton = FindObjectOfType<Singleton>();
+        gameState = FindObjectOfType<GameState>();
         scavengeCardArea = GameObject.Find("Scavenge Card Area");
+        artifactArea = GameObject.Find("Artifact Area");
 
         if(singleton.storeLevel != 0){
             storeLevel = singleton.storeLevel;
@@ -31,7 +37,8 @@ public class Scavenge : MonoBehaviour
             singleton.storeLevel = 1;
         }
         singleton.AdjustDaylight();
-        LoadStore();
+        LoadArtifacts();
+        
     }
 
     public void LoadStore()
@@ -58,6 +65,22 @@ public class Scavenge : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void LoadArtifacts()
+    {
+        var rand = new System.Random();
+        Artifact[] randomArtifacts = gameState.artifactDatabase.OrderBy(_ => rand.Next()).Take(2).ToArray();
+        foreach(Artifact artifact in randomArtifacts)
+        {
+            GameObject artifactObject = GameObject.Instantiate(artifactPrefab, Vector2.zero, Quaternion.identity);
+            DisplayArtifact displayArtifact = artifactObject.GetComponent<DisplayArtifact>();
+            displayArtifact.thisArtifact = artifact;
+            displayArtifact.RenderArtifact();
+            artifactObject.transform.SetParent(artifactArea.transform);
+
+            
         }
     }
 

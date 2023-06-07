@@ -2055,7 +2055,7 @@ PrefabInstance:
     - target: {fileID: 3288932953163090956, guid: 365a05ab8993c410f84afd8abbd07cb8, type: 3}
       propertyPath: forcedEnemy
       value: 
-      objectReference: {fileID: 11400000, guid: 6500ca06e5c7444669555757793f8c22, type: 2}
+      objectReference: {fileID: 11400000, guid: cd54e339a42fa4370bf60231007beded, type: 2}
     - target: {fileID: 3288932953163090956, guid: 365a05ab8993c410f84afd8abbd07cb8, type: 3}
       propertyPath: forcedRarity
       value: 

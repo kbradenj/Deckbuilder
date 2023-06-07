@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -335,7 +336,10 @@ public class CardBehavior : MonoBehaviour
     }
 
     public void Play(GameObject target)
-    {   if(target == null){
+    {  
+        player.IncrementCardUse(card.cardType);
+        
+        if(target == null){
             targetCharacter = player;  
         }
         else
@@ -352,70 +356,71 @@ public class CardBehavior : MonoBehaviour
             {
                 GameObject.FindObjectOfType<GameState>().powerCards[card.phase].Add(card.cardName, card);
             }
-
         }
-            foreach(string type in card.actionList)
-            {
-                int attackOut = 0;
-                if(type == "attack" || type == "xattack" || type == "attackAll")
-                {
-                    attackOut = (int)Math.Floor((card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod);
-                }
 
-                switch(type)
-                {
-                    case "attack":
-                        actions.Attack(targetCharacter, attackOut, card.multiAction);
-                    break;
-                    case "xattack":
-                        actions.Attack(targetCharacter, attackOut, player.turnAP);
-                        player.turnAP = 0;
-                    break;
-                    case "attackAll":
-                        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-                        foreach(GameObject enemy in enemies)
+        foreach(string type in card.actionList)
+        {
+            int attackOut = 0;
+            if(type == "attack" || type == "xattack" || type == "attackAll")
+            {
+                attackOut = (int)Math.Floor((card.attack + player.strength + player.baseStrength + player.attackBoost) * player.weaknessMod);
+            }
+
+            switch(type)
+            {
+                case "attack":
+                    actions.Attack(targetCharacter, attackOut, card.multiAction);
+                break;
+                case "xattack":
+                    actions.Attack(targetCharacter, attackOut, player.turnAP);
+                    player.turnAP = 0;
+                break;
+                case "attackAll":
+                    enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                    foreach(GameObject enemy in enemies)
+                    {
+                        targetCharacter = enemy.GetComponent<Enemy>();
+                        if(card.cardName == "Advantage")
                         {
-                            targetCharacter = enemy.GetComponent<Enemy>();
-                            if(card.cardName == "Advantage")
-                            {
-                                attackOut = targetCharacter.weak;
-                            }
-                            actions.Attack(targetCharacter, attackOut , card.multiAction);
+                            attackOut = targetCharacter.weak;
                         }
-                    break;
-                    case "block":
-                        actions.Block(player, card.block + player.defense);
-                    break;
-                    case "xblock":
-                        for(int i = 0; i < player.turnAP; i++){
-                            actions.Block(player, card.block);
-                        }
-                        player.turnAP = 0;
-                    break;
-                    case "vulnerable":
-                        actions.AddEffect(targetCharacter, card.vulnerable, ref targetCharacter.vulnerable, "vulnerable");
-                    break;
-                    case "weak":
-                        actions.AddEffect(targetCharacter, card.weak, ref targetCharacter.weak, "weak");
-                        targetCharacter.NextTurn();
-                    break;
-                    case "strength":
-                        actions.AddEffect(player, card.strength, ref player.strength, "strength");
-                        targetCharacter.NextTurn();
-                    break;
-                    case "draw":
-                        player.cardManager.Draw(card.draw);
-                    break;
-                    case "attackBoost":
-                        actions.AddEffect(player, card.attackBoost, ref player.attackBoost, "attackBoost");
-                    break;
-                    case "evade":
-                        actions.AddEffect(player, card.evade, ref player.evade, "evade");
-                    break;
-                }
-            }   
+                        actions.Attack(targetCharacter, attackOut , card.multiAction);
+                    }
+                break;
+                case "block":
+                    actions.Block(player, card.block + player.defense);
+                break;
+                case "xblock":
+                    for(int i = 0; i < player.turnAP; i++){
+                        actions.Block(player, card.block);
+                    }
+                    player.turnAP = 0;
+                break;
+                case "vulnerable":
+                    actions.AddEffect(targetCharacter, card.vulnerable, ref targetCharacter.vulnerable, "vulnerable");
+                break;
+                case "weak":
+                    actions.AddEffect(targetCharacter, card.weak, ref targetCharacter.weak, "weak");
+                    targetCharacter.NextTurn();
+                break;
+                case "strength":
+                    actions.AddEffect(player, card.strength, ref player.strength, "strength");
+                    targetCharacter.NextTurn();
+                break;
+                case "draw":
+                    player.cardManager.Draw(card.draw);
+                break;
+                case "attackBoost":
+                    actions.AddEffect(player, card.attackBoost, ref player.attackBoost, "attackBoost");
+                break;
+                case "evade":
+                    actions.AddEffect(player, card.evade, ref player.evade, "evade");
+                break;
+            }
+        }   
     }
 
+    
     //Does player have enough ap to play?
     public bool IsCardPlayable()
     {

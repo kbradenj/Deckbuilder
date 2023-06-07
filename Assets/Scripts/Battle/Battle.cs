@@ -72,17 +72,19 @@ public class Battle : MonoBehaviour
 
    public void LoadArtifacts()
    {
-    if(singleton.activeArtifacts.Count > 0)
-    {
-        foreach(Artifact artifact in singleton.activeArtifacts)
+        if(singleton.activeArtifacts.Count > 0)
         {
-            GameObject artifactIcon = GameObject.Instantiate(artifactPrefab, Vector2.zero, Quaternion.identity);
-            artifactIcon.GetComponentInChildren<Image>().sprite = artifact.artifactImage;
-            artifactIcon.GetComponentInChildren<ArtifactHover>().thisArtifact = artifact;
-            artifactIcon.transform.SetParent(artifactArea.transform);
-            artifact.Effect();
+            foreach(Artifact artifact in singleton.activeArtifacts)
+            {
+                GameObject artifactIcon = GameObject.Instantiate(artifactPrefab, Vector2.zero, Quaternion.identity);
+                DisplayArtifact displayArtifact = artifactIcon.GetComponent<DisplayArtifact>();
+                displayArtifact.thisArtifact = artifact;
+                artifactIcon.transform.SetParent(artifactArea.transform);
+                displayArtifact.RenderArtifact();
+                artifact.Effect();
+                
+            }
         }
-    }
    }
    //Load Enemies
     public void LoadEnemyDatabase()
@@ -274,6 +276,7 @@ public class Battle : MonoBehaviour
         player.weak = 0;
         player.poison = 0;
         player.damageReduction = 0;
+        player.attackCardsPlayed = 0;
         singleton.dayLeft = singleton.maxDaylight;
     }
 

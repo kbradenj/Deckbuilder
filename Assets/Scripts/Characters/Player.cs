@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using DG.Tweening;
+using System.Linq;
 
 public class Player : Character
 {
@@ -20,11 +20,14 @@ public class Player : Character
   //Player Stats
   public int ap = 4;
   public int drawSize = 0;
-
   public bool isPlayerTurn = true;
+  public int attackCardsPlayed = 0;
   
   //Temp Stats
   public int turnAP;
+
+  //Artifacts
+  public bool totemOfFury = false;
 
 
   void Awake()
@@ -44,6 +47,7 @@ public class Player : Character
 
   public void SetUpBattle()
   {
+    singleton = FindObjectOfType<Singleton>();
     actionPointsField = GameObject.Find("Action Points Amount").GetComponent<TMP_Text>();
     gameState = FindObjectOfType<GameState>();
     cardManager = FindObjectOfType<CardManager>();
@@ -102,6 +106,23 @@ public int GetPlayerTurnAP()
         GameObject.FindObjectOfType<GameState>().isBattle = false;
         Destroy(this.gameObject);
         SceneManager.LoadScene("DeathScreen");
+    }
+
+    public void IncrementCardUse(string type)
+    {
+      switch(type)
+      {
+        case "attack":
+        attackCardsPlayed++;
+        if(totemOfFury && attackCardsPlayed % 5 == 0)
+        {
+          Debug.Log(singleton.activeArtifacts.Find(x => x.artifactName == "TotemOfFury").artifactName);
+          singleton.activeArtifacts.Find(x => x.artifactName == "TotemOfFury").Activate();
+        }
+        break;
+        default:
+        break;
+      }
     }
 
 }
