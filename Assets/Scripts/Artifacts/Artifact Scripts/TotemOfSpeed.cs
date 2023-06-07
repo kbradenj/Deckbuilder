@@ -6,7 +6,7 @@ public class TotemOfSpeed : Artifact
     public override void Effect()
     {
         Player player = FindObjectOfType<Singleton>().player;
-        player.evade += 1;
+        player.evade++;
         player.AddStatusIcon("evade", player.evade);
     }
 }
