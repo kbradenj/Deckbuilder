@@ -77,7 +77,7 @@ public class Enemy : Character
         switch(currentAction.type)
         {
             case "attack":
-            int attackAmount = (int)Math.Ceiling(baseAttack * weaknessMod) + strength;
+            int attackAmount = (int)Math.Floor(baseAttack * weaknessMod) + strength;
             actionManager.Attack(player, attackAmount, currentAction.multiAction);
             break;
             case "block":
@@ -132,8 +132,8 @@ public class Enemy : Character
         enemyActionTitle.text = nextAction.type;
         int actionAmount = nextAction.baseAmount;
 
-        actionAmount = nextAction.type == "attack" ? (int)Math.Ceiling(enemy.baseAttack * weaknessMod) + strength : actionAmount;
-
+        actionAmount = nextAction.type == "attack" ? (int)Math.Floor(enemy.baseAttack * weaknessMod) + strength : actionAmount;
+        Debug.Log(weaknessMod);
         actionAmount = nextAction.type == "block" ? enemy.baseDefense : actionAmount;
         if(nextAction.multiAction > 1){
             enemyActionField.text = actionAmount + " * " + nextAction.multiAction;

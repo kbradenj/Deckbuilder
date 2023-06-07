@@ -131,6 +131,10 @@ public class Battle : MonoBehaviour
         player.UpdateStats();
         cardManager.LoadPlayerDeck();
         LoadArtifacts();
+        foreach(Enemy enemy in enemies)
+        {
+            enemy.NextTurn();
+        }
     }
 
       //Create Player
@@ -243,7 +247,6 @@ public class Battle : MonoBehaviour
             thisEnemy.weaknessMod = 1f;
             BoxCollider2D collider2D = enemyNew.GetComponent<BoxCollider2D>();
             collider2D.size = new Vector2(enemySpace, 200);
-            thisEnemy.NextTurn();
             enemies.Add(thisEnemy);
             numOfEnemies += 1;
         }
@@ -296,5 +299,10 @@ public class Battle : MonoBehaviour
                 }
             }  
         }
+    }
+
+    public Enemy TargetRandomEnemy()
+    {
+        return enemies[Random.Range(0, enemies.Count)];
     }
 }
