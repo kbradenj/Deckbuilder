@@ -1222,6 +1222,10 @@ PrefabInstance:
       value: Game State Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: startingCards.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ee81aaeabdc00420eb9006c3e30c4935, type: 2}
+    - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf47fb2e2f0c645dfb15ed536502f759, type: 3}
   m_Name: TotemOfStrength
   m_EditorClassIdentifier: 
-  artifactName: 
-  id: 
-  description: 
+  artifactName: TotemOfStrength
+  id: 005
+  description: Gain 1 Strength at the start of battle
   phase: 
-  isActive: 0
-  artifactImage: {fileID: 0}
+  isActive: 1
+  artifactImage: {fileID: 21300000, guid: 6f0f89116b22f4184aa39baa03ef7393, type: 3}

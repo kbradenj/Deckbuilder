@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-
+//TODO targeting is really weird for spiders. Might be for all enemies. Must find a better solution for targeting.
 public class Battle : MonoBehaviour
 {
     private Singleton singleton;
@@ -280,6 +280,8 @@ public class Battle : MonoBehaviour
         player.poison = 0;
         player.damageReduction = 0;
         player.attackCardsPlayed = 0;
+        player.skillCardsPlayed = 0;
+        player.powerCardsPlayed = 0;
         singleton.dayLeft = singleton.maxDaylight;
     }
 

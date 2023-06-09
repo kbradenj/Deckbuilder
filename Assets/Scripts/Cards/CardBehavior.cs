@@ -16,10 +16,6 @@ public class CardBehavior : MonoBehaviour
     public TMP_Text priceText;
     public TMP_Text quantity;
 
-    //Game State (TODO: Change to battle when i break it out)
-    private GameState gameState;
-    private CardManager cardManager;
-
     //UI
     public Image image;
     public Image bgImage;
@@ -31,6 +27,8 @@ public class CardBehavior : MonoBehaviour
     public Card card;
     public ActionManager actions;
     public Singleton singleton;
+    private CardManager cardManager;
+    private Battle battleManager;
     
     //Game Objects
     public GameObject Canvas;
@@ -55,30 +53,32 @@ public class CardBehavior : MonoBehaviour
     public Quaternion startRotation;
     public Vector2 hoverScale = new Vector2 (1.1f, 1.1f);
     public float hoverHeight = 200;
+    public string activeScene;
 
     
     void Awake()
     {
-        Canvas = GameObject.Find("Main Canvas");
-        dropZone = GameObject.Find("Drop Zone");
-        gameState = FindObjectOfType<GameState>();
         singleton = FindObjectOfType<Singleton>();
         cardManager = FindObjectOfType<CardManager>();
         actions = FindObjectOfType<ActionManager>();
+        battleManager = FindObjectOfType<Battle>();
         player = singleton.player;
+        Canvas = GameObject.Find("Main Canvas");
+        dropZone = GameObject.Find("Drop Zone");
         startParent = GameObject.Find("Hand");
+        activeScene = SceneManager.GetActiveScene().name;
     }
 
     void Update()
     {
-        if(SceneManager.GetActiveScene().name == "Battle"){
+        //if in battle
+        if(activeScene == "Battle"){
             if(isDragging)
             {
+                //follow mouse
                 transform.position = new Vector2(Math.Clamp(Input.mousePosition.x, 0, Screen.width), Math.Clamp(Input.mousePosition.y, 0 , Screen.height));
-                transform.SetParent(Canvas.transform, true);
-                if(!card.needsTarget && card.cardType != "power" && card.actionList[0] == "attackall"){
-                    enemies = GameObject.FindGameObjectsWithTag("Enemy");
-                    foreach(GameObject enemy in enemies){
+                if(card.actionList.Any(x => x == "attackAll")){
+                    foreach(Enemy enemy in battleManager.enemies){
                         enemy.GetComponent<Enemy>().Highlight();
                     }
                 }
@@ -204,16 +204,20 @@ public class CardBehavior : MonoBehaviour
     //Card Interaction
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-       isOverDropZone = true;
-       if(target != null)
-       {
+        //TODO fix attack all from resetting highlight if it collides with enemy object
+        isOverDropZone = true;
+        if(target != null)
+        {
           target.GetComponent<Enemy>().StopHighlight();
-       }
-        if(!isDisabled)
+        }
+        if(isDisabled)
+        {
+            return;
+        }
+        else
         {
             if(card.needsTarget && collision.gameObject.tag == "Enemy")
-       {    
+            {    
             target = collision.gameObject;
             Enemy enemy = target.GetComponent<Enemy>();
             enemy.Highlight();
@@ -221,21 +225,29 @@ public class CardBehavior : MonoBehaviour
             //Format card to show value based on vulnerable, weak, etc
             foreach(string action in card.actionList)
                 {
-                    //for attack type actions (TODO: create for skill items as well);
-                    if(action == "attack")
+                    //for attack type actions
+                    switch(action)
                     {
-                        if(enemy.vulnerable > 0)
-                        {
-                            enemy.vulnerableMod = 1.25f;
-                        }
-                        if(player.weak > 0)
-                        {
-                            player.weaknessMod = .5f;
-                        }
-                        card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod * enemy.vulnerableMod) + player.attackBoost + player.strength + player.baseStrength);
-                        descriptionField.text = card.FormatString();
-                        card.modDamage = card.attack;
+                        case "attack":
+                        case "xAttack":
+                        case "attackAll":
+                            if(enemy.vulnerable > 0)
+                            {
+                                enemy.vulnerableMod = 1.25f;
+                            }
+                            if(player.weak > 0)
+                            {
+                                player.weaknessMod = .5f;
+                            }
+                            card.modDamage = (int) Math.Floor((card.attack * player.weaknessMod * enemy.vulnerableMod) + player.attackBoost + player.strength + player.baseStrength);
+                            descriptionField.text = card.FormatString();
+                            card.modDamage = card.attack;
+                        break;
+                        case "block":
+
+                        break;
                     }
+                
                 }
             }
         }
@@ -338,7 +350,7 @@ public class CardBehavior : MonoBehaviour
     public void Play(GameObject target)
     {  
         player.IncrementCardUse(card.cardType);
-        
+
         if(target == null){
             targetCharacter = player;  
         }

@@ -22,6 +22,8 @@ public class Player : Character
   public int drawSize = 0;
   public bool isPlayerTurn = true;
   public int attackCardsPlayed = 0;
+  public int skillCardsPlayed = 0;
+  public int powerCardsPlayed = 0;
   
   //Temp Stats
   public int turnAP;
@@ -119,6 +121,12 @@ public int GetPlayerTurnAP()
           Debug.Log(singleton.activeArtifacts.Find(x => x.artifactName == "TotemOfFury").artifactName);
           singleton.activeArtifacts.Find(x => x.artifactName == "TotemOfFury").Activate();
         }
+        break;
+        case "skill":
+        skillCardsPlayed++;
+        break;
+        case "power":
+        powerCardsPlayed++;
         break;
         default:
         break;

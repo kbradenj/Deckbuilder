@@ -19,6 +19,7 @@ public class Enemy : Character
     public Color defaultColor;
     public Slider healthSlider;
 
+    //Game Objects
     public GameObject highlightPS;
 
     //Scripts
