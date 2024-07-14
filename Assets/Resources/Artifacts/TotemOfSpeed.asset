@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4269024cd00640b1aabf7b1c28a4b7c, type: 3}
   m_Name: TotemOfSpeed
   m_EditorClassIdentifier: 
+  artifactName: 
+  id: 
   description: Gain 1 Evade at the start of battle
   phase: 
-  isActive: 1
+  isActive: 0
   artifactImage: {fileID: 21300000, guid: ab931d8032cb94b189b791c8adf71e7f, type: 3}

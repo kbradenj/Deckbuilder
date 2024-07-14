@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518a49824dc3f4c7ab24f1cea8debcee, type: 3}
   m_Name: TotemOfProtection
   m_EditorClassIdentifier: 
+  artifactName: 
+  id: 
   description: Reduce block by half at the end of each turn rather than all.
   phase: 
-  isActive: 1
+  isActive: 0
   artifactImage: {fileID: 21300000, guid: 86413710f75194c64a97d1410c11c76d, type: 3}

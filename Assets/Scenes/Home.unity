@@ -2399,15 +2399,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: isHealLocked
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: isCraftingLocked
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: isScavengeLocked
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7936575233659780827, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: craftAreaUnlockDay

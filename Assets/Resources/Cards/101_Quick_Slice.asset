@@ -10,32 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
-  m_Name: 102_Earth
+  m_Name: 101_Quick_Slice
   m_EditorClassIdentifier: 
-  cardID: 102
-  cardName: Earth
-  cardType: ability
-  cardDescription: Gain {0} Strength
+  cardID: 101
+  isLocked: 0
+  cardName: Quick_Slice
+  cardType: attack
   descriptionParts:
-  - Gain
+  - Deal
   - 0
-  - Strength
-  cardCost: 1
-  cardLevel: 1
-  cardRarity: 1
-  needsTarget: 0
+  - Damage
+  cardCost: 0
+  cardLevel: 0
+  cardRarity: 0
+  needsTarget: 1
   recipe: {fileID: 0}
-  cardImage: {fileID: 21300000, guid: f0f3ea588f95f4355a7880007c500a4c, type: 3}
-  cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
+  cardImage: {fileID: 21300000, guid: 826b471c94d0c449fa48ec827515a052, type: 3}
+  cardOverlay: {fileID: 21300000, guid: 0b0db155544424b6391b052e53dbbe67, type: 3}
   actionList:
-  - strength
+  - attack
   block: 0
-  attack: 0
+  attack: 3
   draw: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
-  strength: 2
+  strength: 0
   evade: 0
   modDamage: 0
   modBlock: 0
@@ -43,5 +43,5 @@ MonoBehaviour:
   deckQty: 0
   gameState: {fileID: 0}
   quantity: 0
-  price: 10
+  price: 0
   phase: 

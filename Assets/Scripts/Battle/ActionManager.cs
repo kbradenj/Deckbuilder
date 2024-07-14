@@ -6,7 +6,6 @@ public class ActionManager : MonoBehaviour
     Player player;
     CardManager cardManager;
 
-
     private void Start() {
         Singleton singleton = FindObjectOfType<Singleton>();
         player = singleton.player;
@@ -23,6 +22,10 @@ public class ActionManager : MonoBehaviour
     //Attack
     public void Attack(Character target, int amount, int times = 1)
     {
+        if(target.health <= 0)
+        {
+            return;
+        }
         if(target.vulnerable > 0){
             amount = (int)Math.Ceiling(amount * target.vulnerableMod);
         }
@@ -33,11 +36,10 @@ public class ActionManager : MonoBehaviour
             {
                 if(WillTargetDie(target, amount))
                 {
-                    
                     target.health = 0;
                     target.UpdateStats();
                     target.Death();
-                    break;
+                    return;
                 }
                 int unblockedDamage = target.block - amount;
                 target.block = (unblockedDamage <=0) ? 0 : unblockedDamage;
@@ -55,7 +57,6 @@ public class ActionManager : MonoBehaviour
     public void Block(Character target, int amount)
     {
         target.block += amount;
-        Debug.Log(amount);
         target.UpdateStats();
     }
 

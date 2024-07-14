@@ -31,13 +31,6 @@ public class Player : Character
   //Artifacts
   public bool totemOfFury = false;
 
-
-  void Awake()
-  {
-    bonusDraw = 0;
-
-  }
-
   public override void EndTurn()
   {
     base.EndTurn();
@@ -118,7 +111,6 @@ public int GetPlayerTurnAP()
         attackCardsPlayed++;
         if(totemOfFury && attackCardsPlayed % 5 == 0)
         {
-          Debug.Log(singleton.activeArtifacts.Find(x => x.artifactName == "TotemOfFury").artifactName);
           singleton.activeArtifacts.Find(x => x.artifactName == "TotemOfFury").Activate();
         }
         break;

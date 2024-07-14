@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5feeedda398447db8c95138ef205c4, type: 3}
+  m_Name: 101_Basic_Sword
+  m_EditorClassIdentifier: 
+  id: 101
+  equipmentName: Basic Sword
+  equipment: {fileID: 0}
+  image: {fileID: 21300000, guid: fb715d509a8b64430b5eb5670056ee3e, type: 3}
+  equipmentCards:
+  - {fileID: 11400000, guid: c18eaed9fa4e1472db7b38ad1c89515d, type: 2}
+  - {fileID: 11400000, guid: 7f06e87db6adc48d7b935ce524c6b306, type: 2}
+  - {fileID: 11400000, guid: 7f06e87db6adc48d7b935ce524c6b306, type: 2}

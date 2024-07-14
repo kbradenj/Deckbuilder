@@ -35,7 +35,7 @@ public class CardBehavior : MonoBehaviour
     public GameObject highlightScreen;
     private GameObject startParent;
     private GameObject dropZone;
-    private GameObject target;
+    public GameObject target;
     private GameObject[] enemies;
     public GameObject inspectCardPrefab;
     public GameObject pricePrefab;
@@ -141,6 +141,7 @@ public class CardBehavior : MonoBehaviour
     //Populate Card Data to UI
     public void RenderCard(Card c, bool showQty = false)
     {
+        //TODO "card" should already be assigned. There shouldn't be a reason to pass in a Card for Rendering
         card = c;
         cardNameField.text = c.cardName;
         if(singleton.isBattle)
@@ -349,8 +350,6 @@ public class CardBehavior : MonoBehaviour
 
     public void Play(GameObject target)
     {  
-        player.IncrementCardUse(card.cardType);
-
         if(target == null){
             targetCharacter = player;  
         }
@@ -429,7 +428,8 @@ public class CardBehavior : MonoBehaviour
                     actions.AddEffect(player, card.evade, ref player.evade, "evade");
                 break;
             }
-        }   
+        }  
+        player.IncrementCardUse(card.cardType); 
     }
 
     

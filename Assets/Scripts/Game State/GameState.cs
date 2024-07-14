@@ -154,7 +154,6 @@ public class GameState : MonoBehaviour
             singleton.activeArtifacts = artifactDatabase
             .Where(a => a.isActive)
             .ToList();
-            Debug.Log(artifact);
         }
         
     }

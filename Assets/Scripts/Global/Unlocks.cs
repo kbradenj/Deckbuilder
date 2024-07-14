@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Unlocks : MonoBehaviour
 {   
     public Singleton singleton;
-
 
     public int craftAreaUnlockDay = 3;
     public bool isCraftingLocked = true;
@@ -35,8 +32,4 @@ public class Unlocks : MonoBehaviour
         }
         return true;
     }
-    
-
-
-
 }

@@ -44,34 +44,13 @@ public class PlayerHome : MonoBehaviour
 
     private void CheckHomeFeatureUnlocks()
     {
-        if(gameState.unlocks.isCraftingLocked)
-        {
-            GameObject.Find("Crafting").SetActive(false); 
-        }
-        else
-        {
-            GameObject.Find("Crafting").SetActive(true); 
-        }
-        if(gameState.unlocks.isHealLocked)
-        {
-            GameObject.Find("Heal").SetActive(false);
-        }
-        else
-        {
-            GameObject.Find("Heal").SetActive(true); 
-        }
-        if(gameState.unlocks.isScavengeLocked)
-        {
-            GameObject.Find("Scavenge").SetActive(false);
-        }
-        else
-        {
-            GameObject.Find("Scavenge").SetActive(true); 
-        }
+        GameObject.Find("Crafting").SetActive(gameState.unlocks.isCraftingLocked ? false: true);
+        GameObject.Find("Heal").SetActive(gameState.unlocks.isHealLocked ? false: true);
+        GameObject.Find("Scavenge").SetActive(gameState.unlocks.isScavengeLocked ? false: true);
     }
+
     public void HomeHealPlayer()
     {
-        
         if(singleton.CanSpendDaylight(healCost)){
             if(singleton.player.health == singleton.player.maxHealth)
             {
@@ -80,14 +59,12 @@ public class PlayerHome : MonoBehaviour
             else{
             singleton.HealPlayer(healAmount);
             singleton.AdjustDaylight(healCost);
-            singleton.AdjustDaylight();
             }
         }
         else
         {
             Debug.Log("Not enought daylight");
         }
-        
     }
 
     public void UpdateHealActionText()
@@ -96,9 +73,7 @@ public class PlayerHome : MonoBehaviour
         healCostText.text = "Cost: " + healCost + " min";
     }
 
-
     public void Loiter(){
-        Debug.Log("Loiter Clicked");
         singleton.AdjustDaylight(singleton.dayLeft);
     }
 

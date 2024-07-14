@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 //TODO targeting is really weird for spiders. Might be for all enemies. Must find a better solution for targeting.
 public class Battle : MonoBehaviour
 {
+    //Game Management
     private Singleton singleton;
     private GameState gameState;
     private CardManager cardManager;
+    private QAManager qaManager;
+    public Player player;
 
     //Prefabs
     public GameObject playerPrefab;
@@ -23,12 +26,11 @@ public class Battle : MonoBehaviour
     public EnemyObject[] enemyDatabase;
     public EnemyAction[] enemyActionDatabase;
 
-    public EnemyObject forcedEnemy;
+    //QA
     public int forcedDay = 0;
     public string forcedRarity = null;
     public string forcedDifficulty = null;
 
-    public Player player;
 
     private bool enemiesLoaded = false;
 
@@ -43,9 +45,8 @@ public class Battle : MonoBehaviour
     {
         singleton = GameObject.FindObjectOfType<Singleton>();
         gameState = FindObjectOfType<GameState>();
+        qaManager = FindObjectOfType<QAManager>();
         powerCards = gameState.powerCards;
-
-        //Set up Card Manager
         cardManager = FindObjectOfType<CardManager>();
         powerCards = new Dictionary<string, Dictionary<string, Card>>();
         playerArea = GameObject.Find("Player Area");
@@ -60,12 +61,11 @@ public class Battle : MonoBehaviour
         //Is the battle over?
         if(numOfEnemies == 0 && enemiesLoaded){
             DOTween.KillAll();
-            singleton.player.health = player.health;
             gameState.isBattle = false;
-            ResetPlayerStats();
-            singleton = GameObject.FindObjectOfType<Singleton>();
             singleton.isBattle = false;
-            singleton.navigation.Navigate("WinScreen");
+            singleton.player.health = player.health;
+            ResetPlayerStats();
+            singleton.navigation.Navigate(singleton.dayCount > 1 ? "WinScreen" : "EquipmentSelection");
         }
     }
    
@@ -82,7 +82,6 @@ public class Battle : MonoBehaviour
                 artifactIcon.transform.SetParent(artifactArea.transform);
                 displayArtifact.RenderArtifact();
                 artifact.Effect();
-                
             }
         }
    }
@@ -127,9 +126,10 @@ public class Battle : MonoBehaviour
         CreatePlayer();
         CreateEnemy(GetRandomEnemy(GetRandomRarity()));
         player.SetUpBattle();
+        cardManager.LoadPlayerDeck();
         player.StartTurn();
         player.UpdateStats();
-        cardManager.LoadPlayerDeck();
+
         LoadArtifacts();
         foreach(Enemy enemy in enemies)
         {
@@ -148,24 +148,16 @@ public class Battle : MonoBehaviour
     //Determine Enemy
      private EnemyObject GetRandomEnemy(string rarity, string difficulty = "easy")
     {
-        if(forcedEnemy != null)
+        if(qaManager.forcedEnemy != null)
         {
-            return forcedEnemy;
+            return qaManager.forcedEnemy;
         }
 
-        //if first attempt to get enemy fails, we check for a common rarity match, if fails again, we check for a common, easy enemy
-        bool checkedForCommon = false;
-        if(singleton.currentPathChoice != null)
-        {
-            difficulty = singleton.currentPathChoice.difficulty;
-        }
-        List<EnemyObject> possibleEnemies = new List<EnemyObject>();
-       
         if(forcedDay != 0)
         {
             singleton.dayCount = forcedDay;
         }
-
+       
         // if(forcedRarity != null)
         // {
         //     Debug.Log("Forced rarity is NOT Null");
@@ -183,13 +175,16 @@ public class Battle : MonoBehaviour
         //     }
         // }
 
-        foreach(EnemyObject enemy in singleton.enemyCatalog[singleton.dayCount][difficulty])
+        bool checkedForCommon = false;
+        if(singleton.currentPathChoice != null)
         {
-            if (enemy.rarity == rarity)
-            {
-                possibleEnemies.Add(enemy);
-            }
+            difficulty = singleton.currentPathChoice.difficulty;
         }
+        List<EnemyObject> possibleEnemies = singleton.enemyCatalog[singleton.dayCount][difficulty]
+                                            .Where(x => x.rarity == rarity)
+                                            .ToList();
+
+        //if first attempt to get enemy fails, we check for a common rarity match, if fails again, we check for a common, easy enemy
 
         if(possibleEnemies.Count > 0)
         {
@@ -206,7 +201,6 @@ public class Battle : MonoBehaviour
                 checkedForCommon = true;
                 return GetRandomEnemy("common", difficulty);
             }
-
         }
     }
 
@@ -243,8 +237,7 @@ public class Battle : MonoBehaviour
             enemyNew.transform.SetParent(enemyArea.transform);
             Enemy thisEnemy = enemyNew.GetComponent<Enemy>();
             thisEnemy.enemy = enemyObject;
-            thisEnemy.strength = singleton.dayCount - 1;
-            thisEnemy.weaknessMod = 1f;
+            thisEnemy.baseStrength = singleton.dayCount - 1;
             BoxCollider2D collider2D = enemyNew.GetComponent<BoxCollider2D>();
             collider2D.size = new Vector2(enemySpace, 200);
             enemies.Add(thisEnemy);

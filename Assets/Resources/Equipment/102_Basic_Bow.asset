@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5feeedda398447db8c95138ef205c4, type: 3}
+  m_Name: 102_Basic_Bow
+  m_EditorClassIdentifier: 
+  id: 100
+  equipmentName: Basic Bow
+  equipment: {fileID: 0}
+  image: {fileID: 21300000, guid: 06273899206be42a0830c181350a4176, type: 3}
+  equipmentCards:
+  - {fileID: 11400000, guid: ab314105c8047424dbacd6d5b15e120b, type: 2}
+  - {fileID: 11400000, guid: df899c198a68149fcb868125f703b3e1, type: 2}
+  - {fileID: 11400000, guid: 73ba07c2a67af490d9615c9c23723a86, type: 2}

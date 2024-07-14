@@ -16,5 +16,5 @@ MonoBehaviour:
   id: 004
   description: Apply 3 Weak to a random enemy
   phase: 
-  isActive: 1
+  isActive: 0
   artifactImage: {fileID: 21300000, guid: b19f0f1b73eb545a3a5c8505fc61dfea, type: 3}

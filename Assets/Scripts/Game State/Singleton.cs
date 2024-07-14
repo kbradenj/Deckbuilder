@@ -88,6 +88,7 @@ public class Singleton : MonoBehaviour
         player.baseStrength = 0;
         player.baseDefense = 0;
         player.drawSize = 5;
+        player.bonusDraw = 0;
 
     }
 
@@ -100,6 +101,9 @@ public class Singleton : MonoBehaviour
         player.bonusDraw = 0;
         player.strength = player.baseStrength;
         player.defense = player.baseDefense;
+        player.attackCardsPlayed = 0;
+        player.skillCardsPlayed = 0;
+        player.powerCardsPlayed = 0;
         player.shriek = 0;
         player.evade = 0;
         player.damageReduction = 0;
@@ -162,13 +166,7 @@ public class Singleton : MonoBehaviour
 
     public bool CanSpendDaylight(int cost)
     {
-        if(dayLeft - cost >= 0){
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+       return dayLeft - cost >= 0? true : false;
     }
 
     public Card GetRandomAvailableCard()

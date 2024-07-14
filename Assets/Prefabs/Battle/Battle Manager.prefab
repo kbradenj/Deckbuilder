@@ -44,17 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3067625b52a147779eac0f543bacf38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   playerPrefab: {fileID: 0}
   enemyPrefab: {fileID: 0}
+  artifactPrefab: {fileID: 0}
   playerArea: {fileID: 0}
   enemyArea: {fileID: 0}
+  artifactArea: {fileID: 0}
   enemies: []
   enemyDatabase: []
   enemyActionDatabase: []
-  forcedEnemy: {fileID: 0}
+  forcedEnemy: {fileID: 11400000, guid: cb6df25ead7b9464cbb5360bfe71f0f7, type: 2}
   forcedDay: 0
   forcedRarity: 
   forcedDifficulty: 
-  player: {fileID: 0}
   numOfEnemies: 0
   enemyAmount: 0

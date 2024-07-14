@@ -68,7 +68,6 @@ public class CardManager : MonoBehaviour
 
     public void LoadPlayerDeck()
     {
-        Debug.Log("Player Deck Loaded");
         deckCards = new List<Card>(singleton.playerDeck);
         UpdateDeckSizeText();
     }
@@ -124,9 +123,12 @@ public class CardManager : MonoBehaviour
                 tempCard.transform.localScale = cardScale;
             }   
         }
-
-        RotateCards();
-        PositionCards();
+        if(handCards.Count > 0)
+        {
+            RotateCards();
+            PositionCards();
+        }
+        
                     //    Debug.Log("Deck Card Size after draw " + deckCards.Count);
                     //    Debug.Log("Hand Card Size after draw " + handCards.Count);
                     //    Debug.Log("Discard Card Size after draw " + discardCards.Count);

@@ -48,7 +48,6 @@ public class Enemy : Character
         defense = (int)Math.Round(enemy.baseDefense * levelMod);
         baseAttack = (int)Math.Round(enemy.baseAttack * levelMod);
         healthSlider.value = (health/maxHealth) * 100;
-    
         image.sprite = enemy.enemyImage;
         defaultColor = image.color;
         UpdateStats();
@@ -124,17 +123,15 @@ public class Enemy : Character
             }
             else
             {
-                 int actionListCount = enemy.actionList.Count;
+                int actionListCount = enemy.actionList.Count;
                 actionIndex = UnityEngine.Random.Range(1, actionListCount);
             }
-           
         }
         EnemyAction nextAction = enemy.actionList[actionIndex-1];
         enemyActionTitle.text = nextAction.type;
         int actionAmount = nextAction.baseAmount;
 
         actionAmount = nextAction.type == "attack" ? (int)Math.Floor(enemy.baseAttack * weaknessMod) + strength : actionAmount;
-        Debug.Log(weaknessMod);
         actionAmount = nextAction.type == "block" ? enemy.baseDefense : actionAmount;
         if(nextAction.multiAction > 1){
             enemyActionField.text = actionAmount + " * " + nextAction.multiAction;
@@ -147,7 +144,6 @@ public class Enemy : Character
             enemyActionField.text = "";
         }
         UpdateStats();
-            
     }
 
     public void Highlight()

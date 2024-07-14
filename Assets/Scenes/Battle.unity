@@ -1173,6 +1173,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2436034083394449958, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: forcedEnemy
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7044237333005379863, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1224,35 +1228,43 @@ PrefabInstance:
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: ee81aaeabdc00420eb9006c3e30c4935, type: 2}
+      objectReference: {fileID: 11400000, guid: 7f06e87db6adc48d7b935ce524c6b306, type: 2}
+    - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: startingCards.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 85538a411c5864ff88166f44532a45d5, type: 2}
+    - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
+      propertyPath: startingCards.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 85538a411c5864ff88166f44532a45d5, type: 2}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+      objectReference: {fileID: 11400000, guid: 85538a411c5864ff88166f44532a45d5, type: 2}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: ba0800863eafc4fcc83ad498b5a148fe, type: 2}
+      objectReference: {fileID: 11400000, guid: 27639d4cb53674ed0934bd03e49d4a70, type: 2}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+      objectReference: {fileID: 11400000, guid: 27639d4cb53674ed0934bd03e49d4a70, type: 2}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[6]
       value: 
-      objectReference: {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+      objectReference: {fileID: 11400000, guid: 27639d4cb53674ed0934bd03e49d4a70, type: 2}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[7]
       value: 
-      objectReference: {fileID: 11400000, guid: c6e04d16e849040638d8866ed5d18ddb, type: 2}
+      objectReference: {fileID: 11400000, guid: 27639d4cb53674ed0934bd03e49d4a70, type: 2}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[8]
       value: 
-      objectReference: {fileID: 11400000, guid: 52654840ef224459f82a24d52e73ae40, type: 2}
+      objectReference: {fileID: 11400000, guid: 27639d4cb53674ed0934bd03e49d4a70, type: 2}
     - target: {fileID: 8200090795715095959, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
       propertyPath: startingCards.Array.data[9]
       value: 
-      objectReference: {fileID: 11400000, guid: 4784a9f34cb3d4f148bdcb4f0359091f, type: 2}
+      objectReference: {fileID: 11400000, guid: 5a772975bc6bc4088b4b1fb98d4ce517, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 556b419f5a98a423697e9ff0540cc6e5, type: 3}
 --- !u!1 &1285732070

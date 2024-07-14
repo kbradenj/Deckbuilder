@@ -10,38 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2024310302ba4449692ca6fd1904a012, type: 3}
-  m_Name: 101_Stick
+  m_Name: 9901_Punch
   m_EditorClassIdentifier: 
-  cardID: 101
-  cardName: Stick
+  cardID: 9901
+  isLocked: 0
+  cardName: Punch
   cardType: attack
-  cardDescription: Attack for {0} Damage
   descriptionParts:
   - Deal
   - 0
   - Damage
-  cardCost: 1
-  cardLevel: 1
-  cardRarity: 1
+  cardCost: 2
+  cardLevel: 0
+  cardRarity: 0
   needsTarget: 1
   recipe: {fileID: 0}
-  cardImage: {fileID: 21300000, guid: 225ae2522b092415aaa778e6ad938b47, type: 3}
-  cardOverlay: {fileID: 21300000, guid: ec591cf29ce12466abfbd639f67486ca, type: 3}
+  cardImage: {fileID: 21300000, guid: e5754025d9f94449d9eb52afaf7ba928, type: 3}
+  cardOverlay: {fileID: 21300000, guid: 0b0db155544424b6391b052e53dbbe67, type: 3}
   actionList:
   - attack
   block: 0
-  attack: 5
+  attack: 7
   draw: 0
   multiAction: 1
   vulnerable: 0
   weak: 0
   strength: 0
   evade: 0
-  modDamage: 5
+  modDamage: 8
   modBlock: 0
   attackBoost: 0
-  deckQty: 4
+  deckQty: 0
   gameState: {fileID: 0}
   quantity: 0
-  price: 10
+  price: 0
   phase: 
